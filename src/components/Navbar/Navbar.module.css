@@ -33,7 +33,7 @@
    @apply  rounded-lg;
    font-family: var(--poppins-font);
    letter-spacing: 2px;
-    padding: 10px 20px;
+    padding: 15px 20px;
    background-color: var(--white);
     color: var(--background-color);
     transition: all 0.3s;
@@ -70,6 +70,7 @@
    
 
     .mobile_nav{
+        z-index: 9999;
         background-color: var(--black-transparent);
         position: absolute;
         left: 0;
@@ -113,20 +114,7 @@
         /* width: 100%; */
     }
 
-    .mobile_nav_link:last-child>a{
-        /* border-bottom: none; */
-        /* padding-bottom: 0; */
-    }
-
   
-
-
-
-    .nav_signin_btn{
-        
-        
-    }
-
     .nav_signin_btn>span{
         font-size: 1rem;
     }

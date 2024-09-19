@@ -1,0 +1,88 @@
+.details_container {
+    position: absolute;
+    bottom: 20px;
+    padding: 10px 20px;
+    margin-left: 10px;
+    border-radius: 10px;
+    width: 455px;
+    height: 150px;
+    background: rgba(122, 121, 121, 0.1); 
+    backdrop-filter: blur(10px); 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    gap: 15px;
+}
+
+.banner_name{
+    font-size: 35px;
+    font-weight: bold;
+    color: var(--white);
+    letter-spacing: 5px;
+    font-family: var(--cursive);
+    
+    
+}
+
+.book_ticket_button, .watch_trailer_button{
+    margin-top: 15px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.book_ticket_button > span:first-child, .watch_trailer_button > span:first-child{
+    background-color: var(--white);
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.book_ticket_button > span:last-child, .watch_trailer_button > span:last-child{
+
+    font-family: var(--poppins-font);
+    letter-spacing: 3px;
+    white-space: nowrap;
+   
+
+}
+
+
+@media (max-width: 640px){
+    .details_container{
+        bottom: 0px;
+        padding: 10px;
+        margin-left: 0;
+        border-radius: 0;
+        backdrop-filter: none;
+        height: 110px;
+        /* gap: 5px; */
+       
+
+    }
+
+    .banner_name{
+        display: none;
+        font-size: 45px;
+        letter-spacing: 2px;
+    }
+
+    .book_ticket_button, .watch_trailer_button{
+        gap: 10px;
+    }
+
+    .book_ticket_button > span:first-child, .watch_trailer_button > span:first-child{
+        padding: 5px;
+    }
+
+    .book_ticket_button > span:last-child, .watch_trailer_button > span:last-child{
+        font-size: 12px;
+        font-weight: 600;
+    }
+}
+
+

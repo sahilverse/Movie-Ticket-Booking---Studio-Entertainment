@@ -63,13 +63,9 @@ const Navbar = () => {
                     </div>
 
 
-
                     <div>
                         <Link className={styles.nav_signin_btn} href='/signin'><span>Sign In</span></Link>
                     </div>
-
-
-
 
 
                     {/* Mobile navigation */}
