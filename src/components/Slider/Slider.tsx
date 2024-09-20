@@ -22,8 +22,8 @@ import Link from 'next/link';
 import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
 
 interface Banner {
-    id: number;
-    imageUrl: StaticImageData;
+    id: number | string;
+    imageUrl: StaticImageData | string;
     name: string;
     tailorUrl?: string;
 }
@@ -87,12 +87,12 @@ export default function Slider() {
                                     width={windowSize.width}
                                     height={windowSize.height}
                                     className='rounded-lg'
-                                    loading="lazy"
+                                    priority={true}
                                 />
                                 <div className={styles.details_container}>
                                     <p className={styles.banner_name}>{banner.name}</p>
                                     <div className='flex sm:gap-[50px] sm:flex-row flex-col'>
-                                        <Link className={styles.book_ticket_button} href="/buytickets">
+                                        <Link className={styles.book_ticket_button} href={`/now-booking?movie=${banner.name}`}>
                                             <span><IoTicketOutline className='text-xl text-[#000]' /></span>
                                             <span>Book Tickets</span>
                                         </Link>

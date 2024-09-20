@@ -1,3 +1,13 @@
+/* Scroll Animation for the Navbar */
+.scrolled{
+    background: #0b0b0b84;
+    box-shadow: 1px 0px 7px 1px rgba(20,19,19,0.75);
+    z-index: 999;
+    position: fixed;
+    right: 0;
+    left: 0;
+    top: 0;                                                                   
+}
 
 
 .navbar{
@@ -29,11 +39,23 @@
 
     @apply border-b-[1px];
 }
+.location_container{
+    @apply flex items-center space-x-2;
+    cursor: pointer;
+}
+.location{
+    letter-spacing: 1.6px;
+    font-weight: lighter;
+    font-family: var(--roboto-font);
+    cursor: pointer;
+    font-size: 14px;
+}
+
 .nav_signin_btn{
    @apply  rounded-lg;
    font-family: var(--poppins-font);
    letter-spacing: 2px;
-    padding: 15px 20px;
+    padding: 10px 20px;
    background-color: var(--white);
     color: var(--background-color);
     transition: all 0.3s;
@@ -115,8 +137,12 @@
     }
 
   
-    .nav_signin_btn>span{
-        font-size: 1rem;
+    .nav_signin_btn{
+        display: none;
+    }
+
+    .location_container{
+        display: none;
     }
 
 
@@ -124,6 +150,9 @@
 
 @media (min-width: 993px){
     .mobile_nav{
+        display: none;
+    }
+    .mobile_only{
         display: none;
     }
 

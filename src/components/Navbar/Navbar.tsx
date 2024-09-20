@@ -5,15 +5,19 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { RxHamburgerMenu } from "react-icons/rx";
 import { RxCross2 } from "react-icons/rx";
-
+import { FaUser } from "react-icons/fa6";
+import { FaLocationDot } from "react-icons/fa6";
+import { IoIosArrowDown } from "react-icons/io";
+import LocationPopup from '../popups/location/LocationPopup';
 
 
 const Navbar = () => {
 
     const pathname = usePathname();
     const [isHamOpen, setIsHamOpen] = React.useState<boolean>(false);
-
+    const [isScroll, setIsScroll] = React.useState<boolean>(false);
     const mobileNavRef = React.useRef<HTMLDivElement | null>(null);
+    const [showLocationPopup, setShowLocationPopup] = React.useState<boolean>(false);
 
 
     // Close hamburger menu if clicked outside
@@ -33,9 +37,28 @@ const Navbar = () => {
         };
     }, [mobileNavRef]);
 
+
+    // Handles the scroll event
+
+    React.useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY >= 50) {
+                setIsScroll(true);
+            } else {
+                setIsScroll(false);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
     return (
-        <div>
-            <div className="main_container mt-8">
+        <div className={`${isScroll && styles.scrolled}`}>
+            <div className="main_container mt-4 pb-2">
                 <nav className={styles.navbar}>
                     <Link className={styles.logo} href='/'>
                         <p>Studio</p>
@@ -62,25 +85,49 @@ const Navbar = () => {
                         </ul>
                     </div>
 
+                    <div className='flex items-center gap-8'>
+                        <div className={styles.location_container} onClick={
+                            () => {
+                                setShowLocationPopup(true)
+                            }
+                        }>
+                            <span className={styles.location}>Kathmandu</span>
+                            <IoIosArrowDown className="text-sm" />
+                        </div>
 
-                    <div>
-                        <Link className={styles.nav_signin_btn} href='/signin'><span>Sign In</span></Link>
+                        <Link className={styles.nav_signin_btn} href='/login'><span>Sign In</span></Link>
                     </div>
 
+                    {/* Hamburger Menu */}
+                    <div className={`flex gap-4 items-center ${styles.mobile_only}`}>
 
-                    {/* Mobile navigation */}
+                        <FaLocationDot className='text-[21px]' onClick={
+                            () => {
+                                setShowLocationPopup(true)
+                            }
+                        } />
 
-                    <div className={styles.hamburger_menu}
-                        onClick={() => setIsHamOpen(!isHamOpen)}
-                    >
 
-                        {
-                            isHamOpen ? < RxCross2 className='text-3xl' /> : <RxHamburgerMenu className='text-3xl' />
-                        }
+                        <Link href="/login">
+                            <FaUser className='text-[21px]' />
+                        </Link>
+
+
+
+                        <div className={styles.hamburger_menu}
+                            onClick={() => setIsHamOpen(!isHamOpen)}
+
+                        >
+
+                            {
+                                isHamOpen ? < RxCross2 className='text-3xl' /> : <RxHamburgerMenu className='text-3xl' />
+                            }
+
+                        </div>
+
+
 
                     </div>
-
-
 
                     <div className={`${styles.mobile_nav} ${isHamOpen ? styles.active_mobile_nav : " "}`} ref={mobileNavRef}>
                         <ul className={styles.mobile_nav_links}>
@@ -102,13 +149,19 @@ const Navbar = () => {
                         </ul>
 
                     </div>
-
-
-
-
                 </nav>
             </div >
+
+            {
+                showLocationPopup && <LocationPopup setShowLocationPopup={setShowLocationPopup} />
+
+            }
         </div >
+
+
+
+
+
     );
 }
 
