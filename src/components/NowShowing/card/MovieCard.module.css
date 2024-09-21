@@ -9,7 +9,7 @@
 .card_container {
     display: flex;
     flex-wrap: nowrap;
-    gap: 20px;
+    gap: 15px;
     overflow-x: auto;
     scroll-behavior: smooth;
     width: 100%;
@@ -22,8 +22,8 @@
 }
 
 .card {
-    flex: 0 0 calc(25% - 20px);
-    max-width: calc(25% - 20px);
+    flex: 0 0 calc(25% - 11px);
+    max-width: calc(25% - 11px);
     cursor: pointer;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);

@@ -52,7 +52,7 @@
 }
 
 .nav_signin_btn{
-   @apply  rounded-lg;
+
    font-family: var(--poppins-font);
    letter-spacing: 2px;
     padding: 10px 20px;
@@ -61,6 +61,7 @@
     transition: all 0.3s;
     font-weight: 500;
     cursor: pointer;
+    border-radius:  5px;
    
 }
 
