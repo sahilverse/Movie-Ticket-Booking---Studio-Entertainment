@@ -5,5 +5,6 @@ export interface MovieCardType {
     imageUrl: StaticImageData | string;
     name: string;
     playTime: string;
+    releaseDate?: string;
 
 }

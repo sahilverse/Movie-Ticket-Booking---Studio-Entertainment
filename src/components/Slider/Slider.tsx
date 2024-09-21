@@ -18,6 +18,8 @@ import { IoPlayOutline } from "react-icons/io5";
 
 import Link from 'next/link';
 
+import TrailerPopup from '../popups/trailer/TrailerPopup';
+
 // import required modules
 import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
 
@@ -29,18 +31,29 @@ interface Banner {
 }
 
 export default function Slider() {
+
+    const [showTrailer, setShowTrailer] = useState<boolean>(false);
+    const [currentTrailer, setCurrentTrailer] = useState<string>('');
+
+    const openTrailer = (trailerUrl: string) => {
+        if (trailerUrl) {
+            setCurrentTrailer(trailerUrl);
+            setShowTrailer(true);
+        }
+    };
     const [banners, setBanners] = useState<Banner[]>([
         {
             id: 1,
             imageUrl: jokerImage,
             name: 'Joker',
-            tailorUrl: 'https://www.youtube.com/watch?v=zAGVQLHvwOY'
+            tailorUrl: 'https://www.youtube.com/embed/_OKAwz2MsJs?si=RVkyG0prRom1VXh5'
+
         },
         {
             id: 2,
             imageUrl: rrrImage,
             name: 'RRR',
-            tailorUrl: 'https://www.youtube.com/watch?v=GY4BgdUSpbE'
+            tailorUrl: 'https://www.youtube.com/embed/GY4BgdUSpbE'
         },
     ]);
 
@@ -96,7 +109,11 @@ export default function Slider() {
                                             <span><IoTicketOutline className='text-xl text-[#000]' /></span>
                                             <span>Book Tickets</span>
                                         </Link>
-                                        <a className={styles.watch_trailer_button} href={banner.tailorUrl} target='_blank' rel="noopener noreferrer">
+                                        <a className={`${styles.watch_trailer_button} cursor-pointer`} onClick={
+                                            () => {
+                                                openTrailer(banner.tailorUrl as string);
+                                            }
+                                        }>
                                             <span><IoPlayOutline className='text-xl text-[#000] ml-[2px]' /></span>
                                             <span>Watch Trailer</span>
                                         </a>
@@ -107,6 +124,10 @@ export default function Slider() {
                     ))
                 }
             </Swiper>
+
+            {
+                showTrailer && <TrailerPopup src={currentTrailer} setShowTrailer={setShowTrailer} />
+            }
         </>
     );
 }

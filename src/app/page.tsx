@@ -1,7 +1,9 @@
 "use client";
-import MovieCarousel from "@/components/NowShowing/Carousel/MovieCarousel";
+
+import ComingSoon from "@/components/ComingSoon/ComingSoon";
 import NowShowing from "@/components/NowShowing/NowShowing";
 import Slider from "@/components/Slider/Slider";
+
 
 export default function Home() {
   return (
@@ -12,7 +14,8 @@ export default function Home() {
 
       <NowShowing />
 
-      <MovieCarousel />
+      <ComingSoon />
+
 
     </div>
   );
