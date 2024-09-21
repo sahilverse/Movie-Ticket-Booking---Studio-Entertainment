@@ -14,6 +14,16 @@
     font-family: var(--roboto-font);
 }
 
+.container>p::after{
+    content: "";
+    display: block;
+    width: 50px;
+    height: 2px;
+    background: var(--yellow-shade);
+    margin-top: 10px;
+}
+
+
 .card_container{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -81,15 +91,7 @@
         margin-left: 10px;
     }
 
-    .container>p::after{
-        content: "";
-        display: block;
-        width: 50px;
-        height: 2px;
-        background: var(--yellow-shade);
-        margin-top: 10px;
-    }
-
+  
 }
 
 
