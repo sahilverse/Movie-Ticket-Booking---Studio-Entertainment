@@ -1,0 +1,102 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  email    String @unique
+  password String
+
+  // Timestamps 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model User {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  email    String @unique
+  password String
+  city     String
+
+  bookings  Booking[]
+  // Timestamps 
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Booking {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  userId   String @db.ObjectId
+  user     User   @relation(fields: [userId], references: [id])
+  showTime String
+  movie    String
+
+  seats     Seat[]
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Movie {
+  id                String          @id @default(auto()) @map("_id") @db.ObjectId
+  title             String
+  description       String
+  potraitImageUrl   String
+  landscapeImageUrl String
+  rating            String
+  genre             String[]
+  duration          String
+  cast              String[]
+  crew              String[]
+  movieSchedule     MovieSchedule[]
+  releaseDate       DateTime
+  trailerUrl        String
+}
+
+model Screen {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  name  String
+  seats Seat[]
+  city  String
+
+  movieSchedule MovieSchedule[] // Relation to MovieSchedule model
+}
+
+model Seat {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  row       String
+  col       String
+  price     Float
+  isBooked  Boolean  @default(false)
+  Booking   Booking? @relation(fields: [bookingId], references: [id])
+  bookingId String?  @db.ObjectId
+
+  Screen   Screen? @relation(fields: [screenId], references: [id])
+  screenId String? @db.ObjectId
+
+  // Relation for which MovieSchedule this seat is unavailable for
+  movieScheduleId String?        @db.ObjectId
+  movieSchedule   MovieSchedule? @relation(fields: [movieScheduleId], references: [id])
+}
+
+model MovieSchedule {
+  id                String @id @default(auto()) @map("_id") @db.ObjectId
+  showTime          String
+  showDate          String
+  movieId           String @db.ObjectId
+  movie             Movie  @relation(fields: [movieId], references: [id])
+  screenId          String @db.ObjectId
+  screen            Screen @relation(fields: [screenId], references: [id])
+  notAvailableSeats Seat[] // Relation to multiple Seat records that are not available
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

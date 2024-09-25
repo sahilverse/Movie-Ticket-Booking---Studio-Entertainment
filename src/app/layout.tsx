@@ -2,7 +2,7 @@ import "./globals.css";
 import React from "react";
 import Navbar from "@/components/Navbar/Navbar";
 import type { Metadata } from "next";
-import AuthProvider from "@/contexts/AuthContext";
+
 
 
 export const metadata: Metadata = {
@@ -21,10 +21,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body suppressHydrationWarning={true} >
-        <AuthProvider>
-          <Navbar />
-          {children}
-        </AuthProvider>
+
+        <Navbar />
+        {children}
+
 
 
 

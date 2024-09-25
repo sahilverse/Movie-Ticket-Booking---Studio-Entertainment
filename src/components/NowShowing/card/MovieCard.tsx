@@ -47,9 +47,9 @@ const MovieCard: React.FC<MovieCardProps> = ({ url, movies }) => {
                     <div
                         key={movie._id}
                         className={styles.card}
-                        onClick={() => router.push(`/${url}/${movie._id}`)}
+                        onClick={() => router.push(`/city/${url}/${movie._id}`)}
                     >
-                        <Image src={movie.imageUrl} alt={movie.name} className={styles.image} loading='lazy' />
+                        <Image src={movie.imageUrl} alt={movie.title} className={styles.image} loading='lazy' />
                     </div>
                 ))}
             </div>

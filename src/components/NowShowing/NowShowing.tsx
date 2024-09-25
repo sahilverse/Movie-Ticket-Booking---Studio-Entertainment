@@ -48,18 +48,18 @@ const NowShowing = () => {
 
     // State to hold the list of movies
     const [movies, setMovies] = React.useState<MovieCardType[]>([
-        { _id: 1, name: "RRR", imageUrl: rrrImage, playTime: "2h 30m" },
-        { _id: 2, name: "Joker", imageUrl: jokerImage, playTime: "2h 30m" },
-        { _id: 3, name: "Kalki", imageUrl: kalkiImage, playTime: "2h 30m" },
-        { _id: 4, name: "RRR", imageUrl: rrrImage, playTime: "2h 30m" },
-        { _id: 5, name: "Joker", imageUrl: jokerImage, playTime: "2h 30m" },
-        { _id: 6, name: "Kalki", imageUrl: kalkiImage, playTime: "2h 30m" },
-        { _id: 7, name: "RRR", imageUrl: rrrImage, playTime: "2h 30m" },
-        { _id: 8, name: "Joker", imageUrl: jokerImage, playTime: "2h 30m" },
-        { _id: 9, name: "Kalki", imageUrl: kalkiImage, playTime: "2h 30m" },
-        { _id: 10, name: "RRR", imageUrl: rrrImage, playTime: "2h 30m" },
-        { _id: 11, name: "Joker", imageUrl: jokerImage, playTime: "2h 30m" },
-        { _id: 12, name: "Kalki", imageUrl: kalkiImage, playTime: "2h 30m" },
+        { _id: 1, title: "RRR", imageUrl: rrrImage, duration: "2h 30m" },
+        { _id: 2, title: "Joker", imageUrl: jokerImage, duration: "2h 30m" },
+        { _id: 3, title: "Kalki", imageUrl: kalkiImage, duration: "2h 30m" },
+        { _id: 4, title: "RRR", imageUrl: rrrImage, duration: "2h 30m" },
+        { _id: 5, title: "Joker", imageUrl: jokerImage, duration: "2h 30m" },
+        { _id: 6, title: "Kalki", imageUrl: kalkiImage, duration: "2h 30m" },
+        { _id: 7, title: "RRR", imageUrl: rrrImage, duration: "2h 30m" },
+        { _id: 8, title: "Joker", imageUrl: jokerImage, duration: "2h 30m" },
+        { _id: 9, title: "Kalki", imageUrl: kalkiImage, duration: "2h 30m" },
+        { _id: 10, title: "RRR", imageUrl: rrrImage, duration: "2h 30m" },
+        { _id: 11, title: "Joker", imageUrl: jokerImage, duration: "2h 30m" },
+        { _id: 12, title: "Kalki", imageUrl: kalkiImage, duration: "2h 30m" },
     ]);
 
     return (
