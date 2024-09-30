@@ -7,7 +7,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Studio Entertainment",
-  description: "Book your tickets now!",
+  description: "Book your tickets now online!",
 };
 
 

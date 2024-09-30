@@ -60,7 +60,7 @@ const Navbar = () => {
         <div className={`${isScroll && styles.scrolled}`}>
             <div className="main_container mt-4 pb-2">
                 <nav className={styles.navbar}>
-                    <Link className={styles.logo} href='/'>
+                    <Link className="logo" href='/'>
                         <p>Studio</p>
                         <p>Entertainment</p>
                     </Link>

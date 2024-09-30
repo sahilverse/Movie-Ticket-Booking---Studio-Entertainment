@@ -20,14 +20,7 @@
 
 }
 
-.logo{
-    font-family: var(--poppins-font);
-}
 
-.logo>p:first-child{
-    @apply text-3xl font-bold ml-[2px] ; 
-    
-}
 
 .nav_link>a{
     @apply text-lg font-medium text-white pb-2 hover:border-b-[1px] px-3;
@@ -98,7 +91,7 @@
         position: absolute;
         left: 0;
         right: 0;
-        top: -400px;
+        top: -350px;
         padding-top: 20px;
         transition: all 0.3s;
        
@@ -106,7 +99,7 @@
 
 
     .mobile_nav.active_mobile_nav{
-        top: 100px;
+        top: 85px;
     }
 
     .mobile_nav_links{

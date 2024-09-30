@@ -37,14 +37,21 @@ a{
       
 }
 
-
-
-
 /* container breakpoints */
 
 .main_container{
         @apply px-5 mx-auto;
         max-width: 640px;
+}
+
+
+.logo{
+    font-family: var(--poppins-font);
+}
+
+.logo>p:first-child{
+    @apply text-3xl font-bold ml-[2px] ; 
+    
 }
 
 

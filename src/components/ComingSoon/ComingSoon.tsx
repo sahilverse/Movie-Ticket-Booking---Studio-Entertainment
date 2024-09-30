@@ -25,11 +25,13 @@ const ComingSoon = () => {
 
             <div className={styles.card_container}>
                 {movies.map((movie) => (
+
                     <div key={movie._id} className={styles.card} onClick={() => router.push(`/coming-soon/${movie._id}`)}>
                         <Image src={movie.imageUrl} alt={movie.title} loading='lazy' className={styles.image} />
                         <p className={styles.release_date}>{movie.releaseDate}</p>
 
                     </div>
+
                 ))}
 
             </div>
