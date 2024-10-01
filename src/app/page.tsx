@@ -1,9 +1,11 @@
 "use client";
 
-import ComingSoon from "@/components/ComingSoon/ComingSoon";
-import Footer from "@/components/Footer/Footer";
-import NowShowing from "@/components/NowShowing/NowShowing";
-import Slider from "@/components/Slider/Slider";
+import ComingSoon from "@/components/comingSoon/ComingSoon";
+import Footer from "@/components/footer/Footer";
+import NowShowing from "@/components/nowShowing/NowShowing";
+import Slider from "@/components/slider/Slider";
+
+
 
 
 export default function Home() {

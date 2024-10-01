@@ -8,10 +8,9 @@ datasource db {
 }
 
 model Admin {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
-  name     String
-  email    String @unique
-  password String
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  name  String
+  email String @unique
 
   // Timestamps 
   createdAt DateTime @default(now())
@@ -19,11 +18,12 @@ model Admin {
 }
 
 model User {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
   name     String
-  email    String @unique
-  password String
-  city     String
+  email    String  @unique
+  password String?
+  city     String  @default("Kathmandu")
+  googleId String?
 
   bookings  Booking[]
   // Timestamps 
@@ -49,15 +49,15 @@ model Movie {
   title             String
   description       String
   potraitImageUrl   String
-  landscapeImageUrl String
-  rating            String
+  landscapeImageUrl String?
+  rating            String?
   genre             String[]
   duration          String
   cast              String[]
-  crew              String[]
+  director          String
   movieSchedule     MovieSchedule[]
-  releaseDate       DateTime
-  trailerUrl        String
+  releaseDate       String
+  trailerUrl        String?
 }
 
 model Screen {
@@ -70,13 +70,14 @@ model Screen {
 }
 
 model Seat {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  row       String
-  col       String
-  price     Float
-  isBooked  Boolean  @default(false)
-  Booking   Booking? @relation(fields: [bookingId], references: [id])
-  bookingId String?  @db.ObjectId
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  row        String
+  col        String
+  price      Float
+  isReserved Boolean  @default(false)
+  isBooked   Boolean  @default(false)
+  Booking    Booking? @relation(fields: [bookingId], references: [id])
+  bookingId  String?  @db.ObjectId
 
   Screen   Screen? @relation(fields: [screenId], references: [id])
   screenId String? @db.ObjectId
@@ -86,13 +87,13 @@ model Seat {
 }
 
 model MovieSchedule {
-  id                String @id @default(auto()) @map("_id") @db.ObjectId
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
   showTime          String
-  showDate          String
-  movieId           String @db.ObjectId
-  movie             Movie  @relation(fields: [movieId], references: [id])
-  screenId          String @db.ObjectId
-  screen            Screen @relation(fields: [screenId], references: [id])
+  showDate          DateTime
+  movieId           String   @db.ObjectId
+  movie             Movie    @relation(fields: [movieId], references: [id])
+  screenId          String   @db.ObjectId
+  screen            Screen   @relation(fields: [screenId], references: [id])
   notAvailableSeats Seat[]
 
   // Timestamps

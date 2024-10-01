@@ -9,7 +9,7 @@ const LocationPopup = ({
 }) => {
 
     const [cities, setCities] = React.useState<any[]>([])
-    const [selectedCity, setSelectedCity] = React.useState<any>(null)
+    const [selectedCity, setSelectedCity] = React.useState<any>("")
     const popUpRef = React.useRef<HTMLDivElement | null>(null)
 
     // Effect to handle clicks outside the popup to close it

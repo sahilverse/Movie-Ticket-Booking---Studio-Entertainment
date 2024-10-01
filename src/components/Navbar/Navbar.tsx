@@ -13,6 +13,7 @@ import LocationPopup from '../popups/location/LocationPopup';
 
 const Navbar = () => {
 
+
     const pathname = usePathname();
     const [isHamOpen, setIsHamOpen] = React.useState<boolean>(false);
     const [isScroll, setIsScroll] = React.useState<boolean>(false);

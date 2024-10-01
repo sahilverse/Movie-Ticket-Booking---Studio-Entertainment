@@ -1,9 +1,12 @@
 import React from 'react'
 
-const SigninPage = () => {
+
+
+const SigninPage: React.FC = () => {
     return (
-        <div className='main_container mt-8'> SigninPage</ div>
+        <div>page</div>
     )
 }
 
-export default SigninPage
+
+export default SigninPage;

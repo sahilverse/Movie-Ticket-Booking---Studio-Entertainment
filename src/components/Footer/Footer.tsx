@@ -23,7 +23,7 @@ const Footer = () => {
                     </Link>
 
                     <p>
-                        City Cinemas offer the best in comfort and viewing.
+                        Studio Entertainment offers the best in comfort and viewing.
                         The lobby food court and main concession stands offer a wide variety of movie fares.
                     </p>
 

@@ -23,9 +23,10 @@
 
 
 .nav_link>a{
-    @apply text-lg font-medium text-white pb-2 hover:border-b-[1px] px-3;
+    @apply  font-medium text-white pb-2 hover:border-b-[1px] px-1;
     font-family: var(--poppins-font);
     letter-spacing: 2px;
+    font-size: 0.85rem;
     /* transition: all 0.3s; */
 }
 .activeLink{
@@ -41,7 +42,7 @@
     font-weight: lighter;
     font-family: var(--roboto-font);
     cursor: pointer;
-    font-size: 14px;
+    font-size: 0.85rem;
 }
 
 .nav_signin_btn{

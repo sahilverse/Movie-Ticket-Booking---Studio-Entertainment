@@ -4,14 +4,12 @@ export interface AdminType {
     _id: number | string;
     name: string;
     email: string;
-    profileImage: StaticImageData | string;
 }
 
 export interface UserType {
     _id: number | string;
     name: string;
     email: string;
-    profileImage: StaticImageData | string;
     bookings: BookingType[];
     city: string;
 }
@@ -30,6 +28,7 @@ export interface SeatType {
     row: number;
     price: number;
     isBooked: boolean;
+    isReserved: boolean;
     bookingID?: number | string;
     booking?: BookingType;
     screenID: number | string;
@@ -48,7 +47,7 @@ export interface MovieType {
     genre: string[];
     duration: string;
     cast: string[];
-    crew: string[];
+    director: string;
     movieSchedule: MovieScheduleType[];
     releaseDate: string;
     trailerUrl: string;
@@ -57,7 +56,7 @@ export interface MovieType {
 export interface MovieScheduleType {
     _id: number | string;
     showTime: string;
-    showDate: string;
+    showDate: Date;
     movieID: number | string;
     movie: MovieType;
     screenID: number | string;
