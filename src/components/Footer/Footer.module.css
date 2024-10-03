@@ -69,12 +69,14 @@
 .bottom{
     text-align: center;
     margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .bottom>p{
     font-size: 0.8rem;
     font-family: var(--roboto-font);
     letter-spacing: 1px;
+    
 }
 
 .left{

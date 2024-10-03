@@ -13,7 +13,7 @@ const Footer = () => {
     const year = new Date().getFullYear();
 
     return (
-        <footer className={styles.footer}>
+        <footer className={`${styles.footer} main_container`}>
             <div className={styles.container}>
 
                 <div className={styles.logo_container}>

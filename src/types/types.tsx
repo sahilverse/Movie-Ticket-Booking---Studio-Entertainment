@@ -1,44 +1,47 @@
 import { StaticImageData } from 'next/image';
 
 export interface AdminType {
-    _id: number | string;
+    id: string;
     name: string;
     email: string;
 }
 
 export interface UserType {
-    _id: number | string;
+    id: string;
     name: string;
     email: string;
     bookings: BookingType[];
     city: string;
+
 }
 
 export interface BookingType {
-    _id: number | string;
-    userID: number | string;
-    movieID: number | string;
+    id: string;
+    userID: string;
+    movieID: string;
     showTime: string;
     seats: SeatType[];
+    paymentID: string;
+    paymentType: string;
 }
 
 export interface SeatType {
-    _id: number | string;
+    id: string;
     col: number;
     row: number;
     price: number;
     isBooked: boolean;
     isReserved: boolean;
-    bookingID?: number | string;
+    bookingID?: string;
     booking?: BookingType;
-    screenID: number | string;
+    screenID: string;
     screen: ScreenType;
-    movieScheduleID: number | string;
+    movieScheduleID: string;
     movieSchedule: MovieScheduleType;
 }
 
 export interface MovieType {
-    _id: number | string;
+    id: string;
     title: string;
     description: string;
     portraitImageUrl: StaticImageData | string;
@@ -54,18 +57,18 @@ export interface MovieType {
 }
 
 export interface MovieScheduleType {
-    _id: number | string;
+    id: string;
     showTime: string;
     showDate: Date;
-    movieID: number | string;
+    movieID: string;
     movie: MovieType;
-    screenID: number | string;
+    screenID: string;
     screen: ScreenType;
     notAvailableSeats: SeatType[];
 }
 
 export interface ScreenType {
-    _id: number | string;
+    id: string;
     name: string;
     seats: SeatType[];
     city: string;
@@ -73,7 +76,7 @@ export interface ScreenType {
 }
 
 export interface MovieCardType {
-    _id: number | string;
+    id: string;
     imageUrl: StaticImageData | string;
     title: string;
     duration: string;

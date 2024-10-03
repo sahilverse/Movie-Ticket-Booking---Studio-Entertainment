@@ -1,0 +1,157 @@
+.container{
+    border-radius: 8px;
+    display: flex;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+}
+
+
+
+.img_container{
+   width: 500px;
+   height: 500px;
+   border-radius: 8px;
+}
+
+.signin_image{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    aspect-ratio: 1/1;
+    border-radius: 8px 0px 0px 8px;
+}
+
+
+.form_container{
+    background-color: var(--form-bg);
+    color: var(--background-color);
+   flex: 50%;
+   border-radius: 0px 8px 8px 0px;
+}
+
+.form_container > .form{
+    @apply flex flex-col items-center h-full;
+    gap: 2rem;
+}
+
+
+.form h1{
+    @apply font-bold mt-5;
+    font-size: 2rem;
+    letter-spacing: 1.2px;
+    font-family: var(--roboto-font);
+    padding: 3px 10px;
+    border-bottom: 1px solid black;
+}
+
+.form_inputs{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    align-items: center;
+ 
+}
+
+
+
+.input_field>input{
+   width: 400px;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+
+}
+
+.btn_container{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+
+.signin_btn{
+    background-color: var(--form-btn);
+    color: white;
+    width: 400px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: var(--roboto-font);
+    font-size: 1.1rem;
+    letter-spacing: 1.2px;
+    font-weight: medium;
+    transition: all 0.1s;
+}
+
+.signin_btn:hover{
+    background-color: #0d5cb6;
+}
+
+.google_login{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+
+.google_btn{
+    background-color: white;
+    color: black;
+    width: 400px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    letter-spacing: 1px;
+}
+
+.google_btn:hover{
+    background-color: #efefef;
+}
+
+
+.btn_container > p{
+    font-family: var(--roboto-font);
+    font-size: 1rem;
+    letter-spacing: 1px;
+    color: var(--form-text);
+    cursor: pointer;
+}
+
+.line_container{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+
+}
+
+.line{
+    width: 150px;
+    height: 1px;
+    background-color: var(--slight-gray);
+}
+
+.form_inputs > p{
+    font-family: var(--roboto-font);
+    font-size: 1rem;
+    letter-spacing: 1px;
+    color: var(--form-text);
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.form_inputs > p >  a{
+    color: black;
+    font-weight: bold;
+    border-bottom: 1px solid transparent;
+}
+
+.form_inputs > p >  a:hover{
+    border-bottom: 1px solid black;
+   
+}
