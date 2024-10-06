@@ -1,118 +1,58 @@
-import NextAuth, { AuthError, CredentialsSignin } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import GoogleProvider from "next-auth/providers/google";
+import NextAuth from "next-auth"
+import authConfig from "./auth.config"
 
-import bcrypt from "bcryptjs";
+
+import { PrismaAdapter } from "@auth/prisma-adapter"
 import { prisma } from "./lib/prisma";
-import { signInSchema } from "./lib/zod";
-import { ZodError } from "zod";
 
-import { UserType } from "./types/types";
-
-export const { handlers, signIn, signOut, auth } = NextAuth({
-    providers: [
-        // Google authentication provider
-        GoogleProvider({
-            clientId: process.env.GOOGLE_CLIENT_ID,
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        }),
-
-        // Credentials authentication provider
-        CredentialsProvider({
-            name: "Credentials",
-            credentials: {
-                email: { label: "Email", type: "email" },
-                password: { label: "Password", type: "password" },
-            },
-
-            // Authorization function for credentials provider
-            authorize: async (
-                credentials: Partial<Record<"email" | "password", unknown>>
-            ): Promise<UserType | null> => {
-                const { email, password } = credentials;
-
-                if (!email || !password) {
-                    throw new CredentialsSignin("Email and password are required");
-                }
-
-                try {
-                    // Validate credentials using Zod schema
-                    const { email, password } = await signInSchema.parseAsync(credentials);
-
-
-                    const user = await prisma.user.findUnique({
-                        where: { email },
-
-                    });
-
-                    if (!user) {
-                        throw new CredentialsSignin("No user found");
-                    }
-
-                    // Compare provided password with the stored hashed password
-                    const isValidPassword = await bcrypt.compare(password, user.password as string);
-
-                    if (!isValidPassword) {
-                        throw new CredentialsSignin("Invalid password");
-                    }
-
-                    // Exclude sensitive fields from the user object before returning
-                    const { password: _, googleId, ...rest } = user;
-
-
-
-                    return rest as UserType;
-
-                } catch (error) {
-                    // Handle validation errors
-                    if (error instanceof ZodError) {
-                        return null;
-                    } else {
-                        throw new CredentialsSignin("An error occurred during authentication");
-                    }
-                }
-            },
-        }),
-    ],
-
+export const { handlers, auth, signIn, signOut } = NextAuth({
+    adapter: PrismaAdapter(prisma),
+    session: { strategy: "jwt" },
     pages: {
-        signIn: "/user/signin",
+        signIn: "/login",
     },
     callbacks: {
-        signIn: async ({ user, account }) => {
+
+        async signIn({ user, account }) {
             if (account?.provider === "google") {
-                try {
-                    const { email, name, id } = user as { email: string; name: string; id: string };
+                const existingUser = await prisma.user.findUnique({
+                    where: { email: user.email! },
+                });
+                const { providerAccountId, provider, access_token, id_token, type } = account;
 
-                    const existingUser = await prisma.user.findFirst({
-                        where: { email },
-                    });
-
-
-                    if (!existingUser) {
-                        await prisma.user.create({
-                            data: {
-                                email,
-                                name,
-                                googleId: id,
+                if (existingUser && existingUser.password) {
+                    await prisma.account.upsert({
+                        where: {
+                            provider_providerAccountId: {
+                                provider: provider,
+                                providerAccountId: providerAccountId,
                             },
-                        });
-                    }
-
-                    return true;
-
-                } catch (error) {
-
-                    throw new AuthError("An error occurred during authentication");
-
+                        },
+                        update: {
+                            access_token: access_token,
+                            id_token: id_token,
+                        },
+                        create: {
+                            userId: existingUser.id,
+                            provider: provider,
+                            providerAccountId: providerAccountId,
+                            access_token: access_token,
+                            id_token: id_token,
+                            type: type,
+                        },
+                    });
                 }
-
-
+                return true;
             }
-            if (account?.provider === "Credentials") {
+
+            if (account?.provider === "credentials") {
                 return true;
             }
             return false;
         }
-    }
-});
+
+
+    },
+    ...authConfig,
+})
+

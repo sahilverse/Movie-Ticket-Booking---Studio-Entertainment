@@ -16,12 +16,12 @@ const ComingSoon = () => {
     const router = useRouter();
 
     const [movies, setMovies] = React.useState<MovieCardType[]>([
-        { _id: 1, title: "RRR", imageUrl: rrrImage, duration: "2h 30m", releaseDate: "20 Sept 2024" },
-        { _id: 2, title: "Joker", imageUrl: jokerImage, duration: "2h 30m", releaseDate: "22 Sept 2024" },
-        { _id: 3, title: "Kalki", imageUrl: kalkiImage, duration: "2h 30m", releaseDate: "30 Sept 2024" },
-        { _id: 4, title: "RRR", imageUrl: rrrImage, duration: "2h 30m", releaseDate: "20 Sept 2024" },
-        { _id: 5, title: "Joker", imageUrl: jokerImage, duration: "2h 30m", releaseDate: "22 Sept 2024" },
-        { _id: 6, title: "Kalki", imageUrl: kalkiImage, duration: "2h 30m", releaseDate: "30 Sept 2024" },
+        { id: 1, title: "RRR", imageUrl: rrrImage, duration: "2h 30m", releaseDate: "20 Sept 2024" },
+        { id: 2, title: "Joker", imageUrl: jokerImage, duration: "2h 30m", releaseDate: "22 Sept 2024" },
+        { id: 3, title: "Kalki", imageUrl: kalkiImage, duration: "2h 30m", releaseDate: "30 Sept 2024" },
+        { id: 4, title: "RRR", imageUrl: rrrImage, duration: "2h 30m", releaseDate: "20 Sept 2024" },
+        { id: 5, title: "Joker", imageUrl: jokerImage, duration: "2h 30m", releaseDate: "22 Sept 2024" },
+        { id: 6, title: "Kalki", imageUrl: kalkiImage, duration: "2h 30m", releaseDate: "30 Sept 2024" },
 
     ]);
     return (
@@ -31,7 +31,7 @@ const ComingSoon = () => {
             <div className={styles.card_container}>
                 {movies.map((movie) => (
 
-                    <div key={movie._id} className={styles.card} onClick={() => router.push(`/coming-soon/${movie._id}`)}>
+                    <div key={movie.id} className={styles.card} onClick={() => router.push(`city/coming-soon/${movie.id}`)}>
                         <Image src={movie.imageUrl} alt={movie.title} loading='lazy' className={styles.image} />
                         <p className={styles.release_date}>{movie.releaseDate}</p>
 

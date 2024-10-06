@@ -96,7 +96,7 @@ const Navbar = () => {
                             <IoIosArrowDown className="text-sm" />
                         </div>
 
-                        <Link className={styles.nav_signin_btn} href='/user/signin'><span>Sign In</span></Link>
+                        <Link className={styles.nav_signin_btn} href='/login'><span>Sign In</span></Link>
                     </div>
 
                     {/* Hamburger Menu */}

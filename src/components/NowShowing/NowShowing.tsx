@@ -42,28 +42,28 @@ const NowShowing = () => {
     // State to hold the list of movies for each date
     const moviesByDate = {
         today: [
-            { _id: 1, title: "RRR", imageUrl: rrrImage, duration: "2h 30m" },
-            { _id: 2, title: "Joker", imageUrl: jokerImage, duration: "2h 30m" },
-            { _id: 11, title: "RRR", imageUrl: rrrImage, duration: "2h 30m" },
-            { _id: 12, title: "Joker", imageUrl: jokerImage, duration: "2h 30m" },
-            { _id: 13, title: "RRR", imageUrl: rrrImage, duration: "2h 30m" },
-            { _id: 14, title: "Joker", imageUrl: jokerImage, duration: "2h 30m" },
+            { id: 1, title: "RRR", imageUrl: rrrImage, duration: "2h 30m" },
+            { id: 2, title: "Joker", imageUrl: jokerImage, duration: "2h 30m" },
+            { id: 11, title: "RRR", imageUrl: rrrImage, duration: "2h 30m" },
+            { id: 12, title: "Joker", imageUrl: jokerImage, duration: "2h 30m" },
+            { id: 13, title: "RRR", imageUrl: rrrImage, duration: "2h 30m" },
+            { id: 14, title: "Joker", imageUrl: jokerImage, duration: "2h 30m" },
         ],
         tomorrow: [
-            { _id: 3, title: "Kalki", imageUrl: kalkiImage, duration: "2h 30m" },
-            { _id: 4, title: "Inception", imageUrl: rrrImage, duration: "2h 28m" },
+            { id: 3, title: "Kalki", imageUrl: kalkiImage, duration: "2h 30m" },
+            { id: 4, title: "Inception", imageUrl: rrrImage, duration: "2h 28m" },
         ],
         "3 Oct": [
-            { _id: 5, title: "Avatar", imageUrl: jokerImage, duration: "2h 45m" },
-            { _id: 6, title: "Titanic", imageUrl: kalkiImage, duration: "3h 15m" },
+            { id: 5, title: "Avatar", imageUrl: jokerImage, duration: "2h 45m" },
+            { id: 6, title: "Titanic", imageUrl: kalkiImage, duration: "3h 15m" },
         ],
         "4 Oct": [
-            { _id: 7, title: "Spider-Man", imageUrl: rrrImage, duration: "2h 15m" },
-            { _id: 8, title: "Interstellar", imageUrl: jokerImage, duration: "2h 49m" },
+            { id: 7, title: "Spider-Man", imageUrl: rrrImage, duration: "2h 15m" },
+            { id: 8, title: "Interstellar", imageUrl: jokerImage, duration: "2h 49m" },
         ],
         "5 Oct": [
-            { _id: 9, title: "The Dark Knight", imageUrl: kalkiImage, duration: "2h 32m" },
-            { _id: 10, title: "Shutter Island", imageUrl: rrrImage, duration: "2h 18m" },
+            { id: 9, title: "The Dark Knight", imageUrl: kalkiImage, duration: "2h 32m" },
+            { id: 10, title: "Shutter Island", imageUrl: rrrImage, duration: "2h 18m" },
         ],
     };
 

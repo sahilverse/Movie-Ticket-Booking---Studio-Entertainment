@@ -3,6 +3,8 @@ import React from "react";
 import type { Metadata } from "next";
 import Navbar from "@/components/navbar/Navbar";
 import Footer from "@/components/footer/Footer";
+import { Toaster } from 'react-hot-toast';
+
 
 
 
@@ -21,12 +23,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body suppressHydrationWarning={true} >
+      <body >
+
 
         <Navbar />
         {children}
-
         <Footer />
+        <Toaster />
+
 
 
       </body>
