@@ -1,4 +1,3 @@
-"use client"
 import ComingSoon from "@/components/comingSoon/ComingSoon";
 import NowShowing from "@/components/nowShowing/NowShowing";
 import Slider from "@/components/slider/Slider";

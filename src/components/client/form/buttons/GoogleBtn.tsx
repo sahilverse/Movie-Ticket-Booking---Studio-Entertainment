@@ -3,12 +3,12 @@ import React from 'react'
 
 import { FaGoogle } from "react-icons/fa";
 import { signIn } from 'next-auth/react';
-import { DEFAULT_LOGIN_REDIRECT } from '@/route';
+import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
 
 
 const GoogleBtn = ({ styles, disabled }: { styles: Record<string, string>, disabled?: boolean }) => {
     const googleLogin = async () => {
-        await signIn("google", { callbackUrl: DEFAULT_LOGIN_REDIRECT, redirect: false });
+        await signIn("google", { callbackUrl: DEFAULT_LOGIN_REDIRECT });
     }
 
     return (

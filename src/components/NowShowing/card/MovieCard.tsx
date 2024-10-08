@@ -1,9 +1,10 @@
-import { useRouter } from 'next/navigation';
+"use client"
 import React, { useRef } from 'react';
 import styles from './MovieCard.module.css';
 import Image from 'next/image';
 import { MovieCardType } from '@/types/types';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { useRouter } from 'next/navigation';
 
 
 interface MovieCardProps {

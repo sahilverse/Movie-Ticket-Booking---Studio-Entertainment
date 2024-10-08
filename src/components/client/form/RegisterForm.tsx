@@ -14,7 +14,6 @@ import toast from 'react-hot-toast';
 import FormError from './formError/FormError';
 
 
-
 const RegisterForm = ({ styles }: { styles: Record<string, string> }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [showFormError, SetShowFormError] = useState<boolean>(false);
@@ -26,8 +25,6 @@ const RegisterForm = ({ styles }: { styles: Record<string, string> }) => {
             username: ""
         }
     });
-
-
 
     const onSubmit = async (data: z.infer<typeof registerSchema>) => {
         setIsLoading(true);

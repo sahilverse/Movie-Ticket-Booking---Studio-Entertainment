@@ -9,7 +9,8 @@ export const privateRoutes = [
 export const authRoutes = [
     "/login",
     "/register",
-    "/signup"
+    "/signup",
+    "/error"
 ];
 
 export const apiAuthPrefix = "/api/auth";

@@ -2,7 +2,7 @@
 
 import { signIn } from "@/auth";
 import { registerSchema } from "@/lib/zod";
-import { DEFAULT_LOGIN_REDIRECT } from "@/route";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import * as z from "zod";

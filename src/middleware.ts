@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import authConfig from "./auth.config";
-import { DEFAULT_LOGIN_REDIRECT, authRoutes, privateRoutes, apiAuthPrefix } from "./route";
+import { DEFAULT_LOGIN_REDIRECT, authRoutes, privateRoutes, apiAuthPrefix } from "./routes";
 
 const { auth } = NextAuth(authConfig);
 export default auth(async (req) => {
@@ -10,7 +10,6 @@ export default auth(async (req) => {
     const isApiRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
     const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
-    // Check if the requested route is public
     const isPrivateRoute = privateRoutes.some((route: any) => {
         const regex = new RegExp(`^${route.replace(/:[^/]+/, '[^/]+')}$`);
         return regex.test(nextUrl.pathname);

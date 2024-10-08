@@ -47,8 +47,6 @@ const LoginForm = ({ styles }: { styles: Record<string, string> }) => {
 
     }
 
-
-
     return (
         <>
             <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
