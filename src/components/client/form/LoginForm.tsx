@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import LoginBtn from "./buttons/LoginBtn";
 import { useForm } from "react-hook-form";
 import { signInSchema } from "@/lib/zod";
@@ -15,7 +15,8 @@ import GoogleBtn from "./buttons/GoogleBtn";
 
 
 const LoginForm = ({ styles }: { styles: Record<string, string> }) => {
-    const [isLoading, setIsLoading] = React.useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [showFormError, SetShowFormError] = useState<boolean>(false);
     const { register, handleSubmit, formState: { errors }, setError } = useForm<z.infer<typeof signInSchema>>({
         resolver: zodResolver(signInSchema),
         defaultValues: {
@@ -34,6 +35,7 @@ const LoginForm = ({ styles }: { styles: Record<string, string> }) => {
 
             if (response?.error) {
                 setError("root", { message: response.error });
+                SetShowFormError(true);
             }
 
         } catch (error) {
@@ -46,12 +48,13 @@ const LoginForm = ({ styles }: { styles: Record<string, string> }) => {
     }
 
 
+
     return (
         <>
             <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
                 <p>Sign In</p>
                 <div className={styles.input_fields}>
-                    <FormError message={errors.root?.message} />
+                    {showFormError && <FormError message={errors.root?.message} setCloseError={SetShowFormError} />}
 
                     <div>
                         <InputField type="text" id="email" placeholder="Email" styles={styles} register={register} disabled={isLoading} />
@@ -65,19 +68,25 @@ const LoginForm = ({ styles }: { styles: Record<string, string> }) => {
                         <LoginBtn type="Sign In" styles={styles} disabled={isLoading} />
                         <Link href="/forgot-password">Forgot Password?</Link>
                     </div>
+                    <div className={styles.google_btn_container}>
+                        <div className={styles.line_container}>
+                            <div className={styles.line}></div>
+                            <p>OR</p>
+                            <div className={styles.line}></div>
+                        </div>
+                        <GoogleBtn styles={styles} disabled={isLoading} />
+                        <p>Not a Member? <Link href="/register">Sign Up</Link></p>
+
+                    </div>
+
                 </div>
+
+
 
             </form>
-            <div className={styles.google_btn_container}>
-                <div className={styles.line_container}>
-                    <div className={styles.line}></div>
-                    <p>OR</p>
-                    <div className={styles.line}></div>
-                </div>
-                <GoogleBtn styles={styles} disabled={isLoading} />
-                <p>Not a Member? <Link href="/register">Sign Up</Link></p>
 
-            </div>
+
+
 
         </>
     )

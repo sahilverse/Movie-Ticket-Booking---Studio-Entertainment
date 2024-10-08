@@ -21,12 +21,13 @@ export const registerCredentials = async (data: z.infer<typeof registerSchema>) 
                 data: { password: await bcrypt.hash(password, 10) },
             });
             await signIn("credentials", { email, password, redirectTo: DEFAULT_LOGIN_REDIRECT });
+        } else {
+            return { error: "User already exists" };
         }
-        return { error: "User already exists" };
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    await prisma.user.create({ data: { email, password: hashedPassword, name: username } });
+    await prisma.user.create({ data: { email, password: hashedPassword, name: username, emailVerified: new Date() } });
     await signIn("credentials", { email, password, redirectTo: DEFAULT_LOGIN_REDIRECT });
 
     return { success: true };

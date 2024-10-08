@@ -30,16 +30,11 @@ export default {
 
                 if (!user || !user.password) return null;
 
-                // const isValidPassword = await bcrypt.compare(password, user.password as string);
-                const isValidPassword = password === user.password as string;
-
+                const isValidPassword = await bcrypt.compare(password, user.password as string);
 
                 if (!isValidPassword) return null;
 
                 return user;
-
-
-
             }
 
         }

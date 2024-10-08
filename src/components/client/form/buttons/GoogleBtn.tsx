@@ -1,22 +1,28 @@
 import React from 'react'
 
-import { googleLogin } from '@/actions/login';
+
 import { FaGoogle } from "react-icons/fa";
+import { signIn } from 'next-auth/react';
+import { DEFAULT_LOGIN_REDIRECT } from '@/route';
 
 
 const GoogleBtn = ({ styles, disabled }: { styles: Record<string, string>, disabled?: boolean }) => {
+    const googleLogin = async () => {
+        await signIn("google", { callbackUrl: DEFAULT_LOGIN_REDIRECT, redirect: false });
+    }
+
     return (
-        <form action={googleLogin}>
-
-            <button type='submit' className={`${styles.btn} ${styles.google_btn}`} disabled={disabled}>
-
-                <span><FaGoogle /></span>
-                <span>Sign in with Google</span>
 
 
-            </button>
+        <button type='button' className={`${styles.btn} ${styles.google_btn}`} disabled={disabled} onClick={googleLogin}>
 
-        </form>
+            <span><FaGoogle /></span>
+            <span>Sign in with Google</span>
+
+
+        </button>
+
+
     )
 }
 
