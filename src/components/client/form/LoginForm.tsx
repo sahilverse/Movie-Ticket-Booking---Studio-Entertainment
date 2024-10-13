@@ -55,11 +55,11 @@ const LoginForm = ({ styles }: { styles: Record<string, string> }) => {
                     {showFormError && <FormError message={errors.root?.message} setCloseError={SetShowFormError} />}
 
                     <div>
-                        <InputField type="text" id="email" placeholder="Email" styles={styles} register={register} disabled={isLoading} />
+                        <InputField type="text" id="email" placeholder="Email" styles={styles} disabled={isLoading} {...register("email")} autoComplete="email" />
                         <ErrorText styles={styles} message={errors.email?.message} />
                     </div>
                     <div>
-                        <InputField type="password" id="password" placeholder="Password" styles={styles} register={register} disabled={isLoading} />
+                        <InputField type="password" id="password" placeholder="Password" styles={styles} disabled={isLoading} {...register("password")} autoComplete="current-password" />
                         <ErrorText styles={styles} message={errors.password?.message} />
                     </div>
                     <div className={styles.btn_container}>
@@ -78,14 +78,7 @@ const LoginForm = ({ styles }: { styles: Record<string, string> }) => {
                     </div>
 
                 </div>
-
-
-
             </form>
-
-
-
-
         </>
     )
 }

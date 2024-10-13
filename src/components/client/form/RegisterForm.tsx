@@ -19,10 +19,12 @@ const RegisterForm = ({ styles }: { styles: Record<string, string> }) => {
     const [showFormError, SetShowFormError] = useState<boolean>(false);
     const { register, handleSubmit, formState: { errors }, setError } = useForm<z.infer<typeof registerSchema>>({
         resolver: zodResolver(registerSchema),
+        mode: "onSubmit",
+        reValidateMode: "onSubmit",
         defaultValues: {
             email: "",
             password: "",
-            username: ""
+            username: "",
         }
     });
 
@@ -52,15 +54,16 @@ const RegisterForm = ({ styles }: { styles: Record<string, string> }) => {
             <div className={styles.input_fields}>
                 {showFormError && <FormError message={errors.root?.message} setCloseError={SetShowFormError} />}
                 <div>
-                    <InputField type="text" id="username" placeholder="Username" styles={styles} register={register} disabled={isLoading} />
+                    <InputField type="text" id="username" placeholder="Username" styles={styles} disabled={isLoading} {...register("username")} autoComplete='username' />
                     <ErrorText styles={styles} message={errors.username?.message} />
                 </div>
+
                 <div>
-                    <InputField type="text" id="email" placeholder="Email" styles={styles} register={register} disabled={isLoading} />
+                    <InputField type="text" id="email" placeholder="Email" styles={styles} disabled={isLoading}  {...register("email")} autoComplete='email' />
                     <ErrorText styles={styles} message={errors.email?.message} />
                 </div>
                 <div>
-                    <InputField type="password" id="password" placeholder="Password" styles={styles} register={register} disabled={isLoading} />
+                    <InputField type="password" id="password" placeholder="Password" styles={styles} disabled={isLoading} {...register("password")} autoComplete='password' />
                     <ErrorText styles={styles} message={errors.password?.message} />
                 </div>
                 <div className={styles.btn_container}>
@@ -73,14 +76,10 @@ const RegisterForm = ({ styles }: { styles: Record<string, string> }) => {
                         <div className={styles.line}></div>
                     </div>
                     <GoogleBtn styles={styles} disabled={isLoading} />
-                    <p>Already a Member? <Link href="/register">Sign In</Link></p>
+                    <p>Already a Member? <Link href="/login">Sign In</Link></p>
 
                 </div>
-
             </div>
-
-
-
         </form>
 
 

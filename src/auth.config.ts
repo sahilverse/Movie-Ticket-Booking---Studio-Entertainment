@@ -2,9 +2,8 @@ import Google from "next-auth/providers/google"
 import Credentials from "next-auth/providers/credentials"
 import { type NextAuthConfig } from "next-auth"
 import { signInSchema } from "./lib/zod"
-import { prisma } from "@/lib/prisma"
-
 import bcrypt from "bcryptjs"
+import { getUserByEmail } from "./lib/utils"
 
 export default {
     providers: [
@@ -21,11 +20,7 @@ export default {
 
                 const { email, password } = validatedCredentials.data;
 
-                const user = await prisma.user.findUnique({
-                    where: {
-                        email,
-                    },
-                })
+                const user = await getUserByEmail(email);
 
 
                 if (!user || !user.password) return null;

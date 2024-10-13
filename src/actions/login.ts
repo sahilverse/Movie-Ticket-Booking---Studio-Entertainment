@@ -36,3 +36,9 @@ export const credentialsLogin = async (data: z.infer<typeof signInSchema>) => {
     }
 
 };
+
+
+export const googleLogin = async () => {
+
+    await signIn("google", { callbackUrl: DEFAULT_LOGIN_REDIRECT });
+}

@@ -6,13 +6,15 @@ import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import * as z from "zod";
+import { createUser, getUserByEmail } from "@/lib/utils";
 
 export const registerCredentials = async (data: z.infer<typeof registerSchema>) => {
     const validatedCredentials = registerSchema.safeParse(data);
     if (!validatedCredentials.success) return { error: "Invalid Credentials" };
 
     const { email, password, username } = validatedCredentials.data;
-    const existingUser = await prisma.user.findUnique({ where: { email } });
+    const existingUser = await getUserByEmail(email);
+
 
     if (existingUser) {
         if (!existingUser.password) {
@@ -27,7 +29,7 @@ export const registerCredentials = async (data: z.infer<typeof registerSchema>) 
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    await prisma.user.create({ data: { email, password: hashedPassword, name: username, emailVerified: new Date() } });
+    await createUser(email, hashedPassword, username);
     await signIn("credentials", { email, password, redirectTo: DEFAULT_LOGIN_REDIRECT });
 
     return { success: true };

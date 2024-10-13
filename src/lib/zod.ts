@@ -20,4 +20,5 @@ export const registerSchema = object({
     username: string({ required_error: "Name is required" })
         .min(1, "Username is required")
         .max(32, "Username must be less than 32 characters"),
-})
+
+});

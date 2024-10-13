@@ -2,6 +2,8 @@ import NextAuth from "next-auth"
 import authConfig from "./auth.config"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import { prisma } from "./lib/prisma";
+import { getUserByEmail } from "./lib/utils";
+
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
     adapter: PrismaAdapter(prisma),
@@ -19,11 +21,38 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
     },
     callbacks: {
+        async session({ session, token }) {
+
+            if (session.user && token) {
+                session.user.id = token.sub;
+                session.user.phone = token.phone;
+                session.user.city = token.city;
+                session.user.birthDate = token.birthDate;
+                session.user.gender = token.gender;
+            }
+            console.log("session", session);
+            return session;
+        },
+
+        async jwt({ token }) {
+            if (token) {
+                const { email } = token as { email: string };
+                const user = await getUserByEmail(email);
+
+                if (user) {
+                    token.city = user.city;
+                    token.phone = user.phone ?? undefined;
+                    token.birthDate = user.birthDate ? user.birthDate.toISOString() : undefined;
+                    token.gender = user.gender ?? undefined;
+                }
+            }
+
+            return token;
+        },
+
         async signIn({ user, account }) {
             if (account?.provider === "google") {
-                const existingUser = await prisma.user.findUnique({
-                    where: { email: user.email! },
-                });
+                const existingUser = await getUserByEmail(user.email as string);
                 const { providerAccountId, provider, access_token, id_token, type } = account;
 
                 if (existingUser && existingUser.password) {
