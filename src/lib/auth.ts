@@ -9,9 +9,9 @@ export const currentUser = async () => {
     if (session) {
 
         if (session.user.birthDate) {
-            session.user.birthDate = formatDate(new Date(session.user.birthDate));
+            session.user.birthDate = formatDate(session.user.birthDate);
         }
     }
 
-    return session?.user;;
+    return session?.user;
 }

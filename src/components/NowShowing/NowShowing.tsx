@@ -1,5 +1,5 @@
 "use client"
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './NowShowing.module.css';
 
 import rrrImage from "@/assets/MovieCard/rrr.jpg";
@@ -37,9 +37,9 @@ const getDateArray = () => {
 
 const NowShowing = () => {
     const dates = getDateArray();
-    const [activeIndex, setActiveIndex] = React.useState<number>(0);
+    const [activeIndex, setActiveIndex] = useState(0);
 
-
+    // TODO: Redefine the moviesByDate
     // State to hold the list of movies for each date
     const moviesByDate = {
         today: [
@@ -73,16 +73,18 @@ const NowShowing = () => {
         <>
             <div className={styles.container}>
                 <p>Now Showing</p>
-                <div className={styles.date_container}>
-                    {dates.map((date, index) => (
-                        <p
-                            key={index}
-                            className={`date_item ${index === activeIndex ? styles.active : ''}`}
-                            onClick={() => setActiveIndex(index)}
-                        >
-                            {date}
-                        </p>
-                    ))}
+                <div className={styles.date_container_wrapper}>
+                    <div className={styles.date_container}>
+                        {dates.map((date, index) => (
+                            <p
+                                key={index}
+                                className={`${styles.date_item} ${index === activeIndex ? styles.active : ''}`}
+                                onClick={() => setActiveIndex(index)}
+                            >
+                                {date}
+                            </p>
+                        ))}
+                    </div>
                 </div>
             </div>
 
@@ -116,5 +118,6 @@ const NowShowing = () => {
         </>
     );
 };
+
 
 export default NowShowing;

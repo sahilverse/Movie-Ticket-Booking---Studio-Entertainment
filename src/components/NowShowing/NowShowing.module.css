@@ -1,22 +1,20 @@
-.container{
+.container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-   margin-top: 30px;
+    margin-top: 30px;
+    width: 100%;
 }
 
-.container>p{
-
+.container > p {
     font-size: 2rem;
     font-weight: bold;
     margin: 0;
     letter-spacing: 3px;
     font-family: var(--roboto-font);
-
 }
 
-
-.container>p::after{
+.container > p::after {
     content: "";
     display: block;
     width: 50px;
@@ -25,15 +23,17 @@
     margin-top: 10px;
 }
 
-.date_container{
+.date_container {
     display: flex;
     align-items: center;
     gap: 10px;
-
-
 }
 
-.date_container>p{
+.date_container::-webkit-scrollbar {
+    display: none;
+}
+
+.date_container > p {
     font-size: 1rem;
     font-weight: medium;
     margin: 0;
@@ -44,59 +44,43 @@
     border-radius: 8px;
     cursor: pointer;
     border: 2px solid transparent;
+    white-space: nowrap;
 }
 
-.date_container>p:hover{
+.date_container > p:hover {
     border: 2px solid var(--yellow-shade);
 }
 
-.date_container>p.active{
+.date_container > p.active {
     border: 2px solid var(--yellow-shade);
 }
 
-@media (max-width: 1280px){
-    .date_container>p:last-child{
-        display: none;
-    }
-   
-}
 
 
-/* mobile responsive  */
-@media (max-width: 1024px){
-    .date_container>p:nth-last-child(2){
-        display: none;
-    }
-}
-
-
-@media (max-width: 992px){
-
-    .date_container>p:nth-last-child(3){
-        display: none;
+@media (max-width: 992px) {
+    .container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
     }
 
-    .container>p{
+    .container > p {
         font-size: 28px;
-        /* margin-left: 10px; */
     }
 
+    .date_container_wrapper {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .date_container {
+        width: max-content;
+    }
 }
 
-
-@media (max-width: 768px){
-    /* .container{
-        margin-top: 25px;
-    } */
-
-    .container>p{
+@media (max-width: 768px) {
+    .container > p {
         font-size: 24px;
         margin-left: 10px;
     }
-
-   
-    .date_container{
-        display: none;
-    }
 }
-

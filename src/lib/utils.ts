@@ -1,9 +1,10 @@
 import { prisma } from './prisma'
 
 
-export const formatDate = (date: Date) => {
-    return `${date.getDate()} ${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`
-}
+export const formatDate = (dateString: string): string => {
+    const date = new Date(dateString);
+    return `${date.getDate()} ${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
+};
 
 
 export const getUserById = async (id: string) => {

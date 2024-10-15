@@ -11,7 +11,7 @@ export const useCurrentUser = () => {
     if (session) {
 
         if (session.user.birthDate) {
-            session.user.birthDate = formatDate(new Date(session.user.birthDate));
+            session.user.birthDate = formatDate(session.user.birthDate);
         }
     }
 
