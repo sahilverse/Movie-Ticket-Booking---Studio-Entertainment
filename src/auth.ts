@@ -30,7 +30,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                 session.user.birthDate = token.birthDate;
                 session.user.gender = token.gender;
             }
-            console.log("session", session);
             return session;
         },
 

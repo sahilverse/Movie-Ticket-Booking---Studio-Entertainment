@@ -1,9 +1,10 @@
+import { TStyle } from '@/types/types';
 import React from 'react'
 
 
 interface LoginBtnProps {
     type: string;
-    styles: Record<string, string>
+    styles: TStyle
     disabled?: boolean
 }
 

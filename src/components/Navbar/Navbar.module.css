@@ -16,7 +16,9 @@
 
 
 .nav_links{
-    @apply flex items-center space-x-32;
+   display: flex;
+    gap: 40px;
+    align-items: center;
 
 }
 
@@ -84,7 +86,9 @@
 
     }
 
-   
+    .desktop_only{
+        display: none;
+    }
 
     .mobile_nav{
         z-index: 9999;
@@ -129,6 +133,15 @@
         padding-bottom: 15px;
         border-bottom: 1px solid var(--white);
         /* width: 100%; */
+    }
+
+    .mobile_nav_link>button{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-bottom: 15px;
+        border-bottom: 1px solid var(--white);
+        width: 100%;
     }
 
   

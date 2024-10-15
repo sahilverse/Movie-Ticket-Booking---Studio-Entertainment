@@ -1,10 +1,11 @@
+import { TStyle } from '@/types/types';
 import React from 'react'
 
 
 
 const ErrorText = (
 
-    { styles, message }: { styles: Record<string, string>, message?: string }
+    { styles, message }: { styles: TStyle, message?: string }
 ) => {
     if (!message) return null;
     return (

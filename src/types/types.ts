@@ -1,5 +1,8 @@
 import { StaticImageData } from 'next/image';
+import { User } from 'next-auth';
 
+
+export type TStyle = Record<string, string>;
 
 export interface MovieCardType {
     id: string | number;
@@ -8,3 +11,5 @@ export interface MovieCardType {
     duration: string;
     releaseDate?: string;
 }
+
+export type TUser = User | undefined;

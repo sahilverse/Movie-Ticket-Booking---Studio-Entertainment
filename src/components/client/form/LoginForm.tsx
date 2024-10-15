@@ -12,9 +12,10 @@ import ErrorText from "./formError/ErrorText";
 import toast from "react-hot-toast";
 import FormError from "./formError/FormError";
 import GoogleBtn from "./buttons/GoogleBtn";
+import { TStyle } from "@/types/types";
 
 
-const LoginForm = ({ styles }: { styles: Record<string, string> }) => {
+const LoginForm = ({ styles }: { styles: TStyle }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [showFormError, SetShowFormError] = useState<boolean>(false);
     const { register, handleSubmit, formState: { errors }, setError } = useForm<z.infer<typeof signInSchema>>({

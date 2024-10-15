@@ -3,10 +3,11 @@ import React from 'react'
 
 import { FaGoogle } from "react-icons/fa";
 import { googleLogin } from "@/actions/login";
+import { TStyle } from '@/types/types';
 
 
 
-const GoogleBtn = ({ styles, disabled }: { styles: Record<string, string>, disabled?: boolean }) => {
+const GoogleBtn = ({ styles, disabled }: { styles: TStyle, disabled?: boolean }) => {
 
 
     return (

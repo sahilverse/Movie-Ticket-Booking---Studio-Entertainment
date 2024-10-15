@@ -31,7 +31,7 @@
     font-family: var(--poppins-font);
 }
 
-/* Styling for the select element */
+
 .popup_cont select {
     background-color: #282c34;  
     color: #ffffff;  
@@ -44,20 +44,20 @@
     appearance: none;  
 }
 
-/* Change the color of the options inside the select */
+
 .popup_cont select option {
     background-color: #282c3469;  
     color: #b8b2b2;  
     letter-spacing: 1.6px;
 }
 
-/* Style when the select is focused */
+
 .popup_cont select:focus {
     outline: none;
     border-color: #01080a1a;  
 }
 
-/* Optional: adding a custom arrow for the dropdown */
+
 .popup_cont select::after {
     content: "▼";  
     position: absolute;

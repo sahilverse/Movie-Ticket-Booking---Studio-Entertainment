@@ -1,5 +1,5 @@
 "use server";
-import { signIn } from "@/auth";
+import { signIn, signOut } from "@/auth";
 import { signInSchema } from "@/lib/zod";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { AuthError } from "next-auth";
@@ -41,4 +41,12 @@ export const credentialsLogin = async (data: z.infer<typeof signInSchema>) => {
 export const googleLogin = async () => {
 
     await signIn("google", { callbackUrl: DEFAULT_LOGIN_REDIRECT });
+}
+
+
+export const logout = async () => {
+    await signOut(
+        { redirectTo: DEFAULT_LOGIN_REDIRECT }
+    );
+
 }

@@ -12,9 +12,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { registerCredentials } from "@/actions/register";
 import toast from 'react-hot-toast';
 import FormError from './formError/FormError';
+import { TStyle } from '@/types/types';
 
 
-const RegisterForm = ({ styles }: { styles: Record<string, string> }) => {
+const RegisterForm = ({ styles }: { styles: TStyle }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [showFormError, SetShowFormError] = useState<boolean>(false);
     const { register, handleSubmit, formState: { errors }, setError } = useForm<z.infer<typeof registerSchema>>({

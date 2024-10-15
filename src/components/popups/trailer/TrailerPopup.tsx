@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { use } from 'react';
 import styles from './TrailerPopup.module.css';
 import { RxCross2 } from 'react-icons/rx';
+import useClickOutside from '@/hooks/useClickOutside';
 
 const TrailerPopup = ({
     setShowTrailer,
@@ -19,18 +20,7 @@ const TrailerPopup = ({
 
     const popUpRef = React.useRef<HTMLDivElement | null>(null);
 
-    React.useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (popUpRef.current && !popUpRef.current.contains(event.target as Node)) {
-                setShowTrailer(false);
-            }
-        };
-
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, [popUpRef]);
+    useClickOutside(popUpRef, () => setShowTrailer(false));
 
     React.useEffect(() => {
         document.body.style.overflowY = 'hidden';

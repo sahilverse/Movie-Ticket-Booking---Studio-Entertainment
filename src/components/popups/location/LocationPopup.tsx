@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styles from './LocationPopup.module.css'
+import useClickOutside from '@/hooks/useClickOutside'
 
 
 const LocationPopup = ({
@@ -12,23 +13,12 @@ const LocationPopup = ({
     const [selectedCity, setSelectedCity] = React.useState<any>("")
     const popUpRef = React.useRef<HTMLDivElement | null>(null)
 
-    // Effect to handle clicks outside the popup to close it
-    React.useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (popUpRef.current && !popUpRef.current.contains(event.target as Node)) {
-                setShowLocationPopup(false)
-            }
-        }
 
-        document.addEventListener('mousedown', handleClickOutside)
 
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside)
-        }
-    }, [popUpRef])
+    useClickOutside(popUpRef, () => setShowLocationPopup(false))
 
-    // Function to get the list of cities
-    const getCities = async () => {
+    // TODO:  Fetching Cities from the backend
+    const getCities = () => {
         const nepaliCities = [
             "Kathmandu",
             "Pokhara",
@@ -53,7 +43,7 @@ const LocationPopup = ({
     }
 
     // Effect to disable body scroll when the popup is open
-    React.useEffect(() => {
+    useEffect(() => {
         document.body.style.overflowY = 'hidden'
 
         return () => {
@@ -62,7 +52,7 @@ const LocationPopup = ({
     }, [setShowLocationPopup])
 
     // Effect to fetch cities when the component mounts
-    React.useEffect(() => {
+    useEffect(() => {
         getCities()
     }, [])
 

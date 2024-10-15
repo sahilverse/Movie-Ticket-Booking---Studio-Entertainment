@@ -2,8 +2,9 @@ import React from 'react'
 
 import Image from 'next/image';
 import signinImage from '@/assets/Signin/signin.webp';
+import { TStyle } from '@/types/types';
 
-const FormImage = ({ styles }: { styles: Record<string, string> }) => {
+const FormImage = ({ styles }: { styles: TStyle }) => {
     return (
 
         <div className={styles.img_container}>
