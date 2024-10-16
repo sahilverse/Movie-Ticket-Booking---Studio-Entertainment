@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import styles from './LocationPopup.module.css'
 import useClickOutside from '@/hooks/useClickOutside'
 
-
 const LocationPopup = ({
     setShowLocationPopup
 }: {
@@ -44,7 +43,10 @@ const LocationPopup = ({
 
     // Effect to disable body scroll when the popup is open
     useEffect(() => {
+
+
         document.body.style.overflowY = 'hidden'
+
 
         return () => {
             document.body.style.overflowY = 'auto'

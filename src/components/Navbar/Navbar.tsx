@@ -23,7 +23,7 @@ const Navbar = async () => {
                         <LocationSelector styles={styles} />
                         <UserAuthSection styles={styles} />
                     </div>
-                    <MobileNav styles={styles} />
+                    <MobileNav styles={styles} user={user} />
                 </nav>
             </div>
         </ClientScrollHandler>
