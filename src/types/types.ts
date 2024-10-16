@@ -10,6 +10,15 @@ export interface MovieCardType {
     title: string;
     duration: string;
     releaseDate?: string;
+    slug?: string;
+    genre: string;
+    showtimes: showTime[];
+    rating: string
 }
 
 export type TUser = User | undefined;
+
+export interface showTime {
+    time: string;
+    isAvailable: boolean;
+}

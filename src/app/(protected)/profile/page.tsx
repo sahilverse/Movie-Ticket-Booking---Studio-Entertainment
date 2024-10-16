@@ -1,5 +1,4 @@
 import { currentUser } from '@/lib/auth';
-import { prisma } from '@/lib/prisma';
 import React from 'react'
 
 
@@ -15,7 +14,6 @@ const ProfilePage = async () => {
                     <div className='card-body'>
                         <h2>Name: {user?.name}</h2>
                         <p>Email: {user?.email}</p>
-                        <p>Phone: {user?.phone}</p>
                         <p>City: {user?.city}</p>
                         <p>Birth Date: {user?.birthDate as unknown as string}</p>
                         <p>Phone Number: {user?.phone ?? "Not Specified"}</p>
@@ -23,9 +21,6 @@ const ProfilePage = async () => {
                     </div>
                 </div>
             </div>
-
-
-
         </div>
     )
 }

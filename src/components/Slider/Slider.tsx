@@ -110,7 +110,7 @@ export default function Slider() {
                                 <div className={styles.details_container}>
                                     <p className={styles.banner_name}>{banner.name}</p>
                                     <div className='flex sm:gap-[50px] sm:flex-row flex-col'>
-                                        <Link className={styles.book_ticket_button} href={`/now-booking?m=${banner.name}`}>
+                                        <Link className={styles.book_ticket_button} href={`/booking/${banner.name}`}>
                                             <span><IoTicketOutline className='text-xl text-[#000]' /></span>
                                             <span>Book Tickets</span>
                                         </Link>

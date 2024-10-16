@@ -1,78 +1,72 @@
-"use client"
+'use client'
 
-import React, { useRef, useState, useEffect } from 'react';
-import styles from './MovieCard.module.css';
-import Image from 'next/image';
-import { MovieCardType } from '@/types/types';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import { useRouter } from 'next/navigation';
+import React from 'react'
+import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+import {
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+    CarouselNext,
+    CarouselPrevious,
+} from "@/components/ui/carousel"
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { MovieCardType } from '@/types/types'
+
+import styles from './MovieCard.module.css'
 
 interface MovieCardProps {
-    url: string;
-    movies: MovieCardType[];
+    movies: MovieCardType[]
 }
 
-const MovieCard: React.FC<MovieCardProps> = ({ url, movies }) => {
-    const router = useRouter();
-    const movieSliderRef = useRef<HTMLDivElement | null>(null);
-    const [visibleCards, setVisibleCards] = useState(4);
-    const cardCount = movies.length;
-
-    useEffect(() => {
-        const updateVisibleCards = () => {
-            const width = window.innerWidth;
-            if (width < 375) {
-                setVisibleCards(1);
-            } else if (width < 768) {
-                setVisibleCards(3);
-            } else {
-                setVisibleCards(4);
-            }
-        };
-
-        updateVisibleCards();
-        window.addEventListener('resize', updateVisibleCards);
-
-        return () => {
-            window.removeEventListener('resize', updateVisibleCards);
-        };
-    }, []);
-
-    const requiresScrolling = cardCount > visibleCards;
-
-    const scrollLeft = () => {
-        const container = movieSliderRef.current;
-        if (container) {
-            container.scrollLeft -= container.offsetWidth;
-        }
-    };
-
-    const scrollRight = () => {
-        const container = movieSliderRef.current;
-        if (container) {
-            const maxScroll = container.scrollWidth - container.offsetWidth;
-            const newPosition = Math.min(maxScroll, container.scrollLeft + container.offsetWidth);
-            container.scrollLeft = newPosition;
-        }
-    };
+export default function MovieCard({ movies }: MovieCardProps = { movies: [] }) {
+    const router = useRouter()
 
     return (
-        <div className={styles.slider_container}>
-            {requiresScrolling && <FaChevronLeft className={styles.left_arrow} onClick={scrollLeft} />}
-            <div id="movieSlider" className={styles.card_container} ref={movieSliderRef}>
-                {movies.map((movie) => (
-                    <div
-                        key={movie.id}
-                        className={styles.card}
-                        onClick={() => router.push(`city/${url}/${movie.id}`)}
-                    >
-                        <Image src={movie.imageUrl} alt={movie.title} className={styles.image} loading='lazy' />
-                    </div>
-                ))}
-            </div>
-            {requiresScrolling && <FaChevronRight className={styles.right_arrow} onClick={scrollRight} />}
+        <div className="w-full max-w-7xl mx-auto   mt-10">
+            <Carousel
+                opts={{
+                    align: "start",
+                }}
+                className="relative"
+            >
+                <CarouselContent >
+                    {movies.map((movie) => (
+                        <CarouselItem key={movie.id} className="pl-2 sm:pl-4 basis-1/2  sm:basis-1/3 md:basis-1/4">
+                            <div className="bg-navy-800 text-white rounded-lg overflow-hidden h-full flex flex-col">
+                                <div className="relative aspect-[2/3] w-full">
+                                    <Image
+                                        alt={movie.title}
+                                        className="object-cover rounded-lg cursor-pointer transition-all duration-300 hover:scale-105"
+                                        src={movie.imageUrl}
+                                        fill
+                                        sizes="(max-width: 375px) 100vw, (max-width: 768px) 33vw, 25vw"
+                                        onClick={() => router.push(`movie-details/${movie.slug}`)}
+                                    />
+                                    <Badge className="absolute top-2 right-2 bg-white text-black">
+                                        {movie.rating}
+                                    </Badge>
+                                </div>
+                                <div className='flex flex-col gap-2 p-4 flex-grow'>
+                                    <h2 className={`text-base sm:text-lg font-bold truncate ${styles.movie_title}`}>{movie.title}</h2>
+                                    <p className={`text-xs sm:text-sm text-gray-400 ${styles.movie_duration}`}>{movie.duration}</p>
+                                    <p className={`text-xs text-gray-500 ${styles.movie_genre}`}>{movie.genre}</p>
+                                    <div className="grid grid-cols-2 gap-2 mt-4 xl:grid-cols-3">
+                                        {movie.showtimes.map((showtime, index) => (
+                                            <Button key={index} variant="outline" className={`text-xs  bg-[#373737] border-transparent hover:border-[#efae26] hover:text-white ${showtime.isAvailable ? "hover:bg-[#373737]" : " bg-[#201f1fc3] hover:cursor-not-allowed hover:bg-[#201f1fc3] hover:border-transparent text-gray-400 hover:text-gray-400"}`}>
+                                                {showtime.time}
+                                            </Button>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </CarouselItem>
+                    ))}
+                </CarouselContent>
+                <CarouselPrevious className="absolute left-0 top-1/3 -translate-y-1/2 -translate-x-1/2 text-white bg-black/50 " />
+                <CarouselNext className="absolute right-0 top-1/3 -translate-y-1/2 translate-x-1/2 text-white bg-black/50 " />
+            </Carousel>
         </div>
-    );
-};
-
-export default MovieCard;
+    )
+}

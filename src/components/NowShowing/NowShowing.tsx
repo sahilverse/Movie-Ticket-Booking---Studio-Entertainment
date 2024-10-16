@@ -6,7 +6,7 @@ import rrrImage from "@/assets/MovieCard/rrr.jpg";
 import jokerImage from "@/assets/MovieCard/joker.jpg";
 import kalkiImage from "@/assets/MovieCard/kalki.jpg";
 import MovieCard from './card/MovieCard';
-
+import { showTime } from '@/types/types';
 // Function to generate an array of dates
 const getDateArray = () => {
     const dateArray = [];
@@ -35,38 +35,126 @@ const getDateArray = () => {
     return dateArray;
 };
 
+
+
 const NowShowing = () => {
     const dates = getDateArray();
     const [activeIndex, setActiveIndex] = useState(0);
 
-    // TODO: Redefine the moviesByDate
-    // State to hold the list of movies for each date
-    const moviesByDate = {
-        today: [
-            { id: 1, title: "RRR", imageUrl: rrrImage, duration: "2h 30m" },
-            { id: 2, title: "Joker", imageUrl: jokerImage, duration: "2h 30m" },
-            { id: 11, title: "RRR", imageUrl: rrrImage, duration: "2h 30m" },
-            { id: 12, title: "Joker", imageUrl: jokerImage, duration: "2h 30m" },
-            { id: 13, title: "RRR", imageUrl: rrrImage, duration: "2h 30m" },
-            { id: 14, title: "Joker", imageUrl: jokerImage, duration: "2h 30m" },
-        ],
-        tomorrow: [
-            { id: 3, title: "Kalki", imageUrl: kalkiImage, duration: "2h 30m" },
-            { id: 4, title: "Inception", imageUrl: rrrImage, duration: "2h 28m" },
-        ],
-        "3 Oct": [
-            { id: 5, title: "Avatar", imageUrl: jokerImage, duration: "2h 45m" },
-            { id: 6, title: "Titanic", imageUrl: kalkiImage, duration: "3h 15m" },
-        ],
-        "4 Oct": [
-            { id: 7, title: "Spider-Man", imageUrl: rrrImage, duration: "2h 15m" },
-            { id: 8, title: "Interstellar", imageUrl: jokerImage, duration: "2h 49m" },
-        ],
-        "5 Oct": [
-            { id: 9, title: "The Dark Knight", imageUrl: kalkiImage, duration: "2h 32m" },
-            { id: 10, title: "Shutter Island", imageUrl: rrrImage, duration: "2h 18m" },
-        ],
-    };
+    const showtimes: showTime[] = [
+        {
+            time: '07:15 AM',
+            isAvailable: false
+        },
+        {
+            time: '10:15 AM',
+            isAvailable: false
+        },
+        {
+            time: '01:15 PM',
+            isAvailable: false
+        },
+        {
+            time: '03:15 PM',
+            isAvailable: false
+        },
+        {
+            time: '06:15 PM',
+            isAvailable: true
+        },
+        {
+            time: '09:45 PM',
+            isAvailable: true
+        },
+    ]
+
+    const movies = [
+        {
+            id: '1',
+            title: 'RRR',
+            duration: '2 Hours',
+            genre: 'ACTION DRAMA THRILLER',
+            imageUrl: rrrImage,
+            showtimes,
+            rating: 'PG',
+            slug: 'rrr'
+        },
+        {
+            id: '2',
+            title: 'Kalki',
+            duration: '2 Hours',
+            genre: 'ACTION DRAMA THRILLER',
+            imageUrl: kalkiImage,
+            showtimes: [
+                {
+                    time: '07:15 AM',
+                    isAvailable: false
+                },
+                {
+                    time: '10:15 AM',
+                    isAvailable: true
+                },
+            ],
+            rating: 'PG',
+            slug: 'kalki'
+        },
+        {
+            id: '3',
+            title: 'Joker',
+            duration: '2 Hours 2 Mins',
+            genre: 'ACTION',
+            imageUrl: jokerImage,
+            showtimes: [
+                {
+                    time: '07:15 AM',
+                    isAvailable: true
+                },
+                {
+                    time: '10:15 AM',
+                    isAvailable: true
+                },
+                {
+                    time: '01:15 PM',
+                    isAvailable: true
+                },
+                {
+                    time: '03:15 PM',
+                    isAvailable: true
+                },
+                {
+                    time: '06:15 PM',
+                    isAvailable: true
+                },
+                {
+                    time: '09:45 PM',
+                    isAvailable: true
+                },
+            ],
+            rating: 'PG',
+            slug: 'joker'
+        },
+        {
+            id: '4',
+            title: 'Behuli From Meghauli',
+            duration: '2 Hours 9 Mins',
+            genre: 'SOCIAL, DRAMA',
+            imageUrl: jokerImage,
+            showtimes: [],
+            rating: 'U',
+            slug: 'behuli-from-meghauli'
+        },
+        {
+            id: '5',
+            title: 'Behuli From Meghauli',
+            duration: '2 Hours 9 Mins',
+            genre: 'SOCIAL, DRAMA',
+            imageUrl: jokerImage,
+            showtimes: [],
+            rating: 'U',
+            slug: 'behuli-from-meghauli'
+        },
+    ]
+
 
 
     return (
@@ -91,28 +179,28 @@ const NowShowing = () => {
             {/* Conditionally render MovieCard based on the active date */}
             {activeIndex === 0 && (
                 <div className="today">
-                    <MovieCard url="now-showing" movies={moviesByDate.today} />
+                    <MovieCard movies={movies} />
                 </div>
             )}
 
             {activeIndex === 1 && (
                 <div className="tomorrow">
-                    <MovieCard url="coming-soon" movies={moviesByDate.tomorrow} />
+                    <MovieCard movies={movies} />
                 </div>
             )}
             {activeIndex === 2 && (
                 <div className="3-oct">
-                    <MovieCard url="coming-soon" movies={moviesByDate["3 Oct"]} />
+                    <MovieCard movies={movies} />
                 </div>
             )}
             {activeIndex === 3 && (
                 <div className="4-oct">
-                    <MovieCard url="coming-soon" movies={moviesByDate["4 Oct"]} />
+                    <MovieCard movies={movies} />
                 </div>
             )}
             {activeIndex === 4 && (
                 <div className="5-oct">
-                    <MovieCard url="coming-soon" movies={moviesByDate["5 Oct"]} />
+                    <MovieCard movies={movies} />
                 </div>
             )}
         </>
