@@ -90,7 +90,7 @@ a{
 @media (min-width: 1281px) {
    
     .main_container{
-        @apply px-52 ;
+        @apply px-48 ;
         max-width: 1536px;
 
     }

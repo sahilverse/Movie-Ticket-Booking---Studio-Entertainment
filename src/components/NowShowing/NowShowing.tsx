@@ -71,7 +71,7 @@ const NowShowing = () => {
 
     return (
         <>
-            <div className={styles.container}>
+            <section className={styles.container}>
                 <p>Now Showing</p>
                 <div className={styles.date_container_wrapper}>
                     <div className={styles.date_container}>
@@ -86,7 +86,7 @@ const NowShowing = () => {
                         ))}
                     </div>
                 </div>
-            </div>
+            </section>
 
             {/* Conditionally render MovieCard based on the active date */}
             {activeIndex === 0 && (

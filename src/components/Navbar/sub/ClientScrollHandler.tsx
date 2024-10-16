@@ -15,9 +15,9 @@ const ClientScrollHandler = ({ children, styles }: ClientScrollHandlerProps) => 
 
     return (
 
-        <div className={`${isScroll && styles.scrolled}`}>
+        <header className={`${isScroll && styles.scrolled}`}>
             {children}
-        </div>
+        </header>
     )
 
 

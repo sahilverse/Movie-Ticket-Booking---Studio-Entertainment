@@ -28,7 +28,8 @@
     @apply  font-medium text-white pb-2 hover:border-b-[1px] px-1;
     font-family: var(--poppins-font);
     letter-spacing: 2px;
-    font-size: 0.85rem;
+    font-size: 10px;
+    text-transform: uppercase
     /* transition: all 0.3s; */
 }
 .activeLink{

@@ -9,7 +9,7 @@ import Slider from "@/components/slider/Slider";
 export default function Home() {
 
   return (
-    <div className="main_container mt-8">
+    <main className="main_container mt-8">
 
 
       <Slider />
@@ -21,6 +21,6 @@ export default function Home() {
 
 
 
-    </div>
+    </main>
   );
 }

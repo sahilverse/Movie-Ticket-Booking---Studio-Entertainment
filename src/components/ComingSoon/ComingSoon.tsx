@@ -26,7 +26,7 @@ const ComingSoon = () => {
 
     ]);
     return (
-        <div className={styles.container}>
+        <section className={styles.container}>
             <p>Coming Soon</p>
 
             <div className={styles.card_container}>
@@ -43,7 +43,7 @@ const ComingSoon = () => {
             </div>
 
 
-        </div>
+        </section>
     )
 }
 

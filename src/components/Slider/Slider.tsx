@@ -22,7 +22,7 @@ import Link from 'next/link';
 import TrailerPopup from '../popups/trailer/TrailerPopup';
 
 // import required modules
-import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
+import { Navigation, Pagination, Mousewheel, Keyboard, Autoplay } from 'swiper/modules';
 
 interface Banner {
     id: number | string;
@@ -80,14 +80,18 @@ export default function Slider() {
     }, []);
 
     return (
-        <>
+        <section>
             <Swiper
                 cssMode={true}
                 navigation={true}
                 pagination={true}
                 mousewheel={true}
                 keyboard={true}
-                modules={[Navigation, Pagination, Mousewheel, Keyboard]}
+                autoplay={{
+                    delay: 5000,
+                    disableOnInteraction: true,
+                }}
+                modules={[Navigation, Pagination, Mousewheel, Keyboard, Autoplay]}
                 className="mySwiper"
             >
                 {/* Image sliders */}
@@ -129,6 +133,6 @@ export default function Slider() {
             {
                 showTrailer && <TrailerPopup src={currentTrailer} setShowTrailer={setShowTrailer} />
             }
-        </>
+        </section>
     );
 }

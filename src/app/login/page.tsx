@@ -8,14 +8,14 @@ const LoginPage = async () => {
 
 
     return (
-        <div className='main_container mb-8'>
+        <main className='main_container mb-8'>
             <div className={styles.container}>
                 <FormImage styles={styles} />
                 <div className={styles.form_container}>
                     <LoginForm styles={styles} />
                 </div>
             </div>
-        </div>
+        </main>
     )
 }
 
