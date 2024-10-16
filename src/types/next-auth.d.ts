@@ -21,15 +21,13 @@ declare module "next-auth" {
 
 declare module "next-auth/jwt" {
     interface JWT {
-
-        sub: string;
+        id: string;
         name: string;
         email: string;
         phone?: string;
         city: string;
         birthDate?: string;
         gender?: string;
-
 
     }
 }

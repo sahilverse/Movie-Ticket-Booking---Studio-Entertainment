@@ -3,6 +3,9 @@ import authConfig from "./auth.config"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import { prisma } from "./lib/prisma";
 import { getUserByEmail } from "./lib/utils";
+import { User } from "@prisma/client";
+
+
 
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
@@ -23,8 +26,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     callbacks: {
         async session({ session, token }) {
 
+
             if (session.user && token) {
-                session.user.id = token.sub;
+                session.user.id = token.id;
                 session.user.phone = token.phone;
                 session.user.city = token.city;
                 session.user.birthDate = token.birthDate;
@@ -33,17 +37,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             return session;
         },
 
-        async jwt({ token }) {
-            if (token) {
-                const { email } = token as { email: string };
-                const user = await getUserByEmail(email);
-
-                if (user) {
-                    token.city = user.city;
-                    token.phone = user.phone ?? undefined;
-                    token.birthDate = user.birthDate ? user.birthDate.toISOString() : undefined;
-                    token.gender = user.gender ?? undefined;
-                }
+        async jwt({ token, user }) {
+            if (user) {
+                const { id, city, phone, birthDate, gender } = user as User;
+                token.id = id;
+                token.city = city;
+                token.phone = phone ?? undefined;
+                token.birthDate = birthDate?.toISOString() ?? undefined;
+                token.gender = gender ?? undefined;
             }
 
             return token;
