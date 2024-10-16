@@ -1,13 +1,14 @@
 "use client"
 import Link from 'next/link';
-import React, { use, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
 
 import { logout } from '@/actions/login';
 import useClickOutside from '@/hooks/useClickOutside';
 import useScrollHandler from '@/hooks/useScrollHandler';
 import { TStyle } from '@/types/types';
-import { set } from 'zod';
+
+import toast from 'react-hot-toast';
 
 
 
@@ -17,7 +18,7 @@ const UserDropdown = ({ styles }: { styles: TStyle }) => {
     const dropdownRef = React.useRef<HTMLDivElement | null>(null);
 
     const handleDropdown = () => {
-        setDropdown(!dropdown);
+        setDropdown(prev => !prev);
     };
 
     const isScroll = useScrollHandler();
@@ -42,7 +43,11 @@ const UserDropdown = ({ styles }: { styles: TStyle }) => {
                     >
                         Profile
                     </Link>
-                    <button onClick={async () => await logout()} className='text-sm whitespace-nowrap px-6  py-2 hover:bg-[#ffffff45] rounded-md transition-all duration-300 pr-28'>Logout</button>
+                    <button onClick={async () => {
+                        const toastId = toast.loading("Logging Out...");
+                        await logout();
+                        toast.dismiss(toastId);
+                    }} className='text-sm whitespace-nowrap px-6  py-2 hover:bg-[#ffffff45] rounded-md transition-all duration-300 pr-28'>Logout</button>
                 </div >
             )}
         </div >

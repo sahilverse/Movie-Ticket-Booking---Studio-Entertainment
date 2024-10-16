@@ -138,10 +138,12 @@
         text-transform: uppercase;
         color: var(--white);
         transition: all 0.3s;
+        padding-bottom: 5px;
     }
 
-    
 
+
+   
   
 
 
