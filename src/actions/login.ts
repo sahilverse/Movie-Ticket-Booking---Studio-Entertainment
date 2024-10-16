@@ -49,6 +49,7 @@ export const logout = async () => {
         { redirectTo: DEFAULT_LOGIN_REDIRECT }
     );
 
+
 }
 
 
