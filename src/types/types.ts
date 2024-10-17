@@ -12,7 +12,7 @@ export interface MovieCardType {
     releaseDate?: string;
     slug?: string;
     genre: string;
-    showtimes: showTime[];
+    showtimes?: showTime[];
     rating: string
 }
 
