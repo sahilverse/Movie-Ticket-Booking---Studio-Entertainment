@@ -20,7 +20,7 @@ import { motion } from 'framer-motion'
 import { fadeInAnimationVariants } from '@/lib/motion'
 
 interface MovieCardProps {
-    movies: MovieCardType[]
+    movies?: MovieCardType[]
 }
 
 
@@ -37,7 +37,7 @@ export default function MovieCard({ movies }: MovieCardProps = { movies: [] }) {
                 className="relative"
             >
                 <CarouselContent >
-                    {movies.map((movie, index) => (
+                    {movies?.map((movie, index) => (
 
                         <CarouselItem key={movie.id} className="pl-2 sm:pl-4 basis-1/2  sm:basis-1/3 md:basis-1/4">
                             <motion.div className="bg-navy-800 text-white rounded-lg overflow-hidden h-full flex flex-col"

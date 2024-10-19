@@ -35,7 +35,7 @@ const Footer = () => {
                     <div className={styles.links}>
                         <Link href='/booking'>Booking</Link>
                         <Link href='/about'>About Us</Link>
-                        <Link href='/membership'>Membership - Terms</Link>
+                        <Link href='/tnc'>Terms and Conditions</Link>
                         <Link href='/privacy-policy'>Privacy Policy</Link>
                     </div>
 

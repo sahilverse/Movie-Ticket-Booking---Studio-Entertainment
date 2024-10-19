@@ -29,7 +29,7 @@ export default auth(async (req) => {
         return Response.redirect(new URL("/login", nextUrl));
     }
 
-    return; // Allow access to public routes
+    return;
 });
 
 export const config = {

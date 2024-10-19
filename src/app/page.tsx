@@ -16,11 +16,6 @@ export default function Home() {
 
       <NowShowing />
 
-
-
-
-
-      {/* TODO:  */}
       <ComingSoon />
 
 

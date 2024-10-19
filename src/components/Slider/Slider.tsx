@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -33,8 +33,8 @@ interface Banner {
 
 export default function Slider() {
 
-    const [showTrailer, setShowTrailer] = useState<boolean>(false);
-    const [currentTrailer, setCurrentTrailer] = useState<string>('');
+    const [showTrailer, setShowTrailer] = useState(false);
+    const [currentTrailer, setCurrentTrailer] = useState('');
 
     const openTrailer = (trailerUrl: string) => {
         if (trailerUrl) {
@@ -64,7 +64,7 @@ export default function Slider() {
     });
 
     // hook to handle window dimensions
-    React.useEffect(() => {
+    useEffect(() => {
         const handleResize = () => {
             setWindowSize({
                 width: window.innerWidth,
