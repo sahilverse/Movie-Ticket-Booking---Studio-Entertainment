@@ -23,7 +23,7 @@ model User {
   city      String    @default("Kathmandu")
   bookings  Booking[]
   birthDate DateTime?
-  phone     String    @unique
+  phone     String
   gender    Gender?
 
   emailVerified DateTime?
