@@ -29,9 +29,9 @@ const PersonalDetails = ({ user }: { user: User }) => {
                 <CardContent className="space-y-6">
                     <form className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-2">
-                            <Label htmlFor="firstName" className="text-white">Full Name</Label>
+                            <Label htmlFor="fullName" className="text-white">Full Name</Label>
                             <Input
-                                id="firstName"
+                                id="fullName"
                                 defaultValue={user?.name ?? ""}
                                 disabled={!isEditing}
                                 className="bg-[#333333] border-gray-700 text-white"
@@ -75,8 +75,8 @@ const PersonalDetails = ({ user }: { user: User }) => {
                                     <SelectValue placeholder={user?.gender ?? "Select gender"} />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="male">Male</SelectItem>
-                                    <SelectItem value="female">Female</SelectItem>
+                                    <SelectItem value="MALE">Male</SelectItem>
+                                    <SelectItem value="FEMALE">Female</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>

@@ -9,11 +9,13 @@ import { logout } from '@/actions/login';
 import toast from 'react-hot-toast';
 import { usePathname } from 'next/navigation';
 import { User } from '@prisma/client';
+import LocationPopup from '@/components/popups/location/LocationPopup';
 
 const MobileNav = ({ styles, user }: { styles: TStyle, user: User }) => {
     const [isHamOpen, setIsHamOpen] = useState(false);
     const mobileNavRef = useRef<HTMLDivElement | null>(null);
     const pathname = usePathname();
+    const [showLocationPopup, setShowLocationPopup] = useState(false);
 
 
     useClickOutside(mobileNavRef, () => setIsHamOpen(false));
@@ -40,7 +42,7 @@ const MobileNav = ({ styles, user }: { styles: TStyle, user: User }) => {
 
     return (
         <div className={`flex gap-4 items-center relative ${styles.mobile_only}`}>
-            <FaLocationDot className='text-[21px]' onClick={() => setIsHamOpen(true)} />
+            <FaLocationDot className='text-[21px]' onClick={() => setShowLocationPopup(true)} />
             <Link href={user ? "/profile" : "/login"}>
                 <FaUser className='text-[21px]' />
             </Link>
@@ -80,6 +82,7 @@ const MobileNav = ({ styles, user }: { styles: TStyle, user: User }) => {
                     )}
                 </ul>
             </nav>
+            {showLocationPopup && <LocationPopup setShowLocationPopup={setShowLocationPopup} />}
         </div>
     );
 };

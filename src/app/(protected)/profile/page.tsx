@@ -1,9 +1,7 @@
-
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Avatar } from "@/components/ui/avatar"
 import avatarPlaceholder from "@/assets/Profile/placeholder.jpg"
 import Image from "next/image"
-
 import { currentUser } from "@/lib/auth"
 import PersonalDetails from "@/components/client/profile/PersonalDetails"
 import { User } from "@prisma/client"
@@ -14,7 +12,6 @@ import Security from "@/components/client/profile/Security"
 
 export default async function Profile() {
     const user: User = await currentUser();
-    console.log(user);
 
     return (
         <main className=" text-white main_container mt-14 mb-7">
