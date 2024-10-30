@@ -1,4 +1,5 @@
-import { formatDate } from "@/lib/utils";
+
+import { User } from "@prisma/client";
 import { useSession } from "next-auth/react";
 
 
@@ -8,14 +9,8 @@ export const useCurrentUser = () => {
 
     const isLoading = status === "loading";
 
-    if (session) {
 
-        if (session.user.birthDate) {
-            session.user.birthDate = formatDate(session.user.birthDate);
-        }
-    }
-
-    return { user: session?.user, isLoading };
+    return { user: session?.user as unknown as User, isLoading };
 
 
 }

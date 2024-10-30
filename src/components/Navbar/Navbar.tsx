@@ -7,11 +7,12 @@ import UserAuthSection from './sub/UserAuthSection';
 import MobileNav from './sub/MobileNav';
 import ClientScrollHandler from './sub/ClientScrollHandler';
 import { currentUser } from '@/lib/auth';
+import { User } from '@prisma/client';
 
 
 const Navbar = async () => {
 
-    const user = await currentUser();
+    const user: User = await currentUser();
 
     return (
         <ClientScrollHandler styles={styles}>

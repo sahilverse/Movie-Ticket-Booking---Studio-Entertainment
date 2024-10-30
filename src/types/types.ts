@@ -16,7 +16,7 @@ export interface MovieCardType {
     rating: string
 }
 
-export type TUser = User | undefined;
+
 
 export interface showTime {
     time: string;

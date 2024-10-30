@@ -3,13 +3,14 @@ import React, { useState, useRef, useEffect } from 'react';
 import { RxHamburgerMenu, RxCross2 } from "react-icons/rx";
 import Link from 'next/link';
 import { FaUser, FaLocationDot } from "react-icons/fa6";
-import { TStyle, TUser } from '@/types/types';
+import { TStyle } from '@/types/types';
 import useClickOutside from '@/hooks/useClickOutside';
 import { logout } from '@/actions/login';
 import toast from 'react-hot-toast';
 import { usePathname } from 'next/navigation';
+import { User } from '@prisma/client';
 
-const MobileNav = ({ styles, user }: { styles: TStyle, user: TUser }) => {
+const MobileNav = ({ styles, user }: { styles: TStyle, user: User }) => {
     const [isHamOpen, setIsHamOpen] = useState(false);
     const mobileNavRef = useRef<HTMLDivElement | null>(null);
     const pathname = usePathname();

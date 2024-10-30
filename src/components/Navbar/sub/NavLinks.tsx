@@ -1,11 +1,12 @@
 "use client";
 
-import { TStyle, TUser } from '@/types/types';
+import { TStyle } from '@/types/types';
+import { User } from '@prisma/client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React from 'react';
 
-const NavLinks = ({ styles, user }: { styles: TStyle, user: TUser }) => {
+const NavLinks = ({ styles, user }: { styles: TStyle, user: User }) => {
     const pathname = usePathname();
 
 
