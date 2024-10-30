@@ -20,12 +20,12 @@ const RegisterForm = ({ styles }: { styles: TStyle }) => {
     const [showFormError, SetShowFormError] = useState<boolean>(false);
     const { register, handleSubmit, formState: { errors }, setError } = useForm<z.infer<typeof registerSchema>>({
         resolver: zodResolver(registerSchema),
-        mode: "onSubmit",
-        reValidateMode: "onSubmit",
         defaultValues: {
             email: "",
             password: "",
             username: "",
+            phone: "",
+            date_of_birth: "",
         }
     });
 
@@ -55,17 +55,20 @@ const RegisterForm = ({ styles }: { styles: TStyle }) => {
             <div className={styles.input_fields}>
                 {showFormError && <FormError message={errors.root?.message} setCloseError={SetShowFormError} />}
                 <div>
-                    <InputField type="text" id="username" placeholder="Username" styles={styles} disabled={isLoading} {...register("username")} autoComplete='username' />
-                    <ErrorText styles={styles} message={errors.username?.message} />
+                    <InputField type="text" id="username" placeholder="Username*" styles={styles} disabled={isLoading} {...register("username")} autoComplete='username' className={`${errors.username && "text-red-500"}`} />
                 </div>
 
                 <div>
-                    <InputField type="text" id="email" placeholder="Email" styles={styles} disabled={isLoading}  {...register("email")} autoComplete='email' />
-                    <ErrorText styles={styles} message={errors.email?.message} />
+                    <InputField type="text" id="email" placeholder="Email*" styles={styles} disabled={isLoading}  {...register("email")} autoComplete='email' className={`${errors.email && "text-red-500"}`} />
                 </div>
                 <div>
-                    <InputField type="password" id="password" placeholder="Password" styles={styles} disabled={isLoading} {...register("password")} autoComplete='password' />
-                    <ErrorText styles={styles} message={errors.password?.message} />
+                    <InputField type="text" id="phone" placeholder="Mobile*" styles={styles} disabled={isLoading} {...register("phone")} autoComplete='phone' className={`${errors.phone && "text-red-500"}`} />
+                </div>
+                <div>
+                    <InputField type="date" id="date_of_birth" styles={styles} disabled={isLoading} {...register("date_of_birth")} className={`${errors.date_of_birth && "text-red-500"}`} />
+                </div>
+                <div>
+                    <InputField type="password" id="password" placeholder="Password (min 6 characters)*" styles={styles} disabled={isLoading} {...register("password")} autoComplete='new-password' className={`${errors.password && "text-red-500"}`} />
                 </div>
                 <div className={styles.btn_container}>
                     <LoginBtn type="Sign Up" styles={styles} disabled={isLoading} />

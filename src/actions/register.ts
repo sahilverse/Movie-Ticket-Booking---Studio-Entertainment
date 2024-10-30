@@ -12,7 +12,7 @@ export const registerCredentials = async (data: z.infer<typeof registerSchema>) 
     const validatedCredentials = registerSchema.safeParse(data);
     if (!validatedCredentials.success) return { error: "Invalid Credentials" };
 
-    const { email, password, username } = validatedCredentials.data;
+    const { email, password, username, phone, date_of_birth } = validatedCredentials.data;
     const existingUser = await getUserByEmail(email);
 
 
@@ -28,12 +28,21 @@ export const registerCredentials = async (data: z.infer<typeof registerSchema>) 
         }
     }
 
+    const existingPhone = await prisma.user.findFirst({ where: { phone } });
+
+    if (existingPhone) {
+        return { error: "Phone number already exists" };
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
+
     await prisma.user.create({
         data: {
             email,
             password: hashedPassword,
             name: username,
+            phone,
+            birthDate: new Date(date_of_birth),
         },
     });
     await signIn("credentials", { email, password, redirectTo: DEFAULT_LOGIN_REDIRECT });

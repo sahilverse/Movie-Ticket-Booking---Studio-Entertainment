@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function TermsAndConditions() {
     return (
-        <main className="main_container py-8 max-w-3xl">
+        <main className="main_container  max-w-3xl mt-10">
             <h1 className="text-3xl font-bold mb-6">Terms & Conditions</h1>
             <p className="mb-4">
                 When accessing and using the website and services supplied by Studio Entertainment, the users agree to be bound by the Terms and Conditions. The users need to be updated with our Terms and Conditions.
