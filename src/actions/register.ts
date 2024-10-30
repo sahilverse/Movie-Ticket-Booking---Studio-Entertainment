@@ -1,6 +1,6 @@
 "use server";
 
-import { signIn } from "@/auth";
+import { signIn } from "@/app/api/auth/[...nextauth]/auth";
 import { registerSchema } from "@/lib/zod";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { prisma } from "@/lib/prisma";

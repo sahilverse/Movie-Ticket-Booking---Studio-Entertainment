@@ -1,9 +1,11 @@
 import Google from "next-auth/providers/google"
 import Credentials from "next-auth/providers/credentials"
 import { type NextAuthConfig } from "next-auth"
-import { signInSchema } from "./lib/zod"
+
 import bcrypt from "bcryptjs"
-import { getUserByEmail } from "./lib/utils"
+import { signInSchema } from "@/lib/zod"
+import { getUserByEmail } from "@/lib/utils"
+
 
 export default {
     providers: [
