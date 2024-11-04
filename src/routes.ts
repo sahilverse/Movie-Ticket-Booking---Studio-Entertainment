@@ -4,7 +4,7 @@ export const privateRoutes = [
     "/checkout",
     "/my-bookings",
     "/my-tickets",
-    "/booking/:slug"
+    "/booking/:slug",
 
 
 ]
@@ -13,6 +13,7 @@ export const authRoutes = [
     "/register",
     "/signup",
     "/error",
+    "/forgot-password",
 ];
 
 export const apiAuthPrefix = "/api/auth";

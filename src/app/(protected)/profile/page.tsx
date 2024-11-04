@@ -20,7 +20,14 @@ export default async function Profile() {
                     </Avatar>
                     <div className="text-center md:text-left">
                         <h1 className="text-2xl font-bold text-white tracking-wider">{user?.name}</h1>
-                        <p className="text-gray-400 tracking-wide">Member since {new Date(user.createdAt).toLocaleDateString()}</p>
+                        <p className="text-gray-400 tracking-wide">Member since <span>
+                            {new Date(user.createdAt).toLocaleString('en-US', {
+                                year: 'numeric',
+                                month: 'short',
+                                day: '2-digit'
+                            })}
+
+                        </span></p>
                     </div>
                 </div>
 
