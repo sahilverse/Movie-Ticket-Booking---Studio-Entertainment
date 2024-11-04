@@ -7,9 +7,6 @@ import PersonalDetails from "@/components/client/profile/PersonalDetails"
 import { User } from "@prisma/client"
 import Security from "@/components/client/profile/Security"
 
-
-
-
 export default async function Profile() {
     const user: User = await currentUser();
 
@@ -22,8 +19,8 @@ export default async function Profile() {
                         <Image src={avatarPlaceholder} alt="Profile picture" priority />
                     </Avatar>
                     <div className="text-center md:text-left">
-                        <h1 className="text-2xl font-bold text-white">{user?.name}</h1>
-                        <p className="text-gray-400">Member</p>
+                        <h1 className="text-2xl font-bold text-white tracking-wider">{user?.name}</h1>
+                        <p className="text-gray-400 tracking-wide">Member since {new Date(user.createdAt).toLocaleDateString()}</p>
                     </div>
                 </div>
 

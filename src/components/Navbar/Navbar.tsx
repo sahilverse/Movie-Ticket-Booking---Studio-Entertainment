@@ -2,7 +2,6 @@ import React from 'react';
 import styles from './Navbar.module.css';
 import Logo from './sub/Logo';
 import NavLinks from './sub/NavLinks';
-import LocationSelector from './sub/LocationSelector';
 import UserAuthSection from './sub/UserAuthSection';
 import MobileNav from './sub/MobileNav';
 import ClientScrollHandler from './sub/ClientScrollHandler';
@@ -21,7 +20,7 @@ const Navbar = async () => {
                     <Logo />
                     <NavLinks styles={styles} user={user} />
                     <div className='flex items-center gap-8 '>
-                        <LocationSelector styles={styles} />
+
                         <UserAuthSection styles={styles} />
                     </div>
                     <MobileNav styles={styles} user={user} />

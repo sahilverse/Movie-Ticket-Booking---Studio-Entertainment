@@ -43,6 +43,7 @@ export const registerCredentials = async (data: z.infer<typeof registerSchema>) 
             name: username,
             phone,
             birthDate: new Date(date_of_birth),
+            emailVerified: new Date(),
         },
     });
     await signIn("credentials", { email, password, redirectTo: DEFAULT_LOGIN_REDIRECT });

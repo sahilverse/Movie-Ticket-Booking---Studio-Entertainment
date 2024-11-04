@@ -12,6 +12,7 @@ declare module "next-auth" {
             city: string;
             birthDate?: string;
             gender?: string;
+            createdAt?: string;
         } & DefaultSession["user"];
     }
 
@@ -26,6 +27,7 @@ declare module "next-auth/jwt" {
         city: string;
         birthDate?: string;
         gender?: string;
+        createdAt?: string;
 
     }
 }

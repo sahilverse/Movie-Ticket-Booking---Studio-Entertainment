@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 
 export default function PrivacyPolicy() {
+
     return (
         <div className="min-h-screen py-8">
             <div className="container mx-auto px-4 max-w-4xl">

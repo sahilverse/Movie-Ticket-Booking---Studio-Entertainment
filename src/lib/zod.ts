@@ -1,4 +1,5 @@
-import { object, string } from "zod"
+import { object, string, z } from "zod"
+import { Gender } from "@prisma/client";
 
 export const signInSchema = object({
     email: string({ required_error: "Email is required" })
@@ -23,3 +24,11 @@ export const registerSchema = object({
         .max(10, "Phone number must be less than 10 characters"),
     date_of_birth: string({ required_error: "Date of Birth is required" }),
 });
+
+
+export const userDetailsSchema = object({
+    userID: string({ required_error: "User ID is required" }),
+    gender: z.enum([Gender.Male, Gender.Female]).nullable(),
+
+}).merge(registerSchema).omit({ password: true, email: true })
+export const passwordSchema = object({}).merge(registerSchema).pick({ password: true })

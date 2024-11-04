@@ -1,17 +1,88 @@
-"use client"
-import React, { useState } from 'react'
+"use client";
+import React, { useState, useTransition } from 'react'
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Label } from '@radix-ui/react-label';
 import { TabsContent } from '@radix-ui/react-tabs';
 import { Save, Pencil } from 'lucide-react';
 import { Input } from '@/components/ui/input';
-import { User } from '@prisma/client';
+import { User, Gender } from '@prisma/client';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-
+import { updateUserDetails } from '@/actions/userDetails';
+import { useForm } from 'react-hook-form';
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { userDetailsSchema } from '@/lib/zod';
+import toast from 'react-hot-toast';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 const PersonalDetails = ({ user }: { user: User }) => {
     const [isEditing, setIsEditing] = useState(false);
+    const [isPending, startTransition] = useTransition();
+    const { data: session, update } = useSession();
+    const router = useRouter();
+
+
+    // Define initial values
+    const initialValues = {
+        userID: user?.id,
+        username: user?.name,
+        phone: user?.phone ?? "Not Provided",
+        date_of_birth: user?.birthDate ? new Date(user.birthDate).toISOString().split('T')[0] : "",
+        gender: user.gender ?? null
+    };
+
+    const { register, handleSubmit, formState: { errors }, setError, setValue } = useForm<z.infer<typeof userDetailsSchema>>({
+        resolver: zodResolver(userDetailsSchema),
+        defaultValues: initialValues
+    });
+
+    const onSubmit = async (data: z.infer<typeof userDetailsSchema>) => {
+        // Check if there are any changes by comparing current and initial values
+        const hasChanges = Object.keys(initialValues).some((key) => initialValues[key as keyof typeof initialValues] !== data[key as keyof typeof data]);
+        if (!hasChanges) {
+            return
+        }
+        const loadingToastId = toast.loading("Updating Details...");
+        startTransition(async () => {
+            try {
+                const response = await updateUserDetails(data);
+                if (response?.error) {
+                    if (typeof response.error === 'object' && 'phone' in response.error) {
+                        setError("phone", { message: response.error.phone });
+                    }
+                    toast.error("An error occurred! Please try again");
+                    return;
+                } else {
+
+                    if (response?.user && session?.user) {
+                        const updatedUser = response.user;
+                        await update({
+                            user: {
+                                ...session?.user,
+                                name: updatedUser.name,
+                                phone: updatedUser.phone,
+                                birthDate: updatedUser.birthDate,
+                                gender: updatedUser.gender
+                            }
+                        });
+
+                        toast.dismiss(loadingToastId);
+                        toast.success("Details Updated Successfully");
+                        setIsEditing(!isEditing);
+                        router.refresh();
+
+                    }
+                }
+            } catch (error) {
+                toast.error("An error occurred! Please try again");
+            } finally {
+                toast.dismiss(loadingToastId);
+            }
+        });
+    }
+
     return (
         <TabsContent value="personal">
             <Card className="bg-[#222222] border-gray-800">
@@ -27,15 +98,20 @@ const PersonalDetails = ({ user }: { user: User }) => {
                     </Button>
                 </CardHeader>
                 <CardContent className="space-y-6">
-                    <form className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <form className="grid grid-cols-1 md:grid-cols-2 gap-6"
+                        id="personalDetailsForm"
+                        onSubmit={handleSubmit(onSubmit)}
+                    >
                         <div className="space-y-2">
-                            <Label htmlFor="fullName" className="text-white">Full Name</Label>
+                            <Input type="hidden" value={user.id} {...register("userID")} />
+                            <Label htmlFor="username" className="text-white">Full Name</Label>
                             <Input
-                                id="fullName"
-                                defaultValue={user?.name ?? ""}
+                                id="username"
                                 disabled={!isEditing}
                                 className="bg-[#333333] border-gray-700 text-white"
+                                {...register("username")}
                             />
+                            {errors.username && <p className="text-red-500 text-xs">{errors.username.message}</p>}
                         </div>
 
                         <div className="space-y-2">
@@ -44,7 +120,7 @@ const PersonalDetails = ({ user }: { user: User }) => {
                                 id="email"
                                 type="email"
                                 defaultValue={user?.email ?? ""}
-                                disabled={!isEditing}
+                                disabled
                                 className="bg-[#333333] border-gray-700 text-white"
                             />
                         </div>
@@ -53,38 +129,44 @@ const PersonalDetails = ({ user }: { user: User }) => {
                             <Input
                                 id="phone"
                                 type="tel"
-                                defaultValue={user?.phone ?? "Not provided"}
                                 disabled={!isEditing}
                                 className="bg-[#333333] border-gray-700 text-white"
+                                {...register("phone")}
                             />
+                            {errors.phone && <p className="text-red-500 text-xs">{errors.phone.message}</p>}
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="dob" className="text-white">Date of Birth</Label>
+                            <Label htmlFor="date_of_birth" className="text-white">Date of Birth</Label>
                             <Input
-                                id="dob"
+                                id="date_of_birth"
                                 type="date"
-                                defaultValue={user?.birthDate ? new Date(user.birthDate).toISOString().split('T')[0] : ""}
                                 disabled={!isEditing}
                                 className="bg-[#333333] border-gray-700 text-white"
+                                {...register("date_of_birth")}
                             />
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="gender" className="text-white">Gender</Label>
-                            <Select disabled={!isEditing}>
+                            <Select
+                                disabled={!isEditing}
+                                onValueChange={(value) => setValue("gender", value as Gender)}
+                            >
                                 <SelectTrigger className="bg-[#333333] border-gray-700 text-white">
-                                    <SelectValue placeholder={user?.gender ?? "Select gender"} />
+                                    <SelectValue placeholder={user.gender ?? "Select your gender"} />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="MALE">Male</SelectItem>
-                                    <SelectItem value="FEMALE">Female</SelectItem>
+                                    <SelectItem value={Gender.Male}>Male</SelectItem>
+                                    <SelectItem value={Gender.Female}>Female</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
                     </form>
-
                     {isEditing && (
-                        <Button className="w-full bg-[#efae26] hover:bg-[#efae26]/90 text-white">
-                            Save Changes
+                        <Button className="w-full bg-[#efae26] hover:bg-[#efae26]/90 text-white " type="submit"
+                            form='personalDetailsForm'
+                            disabled={isPending}
+                        >
+                            {isPending ? "Updating..." : "Save Changes"}
                         </Button>
                     )}
                 </CardContent>

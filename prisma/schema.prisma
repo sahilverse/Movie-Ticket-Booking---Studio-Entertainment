@@ -14,13 +14,17 @@ model Admin {
   password String
 }
 
+enum Gender {
+  Male
+  Female
+}
+
 model User {
   id        String    @id @default(auto()) @map("_id") @db.ObjectId
   name      String
   email     String    @unique
   password  String?
   image     String?
-  city      String    @default("Kathmandu")
   bookings  Booking[]
   birthDate DateTime?
   phone     String?
@@ -129,9 +133,4 @@ model MovieSchedule {
   screen   Screen   @relation(fields: [screenId], references: [id])
 
   seatSchedules SeatSchedule[]
-}
-
-enum Gender {
-  MALE
-  FEMALE
 }

@@ -1,5 +1,5 @@
 import { StaticImageData } from 'next/image';
-import { User } from 'next-auth';
+
 
 
 export type TStyle = Record<string, string>;

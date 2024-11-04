@@ -42,6 +42,12 @@ export default function About() {
             details: ["info@studioentertainment.com", "booking@studioentertainment.com"]
         }
     ]
+
+    const schedules = [
+        { day: "Monday - Thursday", hours: "9:00 AM - 11:00 PM" },
+        { day: "Friday - Sunday", hours: "9:00 AM - 12:00 AM" },
+        { day: "Public Holidays", hours: "9:00 AM - 12:00 AM" }
+    ]
     return (
         <div className="min-h-screen  text-white main_container mt-10">
             {/* Hero Section */}
@@ -123,11 +129,7 @@ export default function About() {
                     <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-center">Opening Hours</h2>
                     <div className="max-w-md mx-auto bg-gray-800 rounded-lg p-6 sm:p-8">
                         <div className="space-y-3 text-sm sm:text-base text-gray-300">
-                            {[
-                                { day: "Monday - Thursday", hours: "9:00 AM - 11:00 PM" },
-                                { day: "Friday - Sunday", hours: "9:00 AM - 12:00 AM" },
-                                { day: "Public Holidays", hours: "9:00 AM - 12:00 AM" }
-                            ].map((schedule, index) => (
+                            {schedules.map((schedule, index) => (
                                 <div key={index} className="flex justify-between items-center">
                                     <span className="font-medium">{schedule.day}</span>
                                     <span>{schedule.hours}</span>

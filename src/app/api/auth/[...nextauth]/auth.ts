@@ -28,23 +28,31 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             if (session.user && token) {
                 session.user.id = token.id;
                 session.user.phone = token.phone;
-                session.user.city = token.city;
                 session.user.birthDate = token.birthDate;
                 session.user.gender = token.gender;
+                session.user.createdAt = token.createdAt;
             }
+
             return session;
         },
 
-        async jwt({ token, user }) {
+        async jwt({ token, user, trigger, session }) {
             if (user) {
-                const { id, city, phone, birthDate, gender } = user as User;
+
+                const { id, phone, birthDate, gender, createdAt } = user as User;
                 token.id = id;
-                token.city = city;
                 token.phone = phone ?? undefined;
                 token.birthDate = birthDate?.toISOString() ?? undefined;
                 token.gender = gender ?? undefined;
+                token.createdAt = createdAt?.toISOString() ?? undefined
             }
 
+            if (trigger === "update" && session?.user) {
+                token.name = session.user.name;
+                token.phone = session.user.phone;
+                token.birthDate = session.user.birthDate;
+                token.gender = session.user.gender;
+            }
             return token;
         },
 

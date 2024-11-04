@@ -3,8 +3,6 @@ import { User } from "@prisma/client";
 
 
 
-
-
 export const currentUser = async () => {
     const session = await auth();
 
