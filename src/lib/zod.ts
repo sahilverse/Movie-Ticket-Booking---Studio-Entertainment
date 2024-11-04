@@ -31,4 +31,16 @@ export const userDetailsSchema = object({
     gender: z.enum([Gender.Male, Gender.Female]).nullable(),
 
 }).merge(registerSchema).omit({ password: true, email: true })
-export const passwordSchema = object({}).merge(registerSchema).pick({ password: true })
+
+export const passwordSchema = object({
+    userID: string({ required_error: "User ID is required" }),
+    currentPassword: string({ required_error: "Current Password is required" })
+        .min(1, "Current Password is required"),
+    newPassword: string({ required_error: "New Password is required" })
+        .min(6, "New Password must be at least 6 characters"),
+    confirmPassword: string({ required_error: "Confirm Password is required" })
+        .min(1, "Confirm Password is required"),
+}).refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+})

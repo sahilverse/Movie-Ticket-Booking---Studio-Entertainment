@@ -37,7 +37,7 @@ export default async function Profile() {
                     <PersonalDetails user={user} />
 
                     {/* Security */}
-                    <Security />
+                    <Security user={user} />
 
                 </Tabs>
 
