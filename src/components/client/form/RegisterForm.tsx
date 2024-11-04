@@ -1,8 +1,7 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useState, useTransition } from 'react'
 import InputField from './inputs/InputField';
 import ErrorText from './formError/ErrorText';
-import LoginBtn from './buttons/LoginBtn';
 import Link from 'next/link';
 import GoogleBtn from './buttons/GoogleBtn';
 import { useForm } from "react-hook-form";
@@ -13,10 +12,12 @@ import { registerCredentials } from "@/actions/register";
 import toast from 'react-hot-toast';
 import FormError from './formError/FormError';
 import { TStyle } from '@/types/types';
+import { Button } from '@/components/ui/button';
+import Spinner from '@/components/spinner/Spinner';
 
 
 const RegisterForm = ({ styles }: { styles: TStyle }) => {
-    const [isLoading, setIsLoading] = useState(false);
+    const [isPending, startTransition] = useTransition();
     const [showFormError, SetShowFormError] = useState<boolean>(false);
     const { register, handleSubmit, formState: { errors }, setError } = useForm<z.infer<typeof registerSchema>>({
         resolver: zodResolver(registerSchema),
@@ -30,23 +31,20 @@ const RegisterForm = ({ styles }: { styles: TStyle }) => {
     });
 
     const onSubmit = async (data: z.infer<typeof registerSchema>) => {
-        setIsLoading(true);
-        const loadingToastId = toast.loading("Signing Up...");
 
-        try {
-            const response = await registerCredentials(data);
+        startTransition(async () => {
+            try {
+                const response = await registerCredentials(data);
 
-            if (response?.error) {
-                setError("root", { message: response.error });
-                SetShowFormError(true);
+                if (response?.error) {
+                    setError("root", { message: response.error });
+                    SetShowFormError(true);
+                }
+
+            } catch (error) {
+                toast.error("An error occurred! Please try again");
             }
-
-        } catch (error) {
-            toast.error("An error occurred! Please try again");
-        } finally {
-            setIsLoading(false);
-            toast.dismiss(loadingToastId);
-        }
+        });
 
     }
     return (
@@ -55,23 +53,40 @@ const RegisterForm = ({ styles }: { styles: TStyle }) => {
             <div className={styles.input_fields}>
                 {showFormError && <FormError message={errors.root?.message} setCloseError={SetShowFormError} />}
                 <div>
-                    <InputField type="text" id="username" placeholder="Username*" styles={styles} disabled={isLoading} {...register("username")} autoComplete='username' className={`${errors.username && "text-red-500"}`} />
+                    <InputField type="text" id="username" placeholder="Username*" styles={styles} disabled={isPending} {...register("username")} autoComplete='username' className={`${errors.username && "text-red-500"}`} />
                 </div>
 
                 <div>
-                    <InputField type="text" id="email" placeholder="Email*" styles={styles} disabled={isLoading}  {...register("email")} autoComplete='email' className={`${errors.email && "text-red-500"}`} />
+                    <InputField type="text" id="email" placeholder="Email*" styles={styles} disabled={isPending}  {...register("email")} autoComplete='email' className={`${errors.email && "text-red-500"}`} />
                 </div>
                 <div>
-                    <InputField type="text" id="phone" placeholder="Mobile*" styles={styles} disabled={isLoading} {...register("phone")} autoComplete='phone' className={`${errors.phone && "text-red-500"}`} />
+                    <InputField type="text" id="phone" placeholder="Mobile*" styles={styles} disabled={isPending} {...register("phone")} autoComplete='phone' className={`${errors.phone && "text-red-500"}`} />
                 </div>
                 <div>
-                    <InputField type="date" id="date_of_birth" styles={styles} disabled={isLoading} {...register("date_of_birth")} className={`${errors.date_of_birth && "text-red-500"}`} />
+                    <InputField type="date" id="date_of_birth" styles={styles} disabled={isPending} {...register("date_of_birth")} className={`${errors.date_of_birth && "text-red-500"}`} />
                 </div>
                 <div>
-                    <InputField type="password" id="password" placeholder="Password (min 6 characters)*" styles={styles} disabled={isLoading} {...register("password")} autoComplete='new-password' className={`${errors.password && "text-red-500"}`} />
+                    <InputField type="password" id="password" placeholder="Password (min 6 characters)*" styles={styles} disabled={isPending} {...register("password")} autoComplete='new-password' className={`${errors.password && "text-red-500"}`} />
                 </div>
                 <div className={styles.btn_container}>
-                    <LoginBtn type="Sign Up" styles={styles} disabled={isLoading} />
+                    <Button
+                        type="submit"
+                        className={`${styles.btn} `}
+                        disabled={isPending}
+                    >
+                        {isPending ? (
+                            <span className="flex gap-2">
+                                <Spinner />
+                                Signing Up...
+                            </span>
+                        ) : (
+                            <>
+
+                                Sign Up
+                            </>
+                        )}
+
+                    </Button>
                 </div>
                 <div className={styles.google_btn_container}>
                     <div className={styles.line_container}>
@@ -79,7 +94,7 @@ const RegisterForm = ({ styles }: { styles: TStyle }) => {
                         <p>OR</p>
                         <div className={styles.line}></div>
                     </div>
-                    <GoogleBtn styles={styles} disabled={isLoading} />
+                    <GoogleBtn styles={styles} disabled={isPending} />
                     <p>Already a Member? <Link href="/login">Sign In</Link></p>
 
                 </div>

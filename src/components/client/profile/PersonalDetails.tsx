@@ -16,6 +16,7 @@ import { userDetailsSchema } from '@/lib/zod';
 import toast from 'react-hot-toast';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import Spinner from '@/components/spinner/Spinner';
 
 const PersonalDetails = ({ user }: { user: User }) => {
     const [isEditing, setIsEditing] = useState(false);
@@ -44,7 +45,6 @@ const PersonalDetails = ({ user }: { user: User }) => {
         if (!hasChanges) {
             return
         }
-        const loadingToastId = toast.loading("Updating Details...");
         startTransition(async () => {
             try {
                 const response = await updateUserDetails(data);
@@ -68,7 +68,7 @@ const PersonalDetails = ({ user }: { user: User }) => {
                             }
                         });
 
-                        toast.dismiss(loadingToastId);
+
                         toast.success("Details Updated Successfully");
                         setIsEditing(!isEditing);
                         router.refresh();
@@ -77,8 +77,6 @@ const PersonalDetails = ({ user }: { user: User }) => {
                 }
             } catch (error) {
                 toast.error("An error occurred! Please try again");
-            } finally {
-                toast.dismiss(loadingToastId);
             }
         });
     }
@@ -102,8 +100,9 @@ const PersonalDetails = ({ user }: { user: User }) => {
                         id="personalDetailsForm"
                         onSubmit={handleSubmit(onSubmit)}
                     >
+                        <Input type="hidden" value={user.id} {...register("userID")} />
+
                         <div className="space-y-2">
-                            <Input type="hidden" value={user.id} {...register("userID")} />
                             <Label htmlFor="username" className="text-white">Full Name</Label>
                             <Input
                                 id="username"
@@ -166,7 +165,17 @@ const PersonalDetails = ({ user }: { user: User }) => {
                             form='personalDetailsForm'
                             disabled={isPending}
                         >
-                            {isPending ? "Updating..." : "Save Changes"}
+                            {isPending ? (
+                                <>
+                                    <Spinner />
+                                    Updating Details...
+                                </>
+                            ) : (
+                                <>
+
+                                    Save Changes
+                                </>
+                            )}
                         </Button>
                     )}
                 </CardContent>

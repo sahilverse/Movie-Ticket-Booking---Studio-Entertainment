@@ -101,7 +101,7 @@
     letter-spacing: 1px;
     border-radius: 8px;
     font-weight: medium;
-    padding: 10px;
+    padding: 20px;
     color: white;
   }
   
@@ -162,6 +162,7 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
+    padding: 10px;
   }
   
   .google_btn:hover {

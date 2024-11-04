@@ -1,6 +1,5 @@
 "use client";
-import React, { useState } from "react";
-import LoginBtn from "./buttons/LoginBtn";
+import React, { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { signInSchema } from "@/lib/zod";
 import * as z from "zod";
@@ -13,10 +12,13 @@ import toast from "react-hot-toast";
 import FormError from "./formError/FormError";
 import GoogleBtn from "./buttons/GoogleBtn";
 import { TStyle } from "@/types/types";
+import { start } from "node:repl";
+import { Button } from "@/components/ui/button";
+import Spinner from "@/components/spinner/Spinner";
 
 
 const LoginForm = ({ styles }: { styles: TStyle }) => {
-    const [isLoading, setIsLoading] = useState(false);
+    const [isPending, startTransition] = useTransition();
     const [showFormError, SetShowFormError] = useState<boolean>(false);
     const { register, handleSubmit, formState: { errors }, setError } = useForm<z.infer<typeof signInSchema>>({
         resolver: zodResolver(signInSchema),
@@ -28,23 +30,21 @@ const LoginForm = ({ styles }: { styles: TStyle }) => {
 
     const onSubmit = async (data: z.infer<typeof signInSchema>) => {
 
-        setIsLoading(true);
-        const loadingToastId = toast.loading("Signing In...");
+        startTransition(async () => {
+            try {
+                const response = await credentialsLogin(data);
 
-        try {
-            const response = await credentialsLogin(data);
+                if (response?.error) {
+                    setError("root", { message: response.error });
+                    SetShowFormError(true);
+                }
 
-            if (response?.error) {
-                setError("root", { message: response.error });
-                SetShowFormError(true);
+            } catch (error) {
+                toast.error("An error occurred! Please try again");
             }
+        });
 
-        } catch (error) {
-            toast.error("An error occurred! Please try again");
-        } finally {
-            setIsLoading(false);
-            toast.dismiss(loadingToastId);
-        }
+
 
     }
 
@@ -56,15 +56,32 @@ const LoginForm = ({ styles }: { styles: TStyle }) => {
                     {showFormError && <FormError message={errors.root?.message} setCloseError={SetShowFormError} />}
 
                     <div>
-                        <InputField type="text" id="email" placeholder="Email" styles={styles} disabled={isLoading} {...register("email")} autoComplete="email" />
+                        <InputField type="text" id="email" placeholder="Email" styles={styles} disabled={isPending} {...register("email")} autoComplete="email" />
                         <ErrorText styles={styles} message={errors.email?.message} />
                     </div>
                     <div>
-                        <InputField type="password" id="password" placeholder="Password" styles={styles} disabled={isLoading} {...register("password")} autoComplete="current-password" />
+                        <InputField type="password" id="password" placeholder="Password" styles={styles} disabled={isPending} {...register("password")} autoComplete="current-password" />
                         <ErrorText styles={styles} message={errors.password?.message} />
                     </div>
                     <div className={styles.btn_container}>
-                        <LoginBtn type="Sign In" styles={styles} disabled={isLoading} />
+                        <Button
+                            type="submit"
+                            className={`${styles.btn} `}
+                            disabled={isPending}
+                        >
+                            {isPending ? (
+                                <span className="flex gap-2">
+                                    <Spinner />
+                                    Signing In...
+                                </span>
+                            ) : (
+                                <>
+
+                                    Sign In
+                                </>
+                            )}
+
+                        </Button>
                         <Link href="/forgot-password">Forgot Password?</Link>
                     </div>
                     <div className={styles.google_btn_container}>
@@ -73,7 +90,7 @@ const LoginForm = ({ styles }: { styles: TStyle }) => {
                             <p>OR</p>
                             <div className={styles.line}></div>
                         </div>
-                        <GoogleBtn styles={styles} disabled={isLoading} />
+                        <GoogleBtn styles={styles} disabled={isPending} />
                         <p>Not a Member? <Link href="/register">Sign Up</Link></p>
 
                     </div>
