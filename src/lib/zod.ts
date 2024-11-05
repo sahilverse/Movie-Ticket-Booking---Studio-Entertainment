@@ -44,3 +44,25 @@ export const passwordSchema = object({
     message: "Passwords don't match",
     path: ["confirmPassword"],
 })
+
+
+export const otpSchema = object({
+    otp: string({ required_error: "OTP is required" })
+        .min(6, "OTP must be 6 characters"),
+});
+
+export const emailSchema = object({
+    email: string({ required_error: "Email is required" })
+        .min(1, "Email is required")
+        .email("Invalid email"),
+});
+
+export const resetPasswordSchema = object({
+    newPassword: string({ required_error: "New Password is required" })
+        .min(6, "New Password must be at least 6 characters"),
+    confirmPassword: string({ required_error: "Confirm Password is required" })
+        .min(1, "Confirm Password is required"),
+}).refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+})

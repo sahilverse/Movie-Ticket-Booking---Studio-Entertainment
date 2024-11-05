@@ -20,17 +20,18 @@ enum Gender {
 }
 
 model User {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  email     String    @unique
-  password  String?
-  image     String?
-  bookings  Booking[]
-  birthDate DateTime?
-  phone     String?
-  gender    Gender?
-
-  emailVerified DateTime?
+  id                  String    @id @default(auto()) @map("_id") @db.ObjectId
+  name                String
+  email               String    @unique
+  password            String?
+  image               String?
+  bookings            Booking[]
+  birthDate           DateTime?
+  phone               String?
+  gender              Gender?
+  verificationCode    String?
+  verificationExpires DateTime?
+  emailVerified       DateTime?
 
   accounts Account[]
 

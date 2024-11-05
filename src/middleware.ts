@@ -11,6 +11,8 @@ export default auth(async (req) => {
     const isApiRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
     const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
+    if (nextUrl.pathname === "/signin") return Response.redirect(new URL("/login", nextUrl));
+
     const isPrivateRoute = privateRoutes.some((route: any) => {
         const regex = new RegExp(`^${route.replace(/:[^/]+/, '[^/]+')}$`);
         return regex.test(nextUrl.pathname);

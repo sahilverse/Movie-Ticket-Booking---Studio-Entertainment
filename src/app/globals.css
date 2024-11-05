@@ -47,6 +47,8 @@ a{
 
 .logo{
     font-family: var(--poppins-font);
+    display: flex;
+    flex-direction: column;
 }
 
 .logo>p:first-child{

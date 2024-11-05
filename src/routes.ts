@@ -13,6 +13,7 @@ export const authRoutes = [
     "/register",
     "/signup",
     "/error",
+    "/signin"
 ];
 
 export const apiAuthPrefix = "/api/auth";

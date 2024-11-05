@@ -92,7 +92,7 @@ export const Security = ({ user }: { user: User }) => {
                                     className="absolute right-0 top-0 h-full px-3 text-gray-400"
                                     onClick={() => togglePasswordVisibility('current')}
                                 >
-                                    {showPassword.current ? <EyeOffIcon className="h-4 w-4" /> : <EyeIcon className="h-4 w-4" />}
+                                    {showPassword.current ? <EyeIcon className="h-4 w-4" /> : <EyeOffIcon className="h-4 w-4" />}
                                 </Button>
                             </div>
                             {errors.currentPassword && <p className="text-red-500 text-xs mt-1">{errors.currentPassword.message}</p>}
@@ -114,7 +114,7 @@ export const Security = ({ user }: { user: User }) => {
                                     className="absolute right-0 top-0 h-full px-3 text-gray-400 "
                                     onClick={() => togglePasswordVisibility('new')}
                                 >
-                                    {showPassword.new ? <EyeOffIcon className="h-4 w-4" /> : <EyeIcon className="h-4 w-4" />}
+                                    {showPassword.new ? <EyeIcon className="h-4 w-4" /> : <EyeOffIcon className="h-4 w-4" />}
                                 </Button>
                             </div>
                             {errors.newPassword && <p className="text-red-500 text-xs mt-1">{errors.newPassword.message}</p>}
@@ -136,7 +136,7 @@ export const Security = ({ user }: { user: User }) => {
                                     className="absolute right-0 top-0 h-full px-3 text-gray-400 "
                                     onClick={() => togglePasswordVisibility('confirm')}
                                 >
-                                    {showPassword.confirm ? <EyeOffIcon className="h-4 w-4" /> : <EyeIcon className="h-4 w-4" />}
+                                    {showPassword.confirm ? <EyeIcon className="h-4 w-4" /> : <EyeOffIcon className="h-4 w-4" />}
                                 </Button>
                             </div>
                             {errors.confirmPassword && <p className="text-red-500 text-xs mt-1">{errors.confirmPassword.message}</p>}

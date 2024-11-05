@@ -64,7 +64,7 @@ const Footer = () => {
             </div>
 
             <div className={styles.bottom}>
-                <p>© {year} Studio Entertainment. All rights reserved.</p>
+                <p> &copy; {year} Studio Entertainment. All rights reserved.</p>
             </div>
 
         </footer>
