@@ -9,7 +9,6 @@ export const signInSchema = object({
         .min(1, "Password is required")
 })
 
-
 export const registerSchema = object({
     email: string({ required_error: "Email is required" })
         .min(1, "Email is required")
