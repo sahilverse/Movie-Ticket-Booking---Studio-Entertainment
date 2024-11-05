@@ -10,10 +10,6 @@ import { emailSchema, otpSchema, resetPasswordSchema } from '@/lib/zod';
 import { resetPassword, sendPasswordResetVerificationCode, verifyPasswordResetCode } from '@/actions/userDetails';
 import SuccessMessage from './SuccessMessage';
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { HomeIcon } from 'lucide-react';
-
-
 
 
 const ForgotPassword = () => {
@@ -154,14 +150,6 @@ const ForgotPassword = () => {
 
                     {step === 4 && <SuccessMessage />}
 
-                    <div className="mt-4 flex items-center justify-center">
-                        <Link href="/">
-                            <Button className="flex items-center space-x-2 bg-[#efae26] hover:bg-[#efaf26d8] text-black">
-                                <HomeIcon className="h-4 w-4" />
-                                <span>Back to Home</span>
-                            </Button>
-                        </Link>
-                    </div>
                 </CardContent>
             </Card>
         </div>
