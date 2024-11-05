@@ -35,13 +35,13 @@ const EmailForm = forwardRef(({ onSubmit, isPending }: EmailFormProps, ref) => {
                     id="email"
                     type="text"
                     placeholder="Enter your email"
-                    className="bg-[#222222] border-gray-700 text-gray-100 focus:ring-[#F5B041] focus:border-[#F5B041]"
+                    className="bg-[#222222] border-gray-700 text-gray-100 focus:ring-yellowShade focus:border-yellowShade"
                     {...register('email')}
                 />
                 {errors.email && <p className="text-red-500 text-xs">{errors.email.message}</p>}
             </div>
             <Button
-                className="w-full bg-[#efae26] hover:bg-[#efaf26d8] text-black font-medium tracking-wide transition-colors duration-200"
+                className="w-full bg-yellowShade hover:bg-yellowShadeHover text-black font-medium tracking-wide transition-colors duration-200"
                 type="submit"
                 disabled={isPending}
             >

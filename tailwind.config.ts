@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss";
 
+
 const config: Config = {
 	darkMode: ["class"],
 	content: [
@@ -14,9 +15,19 @@ const config: Config = {
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
 			},
+			fontFamily: {
+				roboto: "var(--roboto-font)",
+				poppins: "var(--poppins-font)",
+
+			},
 			colors: {
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
+				yellowShade: "var(--yellow-shade)",
+				yellowShadeHover: "#efaf26d8",
+				slightGray: "var(--slight-gray)",
+				customBlue: "var(--form-btn)",
+
 				card: {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'

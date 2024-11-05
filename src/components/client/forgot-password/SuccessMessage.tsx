@@ -17,7 +17,7 @@ const SuccessMessage = () => {
                 {
                     user ?
                         (<Link href="/">
-                            <Button className="flex items-center space-x-2 bg-[#efae26] hover:bg-[#efaf26d8] text-black">
+                            <Button className="flex items-center space-x-2 bg-yellowShade hover:bg-yellowShadeHover text-black">
                                 <HomeIcon className="h-4 w-4" />
                                 <span>Back to Home</span>
                             </Button>
@@ -25,7 +25,7 @@ const SuccessMessage = () => {
                         ) :
                         (
                             <Link href="/login">
-                                <Button className="flex items-center space-x-2 bg-[#efae26] hover:bg-[#efaf26d8] text-black">
+                                <Button className="flex items-center space-x-2 bg-yellowShade hover:bg-yellowShadeHover text-black">
                                     <span>Back to Login</span>
                                 </Button>
                             </Link>

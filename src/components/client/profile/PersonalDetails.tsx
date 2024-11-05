@@ -90,7 +90,7 @@ const PersonalDetails = ({ user }: { user: User }) => {
                         variant="ghost"
                         size="icon"
                         onClick={() => setIsEditing(!isEditing)}
-                        className="text-[#efae26]"
+                        className="text-yellowShade"
                     >
                         {isEditing ? <Save className="h-4 w-4" /> : <Pencil className="h-4 w-4" />}
                     </Button>
@@ -161,7 +161,7 @@ const PersonalDetails = ({ user }: { user: User }) => {
                         </div>
                     </form>
                     {isEditing && (
-                        <Button className="w-full bg-[#efae26] hover:bg-[#efae26]/90 text-white " type="submit"
+                        <Button className="w-full bg-yellowShade hover:bg-yellowShadeHover text-white " type="submit"
                             form='personalDetailsForm'
                             disabled={isPending}
                         >

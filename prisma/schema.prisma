@@ -73,6 +73,7 @@ model Movie {
   landscapeImageUrl String?
   rating            String?
   genre             String[]
+  slug              String          @unique
   duration          String
   cast              String[]
   director          String

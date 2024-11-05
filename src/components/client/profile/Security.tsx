@@ -61,7 +61,7 @@ export const Security = ({ user }: { user: User }) => {
             <Card className="bg-[#222222] border-gray-800">
                 <CardHeader>
                     <CardTitle className="text-2xl font-bold text-white flex items-center gap-2">
-                        <LockIcon className="w-6 h-6 text-[#efae26]" />
+                        <LockIcon className="w-6 h-6 text-yellowShade" />
                         Change Password
                     </CardTitle>
                     <CardDescription className="text-gray-400 ">
@@ -143,7 +143,7 @@ export const Security = ({ user }: { user: User }) => {
                         </div>
                         <Button
                             type="submit"
-                            className="w-full bg-[#efae26] hover:bg-[#efae26]/90 text-white font-semibold py-2 rounded-md transition duration-300 flex items-center justify-center gap-2"
+                            className="w-full bg-yellowShade hover:bg-yellowShadeHover text-white font-semibold py-2 rounded-md transition duration-300 flex items-center justify-center gap-2"
                             disabled={isPending}
                         >
                             {isPending ? (
@@ -161,7 +161,7 @@ export const Security = ({ user }: { user: User }) => {
                     </form>
                 </CardContent>
                 <CardFooter className="flex justify-center">
-                    <Link href="/forgot-password" className="text-[#efae26] hover:underline text-sm">
+                    <Link href="/forgot-password" className="text-yellowShade hover:underline text-sm">
                         Forgot your password?
                     </Link>
                 </CardFooter>
