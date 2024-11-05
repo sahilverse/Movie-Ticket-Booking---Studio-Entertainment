@@ -5,7 +5,7 @@ import { getUserByEmail, getUserById } from "@/lib/utils";
 import { passwordSchema, userDetailsSchema, emailSchema, otpSchema, resetPasswordSchema } from "@/lib/zod";
 import { revalidatePath } from "next/cache";
 import * as z from "zod";
-import bcrypt from "bcryptjs"
+import { hashPassword, verifyPassword } from "@/lib/password";
 import crypto from "crypto";
 import { sendEmail } from "@/lib/email";
 
@@ -59,7 +59,8 @@ export const updatePassword = async (data: z.infer<typeof passwordSchema>) => {
 
     // Check if the current password is correct
     const user = await getUserById(userID);
-    const isCorrectPassword = await bcrypt.compare(currentPassword, user?.password ?? "");
+    if (!user) return { error: "User not found" };
+    const isCorrectPassword = await verifyPassword(currentPassword, user.password as string);
 
     if (!isCorrectPassword) {
         return { error: { currentPassword: "Incorrect Password" } };
@@ -67,7 +68,7 @@ export const updatePassword = async (data: z.infer<typeof passwordSchema>) => {
 
     try {
 
-        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        const hashedPassword = await hashPassword(newPassword);
         await prisma.user.update({
             where: { id: userID },
             data: {
@@ -184,7 +185,7 @@ export const resetPassword = async (data: z.infer<typeof resetPasswordSchema>, e
         return { success: false, error: "User not found" };
     }
 
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    const hashedPassword = await hashPassword(newPassword);
 
     await prisma.user.update({
         where: { email },

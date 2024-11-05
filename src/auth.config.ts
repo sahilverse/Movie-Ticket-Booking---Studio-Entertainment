@@ -1,10 +1,9 @@
 import Google from "next-auth/providers/google"
 import Credentials from "next-auth/providers/credentials"
 import { type NextAuthConfig } from "next-auth"
-
-import bcrypt from "bcryptjs"
 import { signInSchema } from "@/lib/zod"
 import { getUserByEmail } from "@/lib/utils"
+import { verifyPassword } from "./lib/password"
 
 
 export default {
@@ -27,7 +26,7 @@ export default {
 
                 if (!user || !user.password) return null;
 
-                const isValidPassword = await bcrypt.compare(password, user.password as string);
+                const isValidPassword = await verifyPassword(password, user.password);
 
                 if (!isValidPassword) return null;
 

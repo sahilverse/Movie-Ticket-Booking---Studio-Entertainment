@@ -4,7 +4,7 @@ import { signIn } from "@/app/api/auth/[...nextauth]/auth";
 import { registerSchema } from "@/lib/zod";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { prisma } from "@/lib/prisma";
-import bcrypt from "bcryptjs";
+import { hashPassword } from "@/lib/password";
 import * as z from "zod";
 import { getUserByEmail } from "@/lib/utils";
 
@@ -20,7 +20,7 @@ export const registerCredentials = async (data: z.infer<typeof registerSchema>) 
         if (!existingUser.password) {
             await prisma.user.update({
                 where: { id: existingUser.id },
-                data: { password: await bcrypt.hash(password, 10) },
+                data: { password: await hashPassword(password) },
             });
             await signIn("credentials", { email, password, redirectTo: DEFAULT_LOGIN_REDIRECT });
         } else {
@@ -34,7 +34,7 @@ export const registerCredentials = async (data: z.infer<typeof registerSchema>) 
         return { error: "Phone number already exists" };
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await hashPassword(password);
 
     await prisma.user.create({
         data: {
