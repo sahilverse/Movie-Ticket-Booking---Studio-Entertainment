@@ -9,7 +9,7 @@ import * as z from "zod";
 import { emailSchema, otpSchema, resetPasswordSchema } from '@/lib/zod';
 import { resetPassword, sendPasswordResetVerificationCode, verifyPasswordResetCode } from '@/actions/userDetails';
 import SuccessMessage from './SuccessMessage';
-import Link from 'next/link';
+
 
 
 const ForgotPassword = () => {
