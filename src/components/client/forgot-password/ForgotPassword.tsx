@@ -17,7 +17,7 @@ import { HomeIcon } from 'lucide-react';
 
 
 const ForgotPassword = () => {
-    const [step, setStep] = useState(4);
+    const [step, setStep] = useState(1);
     const [email, setEmail] = useState('');
     const [isPending, startTransition] = useTransition();
     const emailRef = useRef<{ setError: (field: string, error: { type: string, message: string }) => void } | null>(null);
