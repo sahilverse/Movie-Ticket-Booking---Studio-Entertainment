@@ -20,11 +20,8 @@ export default auth(async (req) => {
 
     if (isApiRoute) return;
 
-    if (isAuthRoute) {
-        if (isLoggedIn) {
-            return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
-        }
-        return;
+    if (isAuthRoute && isLoggedIn) {
+        return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
     }
 
     // Redirect to login if trying to access a private route and not logged in
