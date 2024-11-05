@@ -190,17 +190,17 @@ const NowShowing = () => {
             )}
             {activeIndex === 2 && (
                 <div className="3-oct">
-                    <MovieCard movies={[movies[2]]} />
+                    <MovieCard />
                 </div>
             )}
             {activeIndex === 3 && (
                 <div className="4-oct">
-                    <MovieCard movies={[movies[3]]} />
+                    <MovieCard />
                 </div>
             )}
             {activeIndex === 4 && (
                 <div className="5-oct">
-                    <MovieCard movies={[movies[4]]} />
+                    <MovieCard />
                 </div>
             )}
         </>

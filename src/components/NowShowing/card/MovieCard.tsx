@@ -18,6 +18,7 @@ import styles from './MovieCard.module.css'
 
 import { motion } from 'framer-motion'
 import { fadeInAnimationVariants } from '@/lib/motion'
+import NoShowsAvailable from '@/components/extras/NoShowsAvailable'
 
 interface MovieCardProps {
     movies?: MovieCardType[]
@@ -28,8 +29,14 @@ interface MovieCardProps {
 export default function MovieCard({ movies }: MovieCardProps = { movies: [] }) {
     const router = useRouter()
 
+    if (!movies || movies.length === 0) {
+        return (
+            <NoShowsAvailable />
+        )
+    }
+
     return (
-        <div className="w-full max-w-7xl mx-auto   mt-10">
+        <div className="w-full max-w-7xl mx-auto mt-10">
             <Carousel
                 opts={{
                     align: "start",
@@ -37,6 +44,7 @@ export default function MovieCard({ movies }: MovieCardProps = { movies: [] }) {
                 className="relative"
             >
                 <CarouselContent >
+
                     {movies?.map((movie, index) => (
 
                         <CarouselItem key={movie.id} className="pl-2 sm:pl-4 basis-1/2  sm:basis-1/3 md:basis-1/4">
