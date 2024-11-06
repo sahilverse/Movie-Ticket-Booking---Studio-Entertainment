@@ -3,6 +3,7 @@ import { signIn, signOut } from "@/app/api/auth/[...nextauth]/auth";
 import { signInSchema } from "@/lib/zod";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { AuthError } from "next-auth";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation"
 
 import * as z from "zod";
@@ -19,6 +20,7 @@ export const credentialsLogin = async (data: z.infer<typeof signInSchema>) => {
             password: password,
             redirect: false,
         });
+
 
         if (result?.error) {
             return { error: "Invalid Email or Password" };

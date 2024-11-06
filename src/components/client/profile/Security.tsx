@@ -73,7 +73,7 @@ export const Security = ({ user }: { user: User }) => {
                         <Input type="hidden" value={user.id} {...register("userID")} />
                         <div className='sr-only'>
 
-                            <Input type="text" name="username" value={user.email} autoComplete='username' />
+                            <Input type="text" name="username" value={user.email} autoComplete='username' readOnly />
                         </div>
                         <div className="space-y-1">
                             <Label htmlFor="currentPassword" className="text-white">Current Password</Label>

@@ -66,73 +66,100 @@ model Account {
 //* TODO: DATABASE REMODELING *//
 
 model Movie {
-  id                String          @id @default(auto()) @map("_id") @db.ObjectId
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
   title             String
-  description       String
-  portraitImageUrl  String?
-  landscapeImageUrl String?
-  rating            String?
+  slug              String   @unique
+  description       String?
+  duration          Int
+  language          String?
   genre             String[]
-  slug              String          @unique
-  duration          String
   cast              String[]
-  director          String
-  releaseDate       String
-  trailerUrl        String?
-  MovieSchedule     MovieSchedule[]
-}
+  director          String?
+  rating            String?
+  potraitImageUrl   String?
+  landscapeImageUrl String?
+  releaseDate       DateTime
+  shows             Show[]
 
-model Booking {
-  id          String  @id @default(auto()) @map("_id") @db.ObjectId
-  userId      String  @db.ObjectId
-  user        User    @relation(fields: [userId], references: [id])
-  showTime    String
-  movie       String
-  seats       Seat[]
-  paymentID   String?
-  paymentType String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Screen {
-  id             String          @id @default(auto()) @map("_id") @db.ObjectId
-  name           String
-  city           String
-  seats          Seat[]
-  movieSchedules MovieSchedule[]
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  capacity Int
+  shows    Show[]
+  seats    Seat[]
+}
+
+model Show {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  movieId   String    @db.ObjectId
+  movie     Movie     @relation(fields: [movieId], references: [id])
+  screenId  String    @db.ObjectId
+  screen    Screen    @relation(fields: [screenId], references: [id])
+  startTime DateTime
+  endTime   DateTime?
+  bookings  Booking[]
 }
 
 model Seat {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
   row      String
-  col      String
+  number   Int
+  type     SeatType
   price    Float
-  screenId String @db.ObjectId
-  screen   Screen @relation(fields: [screenId], references: [id])
-
-  seatSchedules SeatSchedule[]
-  Booking       Booking?       @relation(fields: [bookingId], references: [id])
-  bookingId     String?        @db.ObjectId
+  screenId String    @db.ObjectId
+  screen   Screen    @relation(fields: [screenId], references: [id])
+  bookings Booking[]
 }
 
-model SeatSchedule {
-  id              String        @id @default(auto()) @map("_id") @db.ObjectId
-  seatId          String        @db.ObjectId
-  seat            Seat          @relation(fields: [seatId], references: [id])
-  movieScheduleId String        @db.ObjectId
-  movieSchedule   MovieSchedule @relation(fields: [movieScheduleId], references: [id])
-
-  isReserved Boolean @default(false)
-  isBooked   Boolean @default(false)
+enum SeatType {
+  NORMAL
+  PREMIUM
+  VIP
 }
 
-model MovieSchedule {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
-  showTime String
-  showDate DateTime
-  movieId  String   @db.ObjectId
-  movie    Movie    @relation(fields: [movieId], references: [id])
-  screenId String   @db.ObjectId
-  screen   Screen   @relation(fields: [screenId], references: [id])
+model Booking {
+  id        String        @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String        @db.ObjectId
+  user      User          @relation(fields: [userId], references: [id])
+  showId    String        @db.ObjectId
+  show      Show          @relation(fields: [showId], references: [id])
+  seatId    String        @db.ObjectId
+  seat      Seat          @relation(fields: [seatId], references: [id])
+  status    BookingStatus
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  payment   Payment?
+}
 
-  seatSchedules SeatSchedule[]
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+model Payment {
+  id        String        @id @default(auto()) @map("_id") @db.ObjectId
+  bookingId String        @unique @db.ObjectId
+  booking   Booking       @relation(fields: [bookingId], references: [id])
+  amount    Float
+  status    PaymentStatus @default(PENDING)
+  method    PaymentMethod
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum PaymentMethod {
+  CASH
+  ESEWA
 }

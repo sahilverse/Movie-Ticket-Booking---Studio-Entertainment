@@ -1,3 +1,4 @@
+// import { Show } from '@prisma/client';
 import { StaticImageData } from 'next/image';
 
 
@@ -6,19 +7,31 @@ export type TStyle = Record<string, string>;
 
 export interface MovieCardType {
     id: string | number;
-    imageUrl: StaticImageData | string;
+    potraitImageUrl: StaticImageData | string;
+    landscapeImageUrl?: StaticImageData | string;
     title: string;
     duration: string;
-    releaseDate?: string;
+    trailerUrl?: string;
+    releaseDate: Date;
     slug?: string;
     genre: string;
-    showtimes?: showTime[];
+    shows?: {
+        startTime: Date;
+        endTime?: Date;
+        screen: {
+            name: string;
+        }
+    }[];
     rating: string
 }
 
-
-
-export interface showTime {
-    time: string;
-    isAvailable: boolean;
+export interface SliderType {
+    id: number | string;
+    landscapeImageUrl: StaticImageData | string;
+    title: string;
+    trailerUrl?: string;
 }
+
+
+
+

@@ -4,6 +4,7 @@ import NowShowing from '@/components/nowShowing/NowShowing';
 
 
 
+
 const MoviePage = () => {
     return (
         <main className='main_container'>

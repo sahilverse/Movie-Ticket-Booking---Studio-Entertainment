@@ -15,7 +15,10 @@ const MovieDetails = async ({ params }: { params: { slug: string } }) => {
     });
 
     return (
-        <NoShowsAvailable />
+        <div className="main_container">
+
+            <NoShowsAvailable />
+        </div>
     );
 };
 

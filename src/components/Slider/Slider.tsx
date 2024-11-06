@@ -8,9 +8,9 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-import rrrImage from '@/assets/Slider/rrr.jpg';
+
 import Image, { StaticImageData } from 'next/image';
-import jokerImage from '@/assets/Slider/joker.jpg';
+
 
 import styles from './Slider.module.css';
 
@@ -20,18 +20,13 @@ import { IoPlayOutline } from "react-icons/io5";
 import Link from 'next/link';
 
 import TrailerPopup from '../popups/trailer/TrailerPopup';
-
+import { SliderType } from '@/types/types';
 // import required modules
 import { Navigation, Pagination, Mousewheel, Keyboard, Autoplay } from 'swiper/modules';
 
-interface Banner {
-    id: number | string;
-    imageUrl: StaticImageData | string;
-    name: string;
-    tailorUrl?: string;
-}
 
-export default function Slider() {
+
+export default function Slider({ movies }: { movies: SliderType[] }) {
 
     const [showTrailer, setShowTrailer] = useState(false);
     const [currentTrailer, setCurrentTrailer] = useState('');
@@ -42,21 +37,7 @@ export default function Slider() {
             setShowTrailer(true);
         }
     };
-    const [banners, setBanners] = useState<Banner[]>([
-        {
-            id: 1,
-            imageUrl: jokerImage,
-            name: 'Joker',
-            tailorUrl: 'https://www.youtube.com/embed/_OKAwz2MsJs?si=RVkyG0prRom1VXh5'
 
-        },
-        {
-            id: 2,
-            imageUrl: rrrImage,
-            name: 'RRR',
-            tailorUrl: 'https://www.youtube.com/embed/GY4BgdUSpbE'
-        },
-    ]);
 
     const [windowSize, setWindowSize] = useState({
         width: 0,
@@ -79,6 +60,7 @@ export default function Slider() {
         };
     }, []);
 
+
     return (
         <section>
             <Swiper
@@ -88,7 +70,7 @@ export default function Slider() {
                 mousewheel={true}
                 keyboard={true}
                 autoplay={{
-                    delay: 5000,
+                    delay: 10000,
                     disableOnInteraction: true,
                 }}
                 modules={[Navigation, Pagination, Mousewheel, Keyboard, Autoplay]}
@@ -96,27 +78,27 @@ export default function Slider() {
             >
                 {/* Image sliders */}
                 {
-                    banners.map((banner) => (
+                    movies?.map((banner) => (
                         <SwiperSlide key={banner.id}>
                             <div className='relative'>
                                 <Image
-                                    src={banner.imageUrl}
-                                    alt={`Image of ${banner.name}`}
+                                    src={banner.landscapeImageUrl}
+                                    alt={`Image of ${banner.title}`}
                                     width={windowSize.width}
                                     height={windowSize.height}
                                     className='rounded-lg'
                                     priority={true}
                                 />
                                 <div className={styles.details_container}>
-                                    <p className={styles.banner_name}>{banner.name}</p>
+                                    <p className={styles.banner_name}>{banner.title}</p>
                                     <div className='flex sm:gap-[50px] sm:flex-row flex-col'>
-                                        <Link className={styles.book_ticket_button} href={`/movie-details/${banner.name}`}>
+                                        <Link className={styles.book_ticket_button} href={`/movie-details/${banner.title}`}>
                                             <span><IoTicketOutline className='text-xl text-[#000]' /></span>
                                             <span>Book Tickets</span>
                                         </Link>
                                         <a className={`${styles.watch_trailer_button} cursor-pointer`} onClick={
                                             () => {
-                                                openTrailer(banner.tailorUrl as string);
+                                                openTrailer(banner.trailerUrl as string);
                                             }
                                         }>
                                             <span><IoPlayOutline className='text-xl text-[#000] ml-[2px]' /></span>
