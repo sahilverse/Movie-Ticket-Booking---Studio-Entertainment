@@ -8,8 +8,11 @@ import { SliderType } from "@/types/types";
 
 export default function Home() {
 
-  const sliders = mockMovies.filter(movie => movie.landscapeImageUrl);
   const comingSoonMovies = mockMovies.filter(movie => !movie.shows || movie.shows.length === 0);
+  const nowShowingMovies = mockMovies.filter(movie => movie.shows.some(show => new Date(show.startTime).getTime() > Date.now()))
+  const sliders = [...nowShowingMovies.filter(movie => movie.landscapeImageUrl),
+  ...comingSoonMovies.filter(movie => movie.landscapeImageUrl)
+  ].filter((movie, index, self) => self.findIndex(m => m.id === movie.id) === index);
 
   return (
     <main className="main_container mt-8">
@@ -17,7 +20,7 @@ export default function Home() {
 
       <Slider movies={sliders as SliderType[]} />
 
-      <NowShowing movies={mockMovies} />
+      <NowShowing movies={nowShowingMovies} />
 
       <ComingSoon movies={comingSoonMovies} />
 
