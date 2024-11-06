@@ -10,9 +10,11 @@ export default function Home() {
 
   const comingSoonMovies = mockMovies.filter(movie => !movie.shows || movie.shows.length === 0);
   const nowShowingMovies = mockMovies.filter(movie => movie.shows.some(show => new Date(show.startTime).getTime() > Date.now()))
-  const sliders = [...nowShowingMovies.filter(movie => movie.landscapeImageUrl),
-  ...comingSoonMovies.filter(movie => movie.landscapeImageUrl)
-  ].filter((movie, index, self) => self.findIndex(m => m.id === movie.id) === index);
+  // Get all movies with landscape image and remove duplicates
+  const sliders = [
+    ...nowShowingMovies,
+    ...comingSoonMovies
+  ].filter(movie => movie.landscapeImageUrl).filter((movie, index, self) => self.findIndex(m => m.id === movie.id) === index);
 
   return (
     <main className="main_container mt-8">
