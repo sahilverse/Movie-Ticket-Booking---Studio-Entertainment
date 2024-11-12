@@ -9,6 +9,7 @@ import { MovieCardType } from '@/types/types';
 
 
 export default function NowShowing({ movies }: { movies: MovieCardType[] }) {
+
     const today = new Date();
     const dates = Array.from({ length: 5 }, (_, i) => {
         const date = new Date(today);
@@ -22,10 +23,10 @@ export default function NowShowing({ movies }: { movies: MovieCardType[] }) {
         const tomorrow = new Date(today);
         tomorrow.setDate(today.getDate() + 1);
 
-        if (date.toDateString() === today.toDateString()) {
+        if (date.toISOString() === today.toISOString()) {
             return "Today";
         }
-        if (date.toDateString() === tomorrow.toDateString()) {
+        if (date.toISOString() === tomorrow.toISOString()) {
             return "Tomorrow";
         }
         const month = date.toLocaleDateString('en-US', { month: 'short' });
@@ -35,11 +36,32 @@ export default function NowShowing({ movies }: { movies: MovieCardType[] }) {
 
 
 
-    const filteredMovies = movies.filter(movie =>
-        movie.shows?.some(show =>
-            new Date(show.startTime).toDateString() === dates[activeIndex].toDateString()
-        )
-    );
+    const filteredMovies = movies?.filter(movie =>
+        movie.shows?.some(show => {
+            const showTime = new Date(show.startTime);
+            const selectedDate = dates[activeIndex];
+
+            // Reset hours to compare just the dates
+            const showDate = new Date(showTime.getFullYear(), showTime.getMonth(), showTime.getDate());
+            const compareDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate());
+
+            return showDate.getTime() === compareDate.getTime();
+        })
+    ).map(movie => ({
+        ...movie,
+        // Filter shows to only include those for the selected date
+        shows: movie.shows?.filter(show => {
+            const showTime = new Date(show.startTime);
+            const selectedDate = dates[activeIndex];
+
+            const showDate = new Date(showTime.getFullYear(), showTime.getMonth(), showTime.getDate());
+            const compareDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate());
+
+            return showDate.getTime() === compareDate.getTime();
+        })
+    }));
+
+
 
     return (
         <>

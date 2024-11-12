@@ -19,7 +19,7 @@ const mockMovies = [
         releaseDate: new Date("2008-07-18"),
         trailerUrl: 'https://www.youtube.com/embed/GY4BgdUSpbE',
         slug: "RRR",
-        genre: "Action, Drama",
+        genre: ["Action", "Drama"],
         shows: [
             {
                 startTime: new Date('2024-11-06T14:00:00'),
@@ -47,7 +47,7 @@ const mockMovies = [
         trailerUrl: 'https://www.youtube.com/embed/_OKAwz2MsJs?si=RVkyG0prRom1VXh5',
         releaseDate: new Date("2010-07-16"),
         slug: "Joker",
-        genre: "Sci-Fi, Thriller",
+        genre: ["Sci-Fi", "Thriller"],
         shows: [
             {
                 startTime: new Date('2024-11-06T12:30:00'),
@@ -71,7 +71,7 @@ const mockMovies = [
         duration: "2h 49m",
         releaseDate: new Date("2014-11-07"),
         slug: "interstellar",
-        genre: "Sci-Fi, Adventure",
+        genre: ["Sci-Fi", "Adventure"],
         shows: [
             {
                 startTime: new Date('2024-11-06T13:00:00'),
@@ -95,7 +95,7 @@ const mockMovies = [
         duration: "2h 50m",
         releaseDate: new Date("2022-03-25"),
         slug: "rrr",
-        genre: "Action, Drama",
+        genre: ["Action", "Drama"],
         shows: [],
         rating: "PG"
     }

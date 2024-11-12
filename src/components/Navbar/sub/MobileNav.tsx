@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { RxHamburgerMenu, RxCross2 } from "react-icons/rx";
 import Link from 'next/link';
-import { FaUser, FaLocationDot } from "react-icons/fa6";
+import { FaUser } from "react-icons/fa6";
 import { TStyle } from '@/types/types';
 import useClickOutside from '@/hooks/useClickOutside';
 import { logout } from '@/actions/login';
@@ -34,10 +34,10 @@ const MobileNav = ({ styles, user }: { styles: TStyle, user: User }) => {
 
     const links = [
         { href: '/', label: 'Home' },
-        { href: '/movies', label: 'Movies' },
         ...(user ? [{ href: '/my-tickets', label: 'My Tickets' }] : []),
         { href: '/ticketrates', label: 'Ticket Rates' },
         ...(!user ? [{ href: '/login', label: 'Login' }] : []),
+        { href: '/about-us', label: 'About Us' },
     ];
 
     return (

@@ -15,9 +15,9 @@ const NavLinks = ({ styles, user }: { styles: TStyle, user: User }) => {
 
     const links = [
         { href: '/', label: 'Home' },
-        { href: '/movies', label: 'Movies' },
         ...(user ? [{ href: '/my-tickets', label: 'My Tickets' }] : []),
-        { href: '/ticketrates', label: 'Ticket Rates' }
+        { href: '/ticketrates', label: 'Ticket Rates' },
+        { href: '/about-us', label: 'About Us' },
     ];
 
     return (

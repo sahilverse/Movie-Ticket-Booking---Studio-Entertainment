@@ -1,31 +1,70 @@
-import ComingSoon from "@/components/comingSoon/ComingSoon";
-import NowShowing from "@/components/nowShowing/NowShowing";
-import Slider from "@/components/slider/Slider";
-import mockMovies from "@/test/MovieCardTypeTest";
-import { SliderType } from "@/types/types";
+import React from 'react'
+
+import { MovieCardType, SliderType } from '@/types/types'
+import { prisma } from '@/lib/prisma'
+import Slider from '@/components/slider/Slider'
+import NowShowing from '@/components/nowShowing/NowShowing'
+import ComingSoon from '@/components/comingSoon/ComingSoon'
+
+async function getNowShowingMovies(): Promise<MovieCardType[]> {
+  const movies = await prisma.movie.findMany({
+    where: {
+      shows: {
+        some: {}
+      }
+    },
+    include: {
+      shows: {
+        orderBy: {
+          startTime: 'asc'
+        }
+      }
+    }
+  });
+  return movies;
+}
 
 
+async function getSliderMovies(): Promise<SliderType[]> {
+  const movies = await prisma.movie.findMany({
+    where: {
+      isFeature: true,
+      landscapeImageUrl: {
+        not: null
+      }
+    }
+  })
+  return movies.map(movie => ({
+    ...movie,
+    landscapeImageUrl: movie.landscapeImageUrl as string,
+  }));
+}
 
-export default function Home() {
+async function getComingSoonMovies(): Promise<MovieCardType[]> {
+  const movies = await prisma.movie.findMany({
+    where: {
+      shows: {
+        none: {},
+      },
+    },
 
-  const comingSoonMovies = mockMovies.filter(movie => !movie.shows || movie.shows.length === 0);
-  const nowShowingMovies = mockMovies.filter(movie => movie.shows.some(show => new Date(show.startTime).getTime() > Date.now()))
-  // Get all movies with landscape image and remove duplicates
-  const sliders = [
-    ...nowShowingMovies,
-    ...comingSoonMovies
-  ].filter(movie => movie.landscapeImageUrl).filter((movie, index, self) => self.findIndex(m => m.id === movie.id) === index);
+  });
+  return movies;
+}
+
+export default async function Home() {
+  const [nowShowingMovies, sliderMovies, comingSoonMovies] = await Promise.all([
+    getNowShowingMovies(),
+    getSliderMovies(),
+    getComingSoonMovies(),
+  ])
+
 
   return (
     <main className="main_container mt-8">
-
-
-      <Slider movies={sliders as SliderType[]} />
-
+      <Slider movies={sliderMovies} />
       <NowShowing movies={nowShowingMovies} />
-
       <ComingSoon movies={comingSoonMovies} />
-
     </main>
-  );
+  )
 }

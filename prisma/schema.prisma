@@ -7,16 +7,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Admin {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
-  name     String
-  email    String @unique
-  password String
-}
-
 enum Gender {
   Male
   Female
+}
+
+enum Role {
+  USER
+  ADMIN
 }
 
 model User {
@@ -32,8 +30,8 @@ model User {
   verificationCode    String?
   verificationExpires DateTime?
   emailVerified       DateTime?
-
-  accounts Account[]
+  role                Role      @default(USER)
+  accounts            Account[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -63,23 +61,23 @@ model Account {
   @@unique([provider, providerAccountId])
 }
 
-//* TODO: DATABASE REMODELING *//
-
 model Movie {
   id                String   @id @default(auto()) @map("_id") @db.ObjectId
   title             String
   slug              String   @unique
   description       String?
-  duration          Int
+  duration          String
   language          String?
   genre             String[]
   cast              String[]
   director          String?
   rating            String?
-  potraitImageUrl   String?
+  potraitImageUrl   String
   landscapeImageUrl String?
   releaseDate       DateTime
   shows             Show[]
+  trailerUrl        String?
+  isFeature         Boolean  @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -110,9 +108,9 @@ model Seat {
   number   Int
   type     SeatType
   price    Float
-  screenId String    @db.ObjectId
-  screen   Screen    @relation(fields: [screenId], references: [id])
-  bookings Booking[]
+  screenId String?   @db.ObjectId
+  screen   Screen?   @relation(fields: [screenId], references: [id])
+  Booking  Booking[]
 }
 
 enum SeatType {

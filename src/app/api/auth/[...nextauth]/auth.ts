@@ -45,6 +45,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                 token.birthDate = birthDate?.toISOString() ?? undefined;
                 token.gender = gender ?? undefined;
                 token.createdAt = createdAt?.toISOString() ?? undefined
+
             }
 
             if (trigger === "update" && session?.user) {

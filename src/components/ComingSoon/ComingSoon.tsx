@@ -13,6 +13,7 @@ import { fadeInAnimationVariants } from '@/lib/motion';
 
 const ComingSoon = ({ movies }: { movies: MovieCardType[] }) => {
 
+
     const router = useRouter();
     const formatDate = (date: Date) => {
         const month = date.toLocaleString('default', { month: 'short' });
@@ -28,7 +29,7 @@ const ComingSoon = ({ movies }: { movies: MovieCardType[] }) => {
             <p>Coming Soon</p>
 
             <div className={styles.card_container}>
-                {movies.map((movie, index) => (
+                {movies?.map((movie, index) => (
 
                     <motion.div
                         variants={fadeInAnimationVariants}
@@ -37,7 +38,9 @@ const ComingSoon = ({ movies }: { movies: MovieCardType[] }) => {
                         viewport={{ once: true }}
                         custom={index}
                         key={movie.id} className={styles.card} onClick={() => router.push(`movie-details/${movie.slug}`)}>
-                        <Image src={movie.potraitImageUrl} alt={movie.title} loading='lazy' className={styles.image} />
+                        <Image src={movie.potraitImageUrl} alt={movie.title} loading='lazy' className={styles.image}
+                            width={200} height={300}
+                        />
                         <p className={styles.release_date}>{formatDate(movie.releaseDate)}</p>
 
                     </motion.div>

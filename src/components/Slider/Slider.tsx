@@ -21,8 +21,9 @@ import Link from 'next/link';
 
 import TrailerPopup from '../popups/trailer/TrailerPopup';
 import { SliderType } from '@/types/types';
-// import required modules
+
 import { Navigation, Pagination, Mousewheel, Keyboard, Autoplay } from 'swiper/modules';
+
 
 
 
@@ -40,8 +41,8 @@ export default function Slider({ movies }: { movies: SliderType[] }) {
 
 
     const [windowSize, setWindowSize] = useState({
-        width: 0,
-        height: 0
+        width: 1277,
+        height: 898
     });
 
     // hook to handle window dimensions
@@ -87,12 +88,13 @@ export default function Slider({ movies }: { movies: SliderType[] }) {
                                     width={windowSize.width}
                                     height={windowSize.height}
                                     className='rounded-lg'
-                                    priority={true}
+                                    priority
+
                                 />
                                 <div className={styles.details_container}>
                                     <p className={styles.banner_name}>{banner.title}</p>
                                     <div className='flex sm:gap-[50px] sm:flex-row flex-col'>
-                                        <Link className={styles.book_ticket_button} href={`/movie-details/${banner.title}`}>
+                                        <Link className={styles.book_ticket_button} href={`/movie-details/${banner.slug}`}>
                                             <span><IoTicketOutline className='text-xl text-[#000]' /></span>
                                             <span>Book Tickets</span>
                                         </Link>
