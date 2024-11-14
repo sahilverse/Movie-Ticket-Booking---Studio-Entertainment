@@ -20,6 +20,8 @@ import { motion } from 'framer-motion'
 import { fadeInAnimationVariants } from '@/lib/motion'
 import NoShowsAvailable from '@/components/extras/NoShowsAvailable'
 
+import { toZonedTime } from 'date-fns-tz';
+
 
 interface MovieCardProps {
     movies?: MovieCardType[]
@@ -85,9 +87,10 @@ export default function MovieCard({ movies }: MovieCardProps) {
 
                                     <div className="grid grid-cols-2 gap-2 mt-4 xl:grid-cols-3">
                                         {movie.shows?.map((show, index) => {
-                                            const showTime = new Date(show.startTime);
+                                            const timeZone = 'Asia/Kathmandu';
+                                            const showTime = toZonedTime(show.startTime, timeZone);
 
-                                            const isAvailable = showTime.toLocaleString() > new Date().toLocaleString();
+                                            const isAvailable = showTime > new Date();
 
                                             return (
                                                 <Button key={index} variant="outline" className={`text-xs  bg-[#373737] border-transparent hover:border-[#efae26] hover:text-white ${isAvailable ? "hover:bg-[#373737]" : " bg-[#201f1fc3] hover:cursor-not-allowed hover:bg-[#201f1fc3] hover:border-transparent text-gray-400 hover:text-gray-400"}`}

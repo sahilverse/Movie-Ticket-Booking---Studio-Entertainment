@@ -4,7 +4,7 @@
 import { prisma } from "@/lib/prisma";
 
 
-import { toZonedTime, format } from 'date-fns-tz';
+import { toZonedTime } from 'date-fns-tz';
 
 type ShowData = {
     movieId: string;

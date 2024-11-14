@@ -24,7 +24,6 @@ async function getNowShowingMovies(): Promise<MovieCardType[]> {
   return movies;
 }
 
-
 async function getSliderMovies(): Promise<SliderType[]> {
   const movies = await prisma.movie.findMany({
     where: {
@@ -34,6 +33,7 @@ async function getSliderMovies(): Promise<SliderType[]> {
       }
     }
   })
+
   return movies.map(movie => ({
     ...movie,
     landscapeImageUrl: movie.landscapeImageUrl as string,

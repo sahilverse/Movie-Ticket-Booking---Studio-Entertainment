@@ -12,8 +12,6 @@ export const metadata: Metadata = {
   description: "Book your tickets now online!",
 };
 
-
-
 export default function RootLayout({
   children,
 }: Readonly<{
