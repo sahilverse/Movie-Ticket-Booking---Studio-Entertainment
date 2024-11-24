@@ -8,10 +8,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-
-import Image, { StaticImageData } from 'next/image';
-
-
+import Image from 'next/image';
 import styles from './Slider.module.css';
 
 import { IoTicketOutline } from "react-icons/io5";

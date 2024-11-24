@@ -34,6 +34,8 @@ const AddShow = () => {
         try {
             await addShow(formData);
 
+
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error) {
             alert('An error occurred. Please try again later.');
         } finally {

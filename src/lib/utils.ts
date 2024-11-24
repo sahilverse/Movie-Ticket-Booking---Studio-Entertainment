@@ -15,3 +15,9 @@ export const getUserByEmail = async (email: string) => {
   return await prisma.user.findUnique({ where: { email } });
 }
 
+
+
+export function formatShowsTime(date: Date) {
+  return new Date(date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+

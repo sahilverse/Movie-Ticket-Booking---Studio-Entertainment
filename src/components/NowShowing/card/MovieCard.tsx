@@ -10,7 +10,7 @@ import {
     CarouselNext,
     CarouselPrevious,
 } from "@/components/ui/carousel"
-import { Button } from '@/components/ui/button'
+
 import { Badge } from '@/components/ui/badge'
 import { MovieCardType } from '@/types/types'
 
@@ -20,15 +20,12 @@ import { motion } from 'framer-motion'
 import { fadeInAnimationVariants } from '@/lib/motion'
 import NoShowsAvailable from '@/components/extras/NoShowsAvailable'
 
-import { toZonedTime } from 'date-fns-tz';
+
+import ShowTimes from '../shows/ShowTimes'
 
 
 interface MovieCardProps {
     movies?: MovieCardType[]
-}
-
-function formatTime(date: Date) {
-    return new Date(date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
 
 
@@ -84,27 +81,8 @@ export default function MovieCard({ movies }: MovieCardProps) {
 
 
                                     <p className={`text-xs text-gray-500 ${styles.movie_genre}`} key={index}>{movie.genre.join(", ")}</p>
+                                    <ShowTimes movie={movie} />
 
-                                    <div className="grid grid-cols-2 gap-2 mt-4 xl:grid-cols-3">
-                                        {movie.shows?.map((show, index) => {
-                                            const timeZone = 'Asia/Kathmandu';
-                                            const showTime = toZonedTime(show.startTime, timeZone);
-
-                                            const isAvailable = showTime > new Date();
-
-                                            return (
-                                                <Button key={index} variant="outline" className={`text-xs  bg-[#373737] border-transparent hover:border-[#efae26] hover:text-white ${isAvailable ? "hover:bg-[#373737]" : " bg-[#201f1fc3] hover:cursor-not-allowed hover:bg-[#201f1fc3] hover:border-transparent text-gray-400 hover:text-gray-400"}`}
-                                                    {
-                                                    ...isAvailable && {
-                                                        onClick: () => router.push(`/booking/${movie.slug}/${show.id}`)
-                                                    }
-                                                    }
-                                                >
-                                                    {formatTime(show.startTime)}
-                                                </Button>
-                                            )
-                                        })}
-                                    </div>
                                 </div>
                             </motion.div>
                         </CarouselItem>

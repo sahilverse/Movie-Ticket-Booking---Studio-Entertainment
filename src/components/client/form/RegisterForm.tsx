@@ -41,6 +41,7 @@ const RegisterForm = ({ styles }: { styles: TStyle }) => {
                     SetShowFormError(true);
                 }
 
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
             } catch (error) {
                 toast.error("An error occurred! Please try again");
             }
@@ -67,6 +68,7 @@ const RegisterForm = ({ styles }: { styles: TStyle }) => {
                 </div>
                 <div>
                     <InputField type="password" id="password" placeholder="Password (min 6 characters)*" styles={styles} disabled={isPending} {...register("password")} autoComplete='new-password' className={`${errors.password && "text-red-500"}`} />
+                    {errors.password && <ErrorText message={errors.password?.message} styles={styles} />}
                 </div>
                 <div className={styles.btn_container}>
                     <Button

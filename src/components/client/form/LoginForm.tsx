@@ -12,7 +12,6 @@ import toast from "react-hot-toast";
 import FormError from "./formError/FormError";
 import GoogleBtn from "./buttons/GoogleBtn";
 import { TStyle } from "@/types/types";
-import { start } from "node:repl";
 import { Button } from "@/components/ui/button";
 import Spinner from "@/components/spinner/Spinner";
 
@@ -39,6 +38,7 @@ const LoginForm = ({ styles }: { styles: TStyle }) => {
                     SetShowFormError(true);
                 }
 
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
             } catch (error) {
                 toast.error("An error occurred! Please try again");
             }
