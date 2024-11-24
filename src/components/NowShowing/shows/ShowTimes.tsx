@@ -25,7 +25,7 @@ export default function ShowTimes({ movie }: ShowTimesProps) {
                 const isAvailable = showTime > new Date();
 
                 return (
-                    <Button key={index} variant="outline" className={`text-xs  bg-[#373737] border-transparent hover:border-[#efae26] hover:text-white ${isAvailable ? "hover:bg-[#373737]" : " bg-[#201f1fc3] hover:cursor-not-allowed hover:bg-[#201f1fc3] hover:border-transparent text-gray-400 hover:text-gray-400"}`}
+                    <Button key={index} variant="outline" className={`text-xs  bg-[#373737] border-transparent hover:border-[#efae26] hover:text-white ${isAvailable ? "hover:bg-[#373737]" : "bg-[#201f1fc3] hover:cursor-not-allowed hover:bg-[#201f1fc3] hover:border-transparent text-gray-400 hover:text-gray-400"}`}
                         {
                         ...isAvailable && {
                             onClick: () => router.push(`/booking/${movie.slug}/${show.id}`)

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 import type { Config } from "tailwindcss";
 
 
@@ -27,6 +28,7 @@ const config: Config = {
 				yellowShadeHover: "#efaf26d8",
 				slightGray: "var(--slight-gray)",
 				customBlue: "var(--form-btn)",
+				glass: "#1f293750",
 
 				card: {
 					DEFAULT: 'hsl(var(--card))',
