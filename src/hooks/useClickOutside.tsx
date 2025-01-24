@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 
+
+// This hook is used to detect if a user clicks outside of a specific element
 const useClickOutside = (ref: React.RefObject<HTMLElement>, callback: () => void) => {
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {

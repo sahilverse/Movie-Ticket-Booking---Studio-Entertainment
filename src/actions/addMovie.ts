@@ -9,8 +9,8 @@ import { toZonedTime } from 'date-fns-tz';
 type ShowData = {
     movieId: string;
     screenId: string;
-    startTime: string;  // ISO string format for date-time
-    endTime?: string;   // Optional end time, also in ISO string format
+    startTime: string;
+    endTime?: string;
 };
 
 // Server action

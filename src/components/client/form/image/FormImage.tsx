@@ -11,7 +11,7 @@ const FormImage = ({ styles }: { styles: TStyle }) => {
             <Image
                 src={signinImage}
                 alt="Form Image"
-                priority={true}
+                priority
                 className={styles.img}
             />
 

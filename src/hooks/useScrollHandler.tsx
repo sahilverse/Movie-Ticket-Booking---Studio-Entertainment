@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+
+// This hook is used to detect if a user has scrolled down the page
 const useScrollHandler = () => {
     const [isScroll, setIsScroll] = useState(false);
 
