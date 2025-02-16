@@ -26,12 +26,13 @@ const Accordian = ({ movie }: AccordianProps) => {
     const dates = Array.from({ length: 5 }, (_, i) => {
         const date = new Date(today)
         date.setDate(date.getDate() + i)
-        return date
+        return date;
     })
 
     useEffect(() => {
         setSelectedTime("")
         setSelectedShow(null)
+        setSelectedLanguage("All")
     }, [selectedDate])
 
     useEffect(() => {
@@ -59,10 +60,10 @@ const Accordian = ({ movie }: AccordianProps) => {
             {} as Record<string, Show[]>,
         )
 
-        return showsByLanguage
+        return showsByLanguage;
     }
 
-    const canSelectSeats = selectedDate && selectedTime && selectedShow
+    const canSelectSeats = selectedDate && selectedTime && selectedShow;
 
     const handleDateSelect = (date: Date) => {
         setSelectedDate(date)
