@@ -11,13 +11,14 @@ type ShowData = {
     screenId: string;
     startTime: string;
     endTime?: string;
+    language: string;
 };
 
 // Server action
 export const addShow = async (showData: ShowData) => {
     try {
         // Here you can implement the logic to save the show in the database (via Prisma, etc.)
-        const { movieId, screenId, startTime } = showData;
+        const { movieId, screenId, startTime, language } = showData;
 
         const timeZone = 'Asia/Kathmandu';
 
@@ -30,6 +31,7 @@ export const addShow = async (showData: ShowData) => {
             data: {
                 movieId,
                 screenId,
+                language,
                 startTime: utcStartTime.toISOString(),
             },
         });

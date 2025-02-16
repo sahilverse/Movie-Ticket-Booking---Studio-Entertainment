@@ -13,6 +13,7 @@ const AddShow = () => {
         movieId: string;
         screenId: string;
         startTime: string
+        language: string;
 
     }
 
@@ -20,6 +21,7 @@ const AddShow = () => {
         movieId: '',
         screenId: '',
         startTime: '',
+        language: ''
 
     });
 
@@ -87,7 +89,18 @@ const AddShow = () => {
                     />
                 </div>
 
-
+                <div>
+                    <label htmlFor="language" className="block text-sm font-medium text-gray-700">Language</label>
+                    <input
+                        type="text"
+                        id="language"
+                        name="language"
+                        value={formData.language}
+                        onChange={onChange}
+                        required
+                        className="w-full px-4 py-2 mt-1 border border-gray-300 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    />
+                </div>
 
                 <div className="flex justify-center">
                     <button

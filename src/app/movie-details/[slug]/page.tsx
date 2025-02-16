@@ -11,12 +11,21 @@ const MovieDetailsPage = async ({ params }: { params: { slug: string } }) => {
 
     const movie = await prisma.movie.findFirst({
         where: {
-            slug
+            slug,
         },
         include: {
-            shows: true
-        }
-    });
+            shows: {
+                include: {
+                    screen: {
+                        include: {
+                            seats: true,
+                        },
+                    },
+                },
+            },
+        },
+    })
+
 
 
     if (!movie) return <MovieNotFound />

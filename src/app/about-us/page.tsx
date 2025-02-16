@@ -93,7 +93,7 @@ export default function About() {
                                 <CardContent className="p-4 sm:p-6">
                                     <div className="flex flex-col items-center text-center">
                                         {feature.icon}
-                                        <h3 className="text-lg sm:text-xl font-semibold mb-2">{feature.title}</h3>
+                                        <h3 className="text-lg sm:text-xl font-semibold mb-2 text-white">{feature.title}</h3>
                                         <p className="text-sm sm:text-base text-gray-400">{feature.description}</p>
                                     </div>
                                 </CardContent>
@@ -112,7 +112,7 @@ export default function About() {
                             <CardContent className="p-4 sm:p-6">
                                 <div className="flex flex-col items-center text-center">
                                     {contact.icon}
-                                    <h3 className="text-base sm:text-lg font-semibold mb-2">{contact.title}</h3>
+                                    <h3 className="text-base sm:text-lg font-semibold mb-2 text-white">{contact.title}</h3>
                                     {contact.details.map((detail, idx) => (
                                         <p key={idx} className="text-sm sm:text-base text-gray-400">{detail}</p>
                                     ))}

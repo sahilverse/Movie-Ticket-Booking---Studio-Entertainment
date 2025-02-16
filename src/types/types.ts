@@ -1,5 +1,5 @@
 // import { Show } from '@prisma/client';
-import { Show } from '@prisma/client';
+import { Movie, Seat, Show } from '@prisma/client';
 import { StaticImageData } from 'next/image';
 
 
@@ -28,6 +28,15 @@ export interface SliderType {
     slug: string;
 }
 
+
+export interface MovieWithShowsAndSeats extends Movie {
+    shows: Show[] &
+    {
+        screen: {
+            seats: Seat[]
+        }
+    }[]
+}
 
 
 

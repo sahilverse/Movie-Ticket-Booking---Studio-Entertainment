@@ -1,4 +1,5 @@
 "use server";
+
 import { signIn, signOut } from "@/app/api/auth/[...nextauth]/auth";
 import { signInSchema } from "@/lib/zod";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";

@@ -67,7 +67,7 @@ model Movie {
   slug              String   @unique
   description       String?
   duration          String
-  language          String?
+  language          String[]
   genre             String[]
   cast              String[]
   director          String?
@@ -98,25 +98,32 @@ model Show {
   screenId  String    @db.ObjectId
   screen    Screen    @relation(fields: [screenId], references: [id])
   startTime DateTime
+  language  String
   endTime   DateTime?
   bookings  Booking[]
 }
 
 model Seat {
-  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  id       String     @id @default(auto()) @map("_id") @db.ObjectId
   row      String
   number   Int
+  status   SeatStatus
   type     SeatType
   price    Float
-  screenId String?   @db.ObjectId
-  screen   Screen?   @relation(fields: [screenId], references: [id])
+  screenId String?    @db.ObjectId
+  screen   Screen?    @relation(fields: [screenId], references: [id])
   Booking  Booking[]
+}
+
+enum SeatStatus {
+  AVAILABLE
+  BOOKED
+  SOLD
 }
 
 enum SeatType {
   NORMAL
   PREMIUM
-  VIP
 }
 
 model Booking {
