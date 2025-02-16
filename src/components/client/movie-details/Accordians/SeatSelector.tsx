@@ -50,7 +50,7 @@ const SeatSelector: React.FC<SeatSelectorProps> = ({ screenName, movieName, lang
                 </div>
             </div>
 
-            <div className="relative">
+            <div className="relative mt-20">
                 {/* Fixed width container for scrollable content */}
                 <div className="overflow-x-auto pb-4">
                     <div className="min-w-[800px] flex flex-col items-center">

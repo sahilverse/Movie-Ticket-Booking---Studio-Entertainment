@@ -222,7 +222,7 @@ const Accordian = ({ movie }: AccordianProps) => {
                     </AccordionTrigger>
                     <AccordionContent className="px-6 pb-6 transition-all duration-300 ease-in-out">
                         {canSelectSeats ? (
-                            <div className="space-y-4">
+                            <div className="space-y-4 flex flex-col items-center">
                                 <SeatSelector
                                     // @ts-ignore
                                     screenName={selectedShow?.screen.name || ""}
@@ -233,7 +233,7 @@ const Accordian = ({ movie }: AccordianProps) => {
                                     onSeatSelect={handleSeatSelect}
                                 />
                                 <Button
-                                    className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+                                    className="bg-yellow-400 cursor-pointer hover:bg-yellowShadeHover text-black tracking-wide font-roboto font-bold text-md disabled:bg-gray-500 disabled:text-gray-300"
                                     disabled={selectedSeats.length === 0}
                                 >
                                     Proceed to Payment
