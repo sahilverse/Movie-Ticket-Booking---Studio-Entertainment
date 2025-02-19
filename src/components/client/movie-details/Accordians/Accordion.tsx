@@ -1,26 +1,32 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import { format, isSameDay, isPast } from "date-fns"
 import { Calendar, Clock, Globe } from "lucide-react"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Button } from "@/components/ui/button"
 import type { Show } from "@prisma/client"
-import type { MovieWithShowsAndSeats } from "@/types/types"
+import type { MovieWithShowsAndSeats, ShowWithSeats } from "@/types/types"
 import SeatSelector from "./SeatSelector"
+import { SeatSummaryDialog } from "@/components/popups/seat-summary/SeatSummary"
 
-
-interface AccordianProps {
+interface AccordionProps {
     movie: MovieWithShowsAndSeats
 }
 
-const Accordian = ({ movie }: AccordianProps) => {
+
+
+const BookingAccordion = ({ movie }: AccordionProps) => {
     const [selectedDate, setSelectedDate] = useState<Date | null>(null)
     const [selectedLanguage, setSelectedLanguage] = useState<string>("All")
     const [selectedTime, setSelectedTime] = useState<string>("")
     const [activeAccordion, setActiveAccordion] = useState<string>("step-1")
     const [selectedShow, setSelectedShow] = useState<Show | null>(null)
     const [selectedSeats, setSelectedSeats] = useState<string[]>([])
+    const [selectedScreen, setSelectedScreen] = useState<string>("")
+    const [isSummaryOpen, setIsSummaryOpen] = useState(false)
+
+
 
     const today = new Date()
     const dates = Array.from({ length: 5 }, (_, i) => {
@@ -33,11 +39,17 @@ const Accordian = ({ movie }: AccordianProps) => {
         setSelectedTime("")
         setSelectedShow(null)
         setSelectedLanguage("All")
+        setSelectedScreen("")
     }, [selectedDate])
 
     useEffect(() => {
+        setSelectedTime("")
+        setSelectedScreen("")
+    }, [selectedLanguage])
+
+    useEffect(() => {
         let timeoutId: NodeJS.Timeout
-        if (selectedDate && selectedTime) {
+        if (selectedDate && (selectedTime && selectedScreen)) {
             timeoutId = setTimeout(() => {
                 setActiveAccordion("step-2")
             }, 1)
@@ -45,25 +57,29 @@ const Accordian = ({ movie }: AccordianProps) => {
             setActiveAccordion("step-1")
         }
         return () => clearTimeout(timeoutId)
-    }, [selectedTime, selectedDate])
+    }, [selectedTime, selectedDate, selectedScreen])
 
     const getAvailableShows = (date: Date) => {
         const filteredShows = movie.shows.filter((show) => isSameDay(new Date(show.startTime), date))
-        const showsByLanguage = filteredShows.reduce(
+        const showsByLanguageAndTime = filteredShows.reduce(
             (acc, show) => {
+                const timeKey = format(new Date(show.startTime), "hh:mm a")
                 if (!acc[show.language]) {
-                    acc[show.language] = []
+                    acc[show.language] = {}
                 }
-                acc[show.language].push(show)
-                return acc
+                if (!acc[show.language][timeKey]) {
+                    acc[show.language][timeKey] = []
+                }
+                acc[show.language][timeKey].push(show)
+                return acc;
             },
-            {} as Record<string, Show[]>,
+            {} as Record<string, Record<string, Show[]>>,
         )
 
-        return showsByLanguage;
+        return showsByLanguageAndTime;
     }
 
-    const canSelectSeats = selectedDate && selectedTime && selectedShow;
+    const canSelectSeats = selectedDate && selectedTime && selectedShow
 
     const handleDateSelect = (date: Date) => {
         setSelectedDate(date)
@@ -72,19 +88,29 @@ const Accordian = ({ movie }: AccordianProps) => {
     const handleShowSelect = (show: Show) => {
         setSelectedShow(show)
         setSelectedTime(format(new Date(show.startTime), "hh:mm a"))
+        // @ts-ignore
+        setSelectedScreen(show.screen.name)
     }
 
     const filteredShows = selectedDate
         ? selectedLanguage === "All"
             ? Object.entries(getAvailableShows(selectedDate))
-            : [[selectedLanguage, getAvailableShows(selectedDate)[selectedLanguage] || []]]
+            : [[selectedLanguage, getAvailableShows(selectedDate)[selectedLanguage] || {}]]
         : []
 
     const handleSeatSelect = (seats: string[]) => {
         setSelectedSeats(seats)
     }
 
+    const handleScreenSelect = (screen: string) => {
+        setSelectedScreen(screen)
+    }
 
+
+    const handleBooking = () => {
+        setIsSummaryOpen(true)
+
+    }
 
 
 
@@ -118,7 +144,7 @@ const Accordian = ({ movie }: AccordianProps) => {
                                     {dates.map((date) => (
                                         <Button
                                             key={date.toISOString()}
-                                            className={`flex-col h-[80px] w-[70px] py-2 px-3 sm:px-4 transition-all duration-200 ease-in-out ${selectedDate?.toDateString() === date.toDateString()
+                                            className={`flex-col h-[85px] w-[70px] py-2 px-3 sm:px-4  transition-all duration-200 ease-in-out ${selectedDate?.toDateString() === date.toDateString()
                                                 ? "bg-primary text-primary-foreground hover:bg-primary/90 ring-2 ring-primary ring-offset-2 ring-offset-background"
                                                 : "bg-gray-700 hover:bg-gray-600"
                                                 } text-sm sm:text-base relative`}
@@ -165,32 +191,32 @@ const Accordian = ({ movie }: AccordianProps) => {
                                     {selectedTime && <span className="text-primary-foreground text-xs">({selectedTime})</span>}
                                 </h3>
                                 {selectedDate ? (
-                                    filteredShows.map(([language, shows]) => (
+                                    filteredShows.map(([language, showsByTime]) => (
                                         <div key={language.toString()} className="mb-4">
                                             <h4 className="text-gray-400 mb-2 text-sm">{String(language)}</h4>
                                             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3">
-                                                {Array.isArray(shows) &&
-                                                    shows.map((show) => {
-                                                        const showTime = new Date(show.startTime)
-                                                        const time = format(showTime, "hh:mm a")
-                                                        const isPastShow = isPast(showTime)
-                                                        return (
+                                                {Object.entries(showsByTime).map(([time, shows]) => {
+                                                    const isPastShow = isPast(new Date(shows[0].startTime))
+                                                    return (
+                                                        <React.Fragment key={time}>
                                                             <Button
-                                                                key={show.id}
-                                                                className={`transition-all duration-200 ease-in-out ${selectedShow?.id === show.id
+                                                                className={`transition-all duration-200 ease-in-out ${selectedTime === time && selectedShow?.id === shows[0].id // Check both time and specific show ID
                                                                     ? "bg-primary text-primary-foreground hover:bg-primary/90 ring-2 ring-primary ring-offset-2 ring-offset-background"
                                                                     : isPastShow
                                                                         ? "bg-gray-500 text-gray-300 cursor-not-allowed"
                                                                         : "bg-gray-700 hover:bg-gray-600"
                                                                     } text-xs sm:text-sm px-2 py-1 sm:px-3 sm:py-2`}
-                                                                aria-selected={selectedShow?.id === show.id}
-                                                                onClick={() => !isPastShow && handleShowSelect(show)}
+                                                                onClick={() => {
+                                                                    handleShowSelect(shows[0])
+                                                                    handleScreenSelect(shows[0].screen.name)
+                                                                }}
                                                                 disabled={isPastShow}
                                                             >
                                                                 <span>{time}</span>
                                                             </Button>
-                                                        )
-                                                    })}
+                                                        </React.Fragment>
+                                                    )
+                                                })}
                                             </div>
                                         </div>
                                     ))
@@ -225,18 +251,22 @@ const Accordian = ({ movie }: AccordianProps) => {
                             <div className="space-y-4 flex flex-col items-center">
                                 <SeatSelector
                                     // @ts-ignore
-                                    screenName={selectedShow?.screen.name || ""}
-                                    movieName={movie.title}
-                                    language={selectedShow?.language || ""}
-                                    // @ts-ignore
                                     seats={selectedShow?.screen.seats || []}
+                                    // @ts-ignore
+                                    showSeats={selectedShow?.ShowSeat || []}
                                     onSeatSelect={handleSeatSelect}
+                                    selectedSeats={selectedSeats}
                                 />
                                 <Button
                                     className="bg-yellow-400 cursor-pointer hover:bg-yellowShadeHover text-black tracking-wide font-roboto font-bold text-md disabled:bg-gray-500 disabled:text-gray-300"
+
                                     disabled={selectedSeats.length === 0}
+
+                                    onClick={() => { handleBooking() }}
+
+
                                 >
-                                    Proceed to Payment
+                                    Book Now
                                 </Button>
                             </div>
                         ) : (
@@ -247,9 +277,19 @@ const Accordian = ({ movie }: AccordianProps) => {
                     </AccordionContent>
                 </AccordionItem>
             </Accordion>
+
+
+            <SeatSummaryDialog
+                open={isSummaryOpen}
+                onOpenChange={(open) => setIsSummaryOpen(open)}
+                selectedSeats={selectedSeats}
+                show={selectedShow as ShowWithSeats}
+
+
+            />
         </div>
     )
 }
 
-export default Accordian;
+export default BookingAccordion;
 

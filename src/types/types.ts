@@ -33,10 +33,17 @@ export interface MovieWithShowsAndSeats extends Movie {
     shows: Show[] &
     {
         screen: {
+            name?: string;
             seats: Seat[]
         }
     }[]
 }
 
 
+export interface ShowWithSeats extends Show {
+    screen: {
+        name?: string;
+        seats: Seat[]
+    }
+}
 

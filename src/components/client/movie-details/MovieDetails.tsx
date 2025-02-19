@@ -8,13 +8,15 @@ import { Calendar, Clock, UserCircle2 } from 'lucide-react';
 import Detail from './Detail';
 import Icon from './Icon';
 import { Button } from '@/components/ui/button';
-import Accordian from './Accordians/Accordian';
 import { MovieWithShowsAndSeats } from '@/types/types';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { ClipLoader } from 'react-spinners';
+import BookingAccordion from './Accordians/Accordion';
 
 
 const MovieDetails = ({ movie }: { movie: MovieWithShowsAndSeats }) => {
+
+
     const [isExpanded, setIsExpanded] = useState(false);
     const [showReadMore, setShowReadMore] = useState(false);
     const descriptionRef = useRef<HTMLParagraphElement>(null);
@@ -102,7 +104,7 @@ const MovieDetails = ({ movie }: { movie: MovieWithShowsAndSeats }) => {
 
             {/* Accordian */}
 
-            {user && movie.shows.length > 0 && <Accordian movie={movie} />}
+            {user && movie.shows.length > 0 && <BookingAccordion movie={movie} />}
 
             {isLoading && <div className='flex items-center justify-center mt-10'>
                 <ClipLoader

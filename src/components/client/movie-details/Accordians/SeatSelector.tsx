@@ -4,24 +4,38 @@ import type React from "react"
 import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
 import { Armchair } from "lucide-react"
-import type { Seat } from "@prisma/client"
+import type { Seat, SeatStatus } from "@prisma/client"
 
 interface SeatSelectorProps {
-    screenName: string
-    movieName: string
-    language: string
     seats: Seat[]
+    showSeats: {
+        id: string
+        showId: string
+        seatId: string
+        status: SeatStatus
+        bookingId?: string
+    }[]
     onSeatSelect: (selectedSeats: string[]) => void
+    selectedSeats: string[]
+
 }
 
-const SeatSelector: React.FC<SeatSelectorProps> = ({ screenName, movieName, language, seats, onSeatSelect }) => {
-    const [selectedSeats, setSelectedSeats] = useState<string[]>([])
+const SeatSelector: React.FC<SeatSelectorProps> = ({ seats, showSeats, onSeatSelect, selectedSeats }) => {
+
+
+    const getSeatStatus = (seatId: string) => {
+        const showSeat = showSeats.find((ss) => ss.seatId === seatId)
+        return showSeat?.status || "AVAILABLE"
+    }
 
     const handleSeatClick = (seatId: string) => {
+        const status = getSeatStatus(seatId)
+        if (status !== "AVAILABLE") return
+
         if (selectedSeats.includes(seatId)) {
-            setSelectedSeats(selectedSeats.filter((id) => id !== seatId))
+            onSeatSelect(selectedSeats.filter((id) => id !== seatId))
         } else if (selectedSeats.length < 10) {
-            setSelectedSeats([...selectedSeats, seatId])
+            onSeatSelect([...selectedSeats, seatId])
         }
     }
 
@@ -29,7 +43,7 @@ const SeatSelector: React.FC<SeatSelectorProps> = ({ screenName, movieName, lang
         onSeatSelect(selectedSeats)
     }, [selectedSeats, onSeatSelect])
 
-    // Get all rows and sort them in reverse order (J to A)
+    // Get all rows and sort them in reverse order
     const rows = Array.from(new Set(seats?.map((seat) => seat.row)))
         .sort()
         .reverse()
@@ -51,7 +65,6 @@ const SeatSelector: React.FC<SeatSelectorProps> = ({ screenName, movieName, lang
             </div>
 
             <div className="relative mt-20">
-                {/* Fixed width container for scrollable content */}
                 <div className="overflow-x-auto pb-4">
                     <div className="min-w-[800px] flex flex-col items-center">
                         {/* Normal Seats Section */}
@@ -69,7 +82,7 @@ const SeatSelector: React.FC<SeatSelectorProps> = ({ screenName, movieName, lang
                                                 <div className="flex gap-1">
                                                     {seats
                                                         .filter((seat) => seat.row === row && seat.type === "NORMAL")
-                                                        .sort((a, b) => a.number - b.number)
+                                                        .sort((a, b) => a.col - b.col)
                                                         .map((seat) => (
                                                             <button
                                                                 key={seat.id}
@@ -77,10 +90,16 @@ const SeatSelector: React.FC<SeatSelectorProps> = ({ screenName, movieName, lang
                                                                 className={cn(
                                                                     "w-8 h-8 flex items-center justify-center transition-colors rounded-sm",
                                                                     selectedSeats.includes(seat.id) && "text-yellow-400",
-                                                                    !selectedSeats.includes(seat.id) && "text-teal-500",
-                                                                    "hover:opacity-80",
+                                                                    !selectedSeats.includes(seat.id) &&
+                                                                    getSeatStatus(seat.id) === "AVAILABLE" &&
+                                                                    "text-teal-500",
+                                                                    getSeatStatus(seat.id) === "SOLD" && "text-red-500",
+                                                                    getSeatStatus(seat.id) === "BOOKED" && "text-gray-600",
+                                                                    getSeatStatus(seat.id) === "AVAILABLE" && "hover:opacity-80",
+                                                                    getSeatStatus(seat.id) !== "AVAILABLE" && "cursor-not-allowed",
                                                                 )}
-                                                                title={`${seat.row}${seat.number}`}
+                                                                title={`${seat.row}${seat.col}`}
+                                                                disabled={getSeatStatus(seat.id) !== "AVAILABLE"}
                                                             >
                                                                 <Armchair className="w-6 h-6" />
                                                             </button>
@@ -107,7 +126,7 @@ const SeatSelector: React.FC<SeatSelectorProps> = ({ screenName, movieName, lang
                                                 <div className="flex gap-1">
                                                     {seats
                                                         .filter((seat) => seat.row === row && seat.type === "PREMIUM")
-                                                        .sort((a, b) => a.number - b.number)
+                                                        .sort((a, b) => a.col - b.col)
                                                         .map((seat) => (
                                                             <button
                                                                 key={seat.id}
@@ -115,10 +134,16 @@ const SeatSelector: React.FC<SeatSelectorProps> = ({ screenName, movieName, lang
                                                                 className={cn(
                                                                     "w-8 h-8 flex items-center justify-center transition-colors rounded-sm",
                                                                     selectedSeats.includes(seat.id) && "text-yellow-400",
-                                                                    !selectedSeats.includes(seat.id) && "text-teal-500",
-                                                                    "hover:opacity-80",
+                                                                    !selectedSeats.includes(seat.id) &&
+                                                                    getSeatStatus(seat.id) === "AVAILABLE" &&
+                                                                    "text-teal-500",
+                                                                    getSeatStatus(seat.id) === "SOLD" && "text-red-500",
+                                                                    getSeatStatus(seat.id) === "BOOKED" && "text-gray-600",
+                                                                    getSeatStatus(seat.id) === "AVAILABLE" && "hover:opacity-80",
+                                                                    getSeatStatus(seat.id) !== "AVAILABLE" && "cursor-not-allowed",
                                                                 )}
-                                                                title={`${seat.row}${seat.number}`}
+                                                                title={`${seat.row}${seat.col}`}
+                                                                disabled={getSeatStatus(seat.id) !== "AVAILABLE"}
                                                             >
                                                                 <Armchair className="w-6 h-6" />
                                                             </button>
@@ -146,7 +171,9 @@ const SeatSelector: React.FC<SeatSelectorProps> = ({ screenName, movieName, lang
                         </div>
                         <div className="flex items-center gap-2">
                             <Armchair className="w-5 h-5 text-yellow-400" />
-                            <span className="text-sm text-gray-400">Selected {selectedSeats.length > 0 && `(${selectedSeats.length})`}</span>
+                            <span className="text-sm text-gray-400">
+                                Selected {selectedSeats.length > 0 && `(${selectedSeats.length})`}
+                            </span>
                         </div>
                         <div className="flex items-center gap-2">
                             <Armchair className="w-5 h-5 text-gray-600" />
@@ -160,11 +187,10 @@ const SeatSelector: React.FC<SeatSelectorProps> = ({ screenName, movieName, lang
                             <p className="text-sm text-gray-400 mb-2">
                                 Selected Seats:{" "}
                                 <span className="text-yellow-400">
-
                                     {selectedSeats
                                         .map((seatId) => {
                                             const seat = seats.find((s) => s.id === seatId)
-                                            return seat ? `${seat.row}${seat.number}` : ""
+                                            return seat ? `${seat.row}${seat.col}` : ""
                                         })
                                         .join(", ")}{" "}
                                     ({selectedSeats.length}/10)

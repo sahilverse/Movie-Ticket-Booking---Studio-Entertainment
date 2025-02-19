@@ -92,33 +92,50 @@ model Screen {
 }
 
 model Show {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  movieId   String    @db.ObjectId
-  movie     Movie     @relation(fields: [movieId], references: [id])
-  screenId  String    @db.ObjectId
-  screen    Screen    @relation(fields: [screenId], references: [id])
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  movieId   String     @db.ObjectId
+  movie     Movie      @relation(fields: [movieId], references: [id])
+  screenId  String     @db.ObjectId
+  screen    Screen     @relation(fields: [screenId], references: [id], onDelete: Cascade)
   startTime DateTime
   language  String
   endTime   DateTime?
   bookings  Booking[]
+  ShowSeat  ShowSeat[]
 }
 
 model Seat {
-  id       String     @id @default(auto()) @map("_id") @db.ObjectId
-  row      String
-  number   Int
-  status   SeatStatus
-  type     SeatType
-  price    Float
-  screenId String?    @db.ObjectId
-  screen   Screen?    @relation(fields: [screenId], references: [id])
-  Booking  Booking[]
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  row       String
+  col       Int
+  type      SeatType
+  price     Float
+  screenId  String     @db.ObjectId
+  screen    Screen     @relation(fields: [screenId], references: [id])
+  bookingId String?    @db.ObjectId
+  booking   Booking?   @relation(fields: [bookingId], references: [id])
+  ShowSeat  ShowSeat[]
+
+  @@unique([screenId, row, col])
 }
 
 enum SeatStatus {
   AVAILABLE
   BOOKED
   SOLD
+}
+
+model ShowSeat {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  showId    String     @db.ObjectId
+  show      Show       @relation(fields: [showId], references: [id], onDelete: Cascade)
+  seatId    String     @db.ObjectId
+  seat      Seat       @relation(fields: [seatId], references: [id], onDelete: Cascade)
+  status    SeatStatus @default(AVAILABLE)
+  bookingId String?    @db.ObjectId
+  booking   Booking?   @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  @@unique([showId, seatId])
 }
 
 enum SeatType {
@@ -129,21 +146,35 @@ enum SeatType {
 model Booking {
   id        String        @id @default(auto()) @map("_id") @db.ObjectId
   userId    String        @db.ObjectId
-  user      User          @relation(fields: [userId], references: [id])
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   showId    String        @db.ObjectId
-  show      Show          @relation(fields: [showId], references: [id])
-  seatId    String        @db.ObjectId
-  seat      Seat          @relation(fields: [seatId], references: [id])
+  show      Show          @relation(fields: [showId], references: [id], onDelete: Cascade)
+  seats     Seat[]
   status    BookingStatus
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
   payment   Payment?
+
+  ShowSeat ShowSeat[]
+
+  Ticket Ticket[]
 }
 
 enum BookingStatus {
   PENDING
   CONFIRMED
   CANCELLED
+}
+
+model Ticket {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  bookingId String  @db.ObjectId
+  booking   Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  qrCode    String
+
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Payment {

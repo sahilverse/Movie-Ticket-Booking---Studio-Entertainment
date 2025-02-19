@@ -9,6 +9,7 @@ const MovieDetailsPage = async ({ params }: { params: { slug: string } }) => {
 
     const { slug } = params;
 
+    // page.tsx
     const movie = await prisma.movie.findFirst({
         where: {
             slug,
@@ -21,10 +22,12 @@ const MovieDetailsPage = async ({ params }: { params: { slug: string } }) => {
                             seats: true,
                         },
                     },
+                    ShowSeat: true,
                 },
             },
         },
     })
+
 
 
 
