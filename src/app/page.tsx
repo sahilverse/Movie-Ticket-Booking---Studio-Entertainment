@@ -17,9 +17,17 @@ async function getNowShowingMovies(): Promise<MovieCardType[]> {
       shows: {
         orderBy: {
           startTime: 'asc'
+        },
+
+        include: {
+          screen: {
+            select: {
+              name: true
+            }
+          }
         }
       }
-    }
+    },
   });
   return movies;
 }

@@ -105,16 +105,14 @@ model Show {
 }
 
 model Seat {
-  id        String     @id @default(auto()) @map("_id") @db.ObjectId
-  row       String
-  col       Int
-  type      SeatType
-  price     Float
-  screenId  String     @db.ObjectId
-  screen    Screen     @relation(fields: [screenId], references: [id])
-  bookingId String?    @db.ObjectId
-  booking   Booking?   @relation(fields: [bookingId], references: [id])
-  ShowSeat  ShowSeat[]
+  id       String     @id @default(auto()) @map("_id") @db.ObjectId
+  row      String
+  col      Int
+  type     SeatType
+  price    Float
+  screenId String     @db.ObjectId
+  screen   Screen     @relation(fields: [screenId], references: [id])
+  ShowSeat ShowSeat[]
 
   @@unique([screenId, row, col])
 }
@@ -149,7 +147,6 @@ model Booking {
   user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   showId    String        @db.ObjectId
   show      Show          @relation(fields: [showId], references: [id], onDelete: Cascade)
-  seats     Seat[]
   status    BookingStatus
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt

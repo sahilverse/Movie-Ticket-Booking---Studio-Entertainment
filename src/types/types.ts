@@ -1,4 +1,3 @@
-// import { Show } from '@prisma/client';
 import { Movie, Seat, Show } from '@prisma/client';
 import { StaticImageData } from 'next/image';
 
@@ -7,7 +6,7 @@ import { StaticImageData } from 'next/image';
 export type TStyle = Record<string, string>;
 
 export interface MovieCardType {
-    id: string | number;
+    id: string;
     potraitImageUrl: StaticImageData | string;
     landscapeImageUrl?: StaticImageData | string | null;
     title: string;
@@ -21,11 +20,19 @@ export interface MovieCardType {
 }
 
 export interface SliderType {
-    id: number | string;
+    id: string;
     landscapeImageUrl: StaticImageData | string;
     title: string;
     trailerUrl?: string | null;
     slug: string;
+}
+
+export interface MovieWithShowsandScreen extends Movie {
+    shows: Show[] & {
+        screen: {
+            name: string;
+        }
+    }[]
 }
 
 

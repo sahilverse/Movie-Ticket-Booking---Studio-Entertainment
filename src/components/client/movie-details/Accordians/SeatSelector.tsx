@@ -1,10 +1,12 @@
 "use client"
 
 import type React from "react"
-import { useState, useEffect } from "react"
+import { useEffect, useState } from "react"
 import { cn } from "@/lib/utils"
 import { Armchair } from "lucide-react"
 import type { Seat, SeatStatus } from "@prisma/client"
+import toast from "react-hot-toast"
+
 
 interface SeatSelectorProps {
     seats: Seat[]
@@ -22,26 +24,42 @@ interface SeatSelectorProps {
 
 const SeatSelector: React.FC<SeatSelectorProps> = ({ seats, showSeats, onSeatSelect, selectedSeats }) => {
 
+    const [isToastOpen, setIsToastOpen] = useState(false)
 
     const getSeatStatus = (seatId: string) => {
         const showSeat = showSeats.find((ss) => ss.seatId === seatId)
-        return showSeat?.status || "AVAILABLE"
+        return showSeat?.status || "AVAILABLE";
     }
 
     const handleSeatClick = (seatId: string) => {
         const status = getSeatStatus(seatId)
-        if (status !== "AVAILABLE") return
+        if (status !== "AVAILABLE") return;
 
         if (selectedSeats.includes(seatId)) {
             onSeatSelect(selectedSeats.filter((id) => id !== seatId))
+
         } else if (selectedSeats.length < 10) {
             onSeatSelect([...selectedSeats, seatId])
+        } else {
+
+
+            if (isToastOpen) return;
+
+            setIsToastOpen(true)
+
+            toast.error("You can only select a maximum of 10 seats", {
+                style: { background: "#333", color: "#fff", padding: "20px" },
+                duration: 3000,
+            })
+
+            setTimeout(() => {
+                setIsToastOpen(false)
+            }, 3001)
+
         }
     }
 
-    useEffect(() => {
-        onSeatSelect(selectedSeats)
-    }, [selectedSeats, onSeatSelect])
+
 
     // Get all rows and sort them in reverse order
     const rows = Array.from(new Set(seats?.map((seat) => seat.row)))

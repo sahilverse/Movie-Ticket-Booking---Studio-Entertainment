@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import type { Seat } from "@prisma/client"
 import { ShowWithSeats } from "@/types/types"
-import { Description } from "@radix-ui/react-dialog"
+import Spinner from "@/components/spinner/Spinner"
+
 
 
 
@@ -16,12 +17,13 @@ interface SeatSummaryDialogProps {
     onOpenChange: (open: boolean) => void
     selectedSeats: string[]
     show: ShowWithSeats
-
+    handleConfirm: () => void
+    isPending?: boolean
 
 }
 
 
-export function SeatSummaryDialog({ open, onOpenChange, selectedSeats, show }: SeatSummaryDialogProps) {
+export function SeatSummaryDialog({ open, onOpenChange, selectedSeats, show, handleConfirm, isPending }: SeatSummaryDialogProps) {
     const [agreed, setAgreed] = React.useState(false)
 
     if (!show || !show.screen || !show.screen.seats) return null
@@ -50,17 +52,6 @@ export function SeatSummaryDialog({ open, onOpenChange, selectedSeats, show }: S
 
 
 
-    const handleConfirm = () => {
-        onOpenChange(false)
-
-        // TODO: Implement this
-
-        // Create a booking
-        // createBooking(show.id, selectedSeats, user.id, show.movie.slug)
-
-        // Clear the selected seats
-        // clearSelectedSeats()
-    }
 
     return (
 
@@ -135,7 +126,13 @@ export function SeatSummaryDialog({ open, onOpenChange, selectedSeats, show }: S
                         disabled={!agreed}
                         onClick={handleConfirm}
                     >
-                        Confirm
+                        {isPending ? <span className="flex gap-2">
+                            <Spinner />
+                            Processing...
+                        </span>
+                            :
+
+                            "Confirm"}
                     </Button>
                 </div>
             </DialogContent>

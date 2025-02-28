@@ -12,16 +12,27 @@ import { MovieWithShowsAndSeats } from '@/types/types';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { ClipLoader } from 'react-spinners';
 import BookingAccordion from './Accordians/Accordion';
+import { IoPlayOutline } from 'react-icons/io5';
 
+import TrailerPopup from '@/components/popups/trailer/TrailerPopup';
 
 const MovieDetails = ({ movie }: { movie: MovieWithShowsAndSeats }) => {
-
+    const [showTrailer, setShowTrailer] = useState(false);
+    const [currentTrailer, setCurrentTrailer] = useState('');
 
     const [isExpanded, setIsExpanded] = useState(false);
     const [showReadMore, setShowReadMore] = useState(false);
     const descriptionRef = useRef<HTMLParagraphElement>(null);
 
     const { user, isLoading } = useCurrentUser();
+
+    const openTrailer = (trailerUrl: string) => {
+        if (trailerUrl) {
+            setCurrentTrailer(trailerUrl);
+            setShowTrailer(true);
+        }
+    };
+
 
 
     const releaseDate = new Date(movie.releaseDate).toLocaleDateString('en-US', {
@@ -97,8 +108,19 @@ const MovieDetails = ({ movie }: { movie: MovieWithShowsAndSeats }) => {
                                 {movie.language && <Detail detailOf="Language" text={movie.language.join(', ')} />}
                                 {movie.rating && <Detail detailOf="Rating" text={movie.rating!} />}
                             </div>
+
+                            <div className='flex gap-4 mt-8 px-0 items-center '>
+                                <button className='text-center  bg-gray-200 rounded-xl p-2 hover:bg-gray-300 '><IoPlayOutline className='text-xl text-[#000] ml-[2px]'
+
+                                    onClick={() => openTrailer(movie.trailerUrl as string)}
+                                /></button>
+                                <span className={`text-gray-400 text-sm font-roboto tracking-wider leading-6 `}>Watch Trailer</span>
+                            </div>
                         </div>
                     </div>
+
+
+
                 </CardContent>
             </Card>
 
@@ -134,7 +156,9 @@ const MovieDetails = ({ movie }: { movie: MovieWithShowsAndSeats }) => {
             }
 
 
-
+            {
+                showTrailer && <TrailerPopup src={currentTrailer} setShowTrailer={setShowTrailer} />
+            }
         </section>
     )
 }
