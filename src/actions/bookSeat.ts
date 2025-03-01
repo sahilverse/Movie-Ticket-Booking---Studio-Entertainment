@@ -18,19 +18,18 @@ export async function createBooking(showId: string, seatIds: string[], movieSlug
         const result = await prisma.$transaction(async (tx) => {
 
             // Fetching the selected
-            const showSeats = await prisma.showSeat.findMany({
-                where: { showId, seatId: { in: seatIds }, status: SeatStatus.AVAILABLE }
+            const showSeats = await prisma.showSeat.updateMany({
+                where: { showId, seatId: { in: seatIds }, status: SeatStatus.AVAILABLE },
+                data: { status: SeatStatus.BOOKED },
+
             })
 
+            if (showSeats.count !== seatIds.length || showSeats.count === 0) {
+                throw new Error(`Already Booked`);
+            }
 
 
-            // Updating the status of the selected seats
-            const updatedShowSeat = await tx.showSeat.updateMany({
-                where: { id: { in: showSeats.map(seat => seat.id) } },
-                data: { status: "BOOKED" },
-            })
-
-
+            const expiresAt = new Date(Date.now() + 60 * 1000); // 8 minutes
 
             // Creating a new booking
             const newBooking = await tx.booking.create({
@@ -38,24 +37,31 @@ export async function createBooking(showId: string, seatIds: string[], movieSlug
                     userId: user.id,
                     showId: showId,
                     status: BookingStatus.PENDING,
+                    expiresAt,
                     ShowSeat: {
-                        connect: showSeats.map(seat => ({ id: seat.id })),
+                        connect: seatIds.map(seatId => ({ showId_seatId: { showId, seatId } })),
                     },
                 },
             })
 
 
-            return { updatedShowSeat, newBooking };
+            return { newBooking };
 
         })
 
         revalidatePath(`/movie-details/${movieSlug}`);
         return { success: true, bookingId: result.newBooking.id }
 
-    } catch (error) {
+    } catch (error: any) {
 
-        console.error("Error booking seat:", error)
-        return { success: false, error: "Failed to book seat" }
+        if (error.message.includes("Already Booked")) {
+            return { success: false, error: error.message }
+        }
 
+        if (error.code === "P2034") {
+            return { success: false, error: "Transaction timeout. Please try again." }
+        }
+
+        return { success: false, error: "Failed to book seats. Please try again." }
     }
 }

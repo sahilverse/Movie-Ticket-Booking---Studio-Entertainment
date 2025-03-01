@@ -16,10 +16,11 @@ import { IoPlayOutline } from "react-icons/io5";
 
 import Link from 'next/link';
 
-import TrailerPopup from '../popups/trailer/TrailerPopup';
+
 import { SliderType } from '@/types/types';
 
 import { Navigation, Pagination, Mousewheel, Keyboard, Autoplay } from 'swiper/modules';
+import TrailerPopup from '../popups/trailer/TrailerPopup';
 
 
 

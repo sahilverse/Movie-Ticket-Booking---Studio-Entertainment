@@ -5,6 +5,7 @@ import Navbar from "@/components/navbar/Navbar";
 import Footer from "@/components/footer/Footer";
 import { Toaster } from 'react-hot-toast';
 import { SessionProvider } from "next-auth/react"
+import "@/lib/serviceWorker";
 
 
 export const metadata: Metadata = {

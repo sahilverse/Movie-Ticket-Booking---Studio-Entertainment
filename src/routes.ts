@@ -1,6 +1,7 @@
 export const privateRoutes = [
     '/account',
     "/profile",
+    "/checkout/:slug",
     "/checkout",
     "/my-bookings",
     "/my-tickets",

@@ -1,7 +1,7 @@
 "use client"
 
-import { useReducer, useEffect, useTransition, useMemo, useCallback } from "react"
-import { format, isSameDay, isPast } from "date-fns"
+import { useReducer, useEffect, useTransition, useMemo, useCallback, useState } from "react"
+import { format, isSameDay, isPast, set } from "date-fns"
 import { Calendar, Clock, Globe } from "lucide-react"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Button } from "@/components/ui/button"
@@ -12,6 +12,9 @@ import { SeatSummaryDialog } from "@/components/popups/seat-summary/SeatSummary"
 import { createBooking } from "@/actions/bookSeat"
 import { useSearchParams } from "next/navigation"
 import { bookingReducer, initialState } from "./AccordianReducer"
+import { useRouter } from "next/navigation"
+import { ErrorDialog } from "./ErrorDialog"
+
 
 interface AccordionProps {
     movie: MovieWithShowsAndSeats
@@ -19,8 +22,10 @@ interface AccordionProps {
 
 
 const BookingAccordion = ({ movie }: AccordionProps) => {
+    const router = useRouter()
     const searchParams = useSearchParams()
-    const [isPending, startTransition] = useTransition()
+    const [isPending, startTransition] = useTransition();
+    const [openDialog, setOpenDialog] = useState(false)
 
     const [state, dispatch] = useReducer(bookingReducer, initialState)
     const {
@@ -126,17 +131,24 @@ const BookingAccordion = ({ movie }: AccordionProps) => {
         dispatch({ type: "TOGGLE_SUMMARY", payload: true })
     }
 
+    const handleErrorDialogClose = () => {
+        setOpenDialog(false);
+        window.location.reload();
+    }
     const handleBooking = () => {
         startTransition(async () => {
             if (!selectedShow) return
-            const { success, bookingId } = await createBooking(selectedShow.id, selectedSeats, movie.slug)
+            const { success, bookingId, error } = await createBooking(selectedShow.id, selectedSeats, movie.slug)
             if (success) {
-                console.log(`Booking successful: ${bookingId}`)
-                dispatch({ type: "RESET_SEATS" })
+
+                // Redirect to checkout
+                router.push(`/checkout/${movie.slug}/${bookingId}`)
+
 
             } else {
-                console.error("Booking failed")
-
+                if (error === "Already Booked") {
+                    setOpenDialog(true);
+                }
             }
         })
     }
@@ -305,9 +317,15 @@ const BookingAccordion = ({ movie }: AccordionProps) => {
                 handleConfirm={handleBooking}
                 isPending={isPending}
             />
+
+            <ErrorDialog
+                isOpen={openDialog}
+                onClose={handleErrorDialogClose}
+                message="Sorry, one of the seats you selected has already been booked."
+            />
         </div>
     )
 }
 
-export default BookingAccordion
+export default BookingAccordion;
 
