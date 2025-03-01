@@ -29,7 +29,7 @@ export async function createBooking(showId: string, seatIds: string[], movieSlug
             }
 
 
-            const expiresAt = new Date(Date.now() + 60 * 1000); // 8 minutes
+            const expiresAt = new Date(Date.now() + 60 * 8000); // 8 minutes
 
             // Creating a new booking
             const newBooking = await tx.booking.create({
