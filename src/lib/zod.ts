@@ -20,16 +20,21 @@ export const registerSchema = object({
         .max(32, "Username must be less than 32 characters"),
     phone: string({ required_error: "Phone number is required" })
         .min(10, "Phone number must be at least 10 characters")
-        .max(10, "Phone number must be less than 10 characters"),
+        .max(10, "Phone number must be less than 10 characters").regex(/^9[78]\d{8}$/, "Invalid Phone Number"),
     date_of_birth: string({ required_error: "Date of Birth is required" }),
 });
 
 
 export const userDetailsSchema = object({
     userID: string({ required_error: "User ID is required" }),
+    username: string({ required_error: "Name is required" })
+        .min(3, "Username is required")
+        .max(32, "Username must be less than 32 characters"),
     gender: z.enum([Gender.Male, Gender.Female]).nullable(),
+    phone: string().nullable().optional(),
+    date_of_birth: string({ required_error: "Date of Birth is required" }).nullable(),
 
-}).merge(registerSchema).omit({ password: true, email: true })
+})
 
 export const passwordSchema = object({
     userID: string({ required_error: "User ID is required" }),

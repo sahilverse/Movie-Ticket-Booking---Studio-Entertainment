@@ -29,7 +29,7 @@ const PersonalDetails = ({ user }: { user: User }) => {
     const initialValues = {
         userID: user?.id,
         username: user?.name,
-        phone: user?.phone ?? "Not Provided",
+        phone: user?.phone ?? "",
         date_of_birth: user?.birthDate ? new Date(user.birthDate).toISOString().split('T')[0] : "",
         gender: user.gender ?? null
     };
@@ -80,7 +80,6 @@ const PersonalDetails = ({ user }: { user: User }) => {
             }
         });
     }
-
     return (
         <TabsContent value="personal">
             <Card className="bg-[#222222] border-gray-800">
@@ -130,6 +129,7 @@ const PersonalDetails = ({ user }: { user: User }) => {
                                 type="tel"
                                 disabled={!isEditing}
                                 className="bg-[#333333] border-gray-700 text-white"
+                                placeholder='Not Provided'
                                 {...register("phone")}
                             />
                             {errors.phone && <p className="text-red-500 text-xs">{errors.phone.message}</p>}

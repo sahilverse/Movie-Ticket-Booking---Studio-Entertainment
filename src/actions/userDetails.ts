@@ -16,9 +16,16 @@ export const updateUserDetails = async (data: z.infer<typeof userDetailsSchema>)
     if (!validatedCredentials.success) return { error: "Invalid Credentials" };
     const { userID, username, phone, date_of_birth, gender } = validatedCredentials.data;
 
+    const phoneRegex = /^9[78]\d{8}$/;
+
+    if (phone && !phoneRegex.test(phone)) {
+        return { error: { phone: "Invalid Phone Number" } };
+    }
+
+
     const existingPhone = await prisma.user.findFirst({
         where: {
-            phone,
+            phone: phone,
             NOT: { id: userID }
         }
     })
@@ -32,7 +39,7 @@ export const updateUserDetails = async (data: z.infer<typeof userDetailsSchema>)
             data: {
                 name: username,
                 phone,
-                birthDate: new Date(date_of_birth),
+                birthDate: date_of_birth ? new Date(date_of_birth) : null,
                 gender
             }
         });
@@ -40,6 +47,7 @@ export const updateUserDetails = async (data: z.infer<typeof userDetailsSchema>)
         revalidatePath("/profile");
         return { success: true, user: updatedUser };
     } catch (error) {
+        console.log(error);
         return { error: "An error occurred! Please try again" }
     }
 
@@ -102,11 +110,14 @@ export const sendPasswordResetVerificationCode = async (data: z.infer<typeof ema
     const verificationCode = crypto.randomInt(100000, 999999).toString();
     const verificationExpires = new Date(Date.now() + 900000); // 15 mins
 
+    // hash the token and store it in the database
+    const hashedCode = crypto.createHash('sha256').update(verificationCode).digest('hex');
+
 
     await prisma.user.update({
         where: { email },
         data: {
-            verificationCode,
+            verificationCode: hashedCode,
             verificationExpires
         }
     });
@@ -151,15 +162,12 @@ export const verifyPasswordResetCode = async (data: z.infer<typeof otpSchema>, e
 
     if (!user) {
         return { success: false, error: "User not found" };
-
     }
-    console.log("otp", otp);
-    console.log("user.verificationCode", user.verificationCode);
 
-    console.log(user.verificationCode === otp);
+    const hashedCode = crypto.createHash('sha256').update(otp).digest('hex');
 
 
-    if (user.verificationCode !== otp || !user.verificationExpires || user.verificationExpires < new Date()) {
+    if (user.verificationCode !== hashedCode || !user.verificationExpires || user.verificationExpires < new Date()) {
         return { success: false, error: "Invalid or expired code" };
     }
 
