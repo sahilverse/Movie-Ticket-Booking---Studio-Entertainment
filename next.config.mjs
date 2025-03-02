@@ -5,7 +5,7 @@ const nextConfig = {
             {
                 protocol: 'http',
                 hostname: 'localhost',
-                port: '',
+                port: '3000',
                 pathname: '/**',
             },
             {
@@ -14,9 +14,7 @@ const nextConfig = {
                 port: '',
                 pathname: '/**',
             },
-        ],
-
-        domains: ['localhost', 'res.cloudinary.com'],
+        ]
     },
 };
 

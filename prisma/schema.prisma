@@ -151,7 +151,9 @@ model Booking {
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
   payment   Payment?
+  paymentId String?       @db.ObjectId
   expiresAt DateTime
+  amount    Float
 
   ShowSeat ShowSeat[]
 
@@ -168,7 +170,6 @@ model Ticket {
   id        String  @id @default(auto()) @map("_id") @db.ObjectId
   bookingId String  @db.ObjectId
   booking   Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
-  qrCode    String
 
   expiresAt DateTime
   createdAt DateTime @default(now())
@@ -176,14 +177,16 @@ model Ticket {
 }
 
 model Payment {
-  id        String        @id @default(auto()) @map("_id") @db.ObjectId
-  bookingId String        @unique @db.ObjectId
-  booking   Booking       @relation(fields: [bookingId], references: [id])
-  amount    Float
-  status    PaymentStatus @default(PENDING)
-  method    PaymentMethod
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
+  id              String        @id @default(auto()) @map("_id") @db.ObjectId
+  transactionCode String?
+  transactionUuid String
+  bookingId       String        @unique @db.ObjectId
+  booking         Booking       @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  amount          Float
+  status          PaymentStatus @default(PENDING)
+  method          PaymentMethod
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
 }
 
 enum PaymentStatus {

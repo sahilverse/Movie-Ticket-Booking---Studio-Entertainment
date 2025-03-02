@@ -1,4 +1,4 @@
-import { Movie, Seat, Show } from '@prisma/client';
+import { Movie, PaymentMethod, Seat, Show } from '@prisma/client';
 import { StaticImageData } from 'next/image';
 
 
@@ -52,5 +52,31 @@ export interface ShowWithSeats extends Show {
         name?: string;
         seats: Seat[]
     }
+}
+
+
+export interface EsewaConfigData {
+    amount: string;
+    tax_amount: string;
+    total_amount: string;
+    transaction_uuid: string;
+    product_code: string;
+    product_service_charge: string;
+    product_delivery_charge: string;
+    success_url: string;
+    failure_url: string;
+    signed_field_names: string;
+    signature: string;
+}
+
+export interface EsewaResponse {
+    amount: string;
+    esewaConfig: EsewaConfigData;
+}
+
+
+export interface PaymentRequestData {
+    bookingId: string;
+    method: PaymentMethod;
 }
 

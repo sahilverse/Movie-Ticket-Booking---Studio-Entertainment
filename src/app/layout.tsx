@@ -5,7 +5,10 @@ import Navbar from "@/components/navbar/Navbar";
 import Footer from "@/components/footer/Footer";
 import { Toaster } from 'react-hot-toast';
 import { SessionProvider } from "next-auth/react"
-import "@/lib/serviceWorker";
+import BookingStreamHandler from "@/components/BookingStreamHandler";
+
+
+
 
 
 export const metadata: Metadata = {
@@ -20,6 +23,8 @@ export default function RootLayout({
 }>) {
 
 
+
+
   return (
     <html lang="en">
       <body >
@@ -28,6 +33,7 @@ export default function RootLayout({
           {children}
           <Footer />
           <Toaster />
+          <BookingStreamHandler />
         </SessionProvider>
 
       </body>

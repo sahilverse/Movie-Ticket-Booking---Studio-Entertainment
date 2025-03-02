@@ -1,16 +1,19 @@
 import { prisma } from "@/lib/prisma"
 import { notFound } from "next/navigation"
 import { format } from "date-fns"
-import { Clock, Calendar, Film, Users, CreditCard } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Clock, Calendar, Film, Users } from "lucide-react"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { Badge } from "@/components/ui/badge"
 import Image from "next/image"
 import { CountdownTimer } from "@/components/client/checkout/timer"
+import { PaymentButton } from "@/components/client/checkout/paymentButton"
+import { currentUser } from "@/lib/auth"
+
 
 
 const Checkout = async ({ params }: { params: { slug: string; bookingId: string } }) => {
+    const user = await currentUser();
     const { slug, bookingId } = params;
     let booking;
 
@@ -24,6 +27,7 @@ const Checkout = async ({ params }: { params: { slug: string; bookingId: string 
         booking = await prisma.booking.findUnique({
             where: {
                 id: bookingId,
+                userId: user.id,
             },
             include: {
                 ShowSeat: {
@@ -41,21 +45,22 @@ const Checkout = async ({ params }: { params: { slug: string; bookingId: string 
             },
         })
     } catch (error) {
-        return notFound()
+        return notFound();
     }
 
     if (!movie || !booking) {
-        return notFound()
+
+        return notFound();
     }
 
-    // Calculate total amount
-    const totalAmount = booking.ShowSeat.reduce((sum, showSeat) => sum + showSeat.seat.price, 0)
 
-    // Format seats for display (e.g., "A1, A2, A3")
-    const seats = booking.ShowSeat.map((showSeat) => `${showSeat.seat.row}${showSeat.seat.col}`).join(", ")
+
+    // Calculate total amount
+    const totalAmount = booking.ShowSeat.reduce((sum, showSeat) => sum + showSeat.seat.price, 0);
+
 
     // Grand total 
-    const grandTotal = totalAmount
+    const grandTotal = totalAmount;
 
     return (
         <div className="min-h-screen bg-black text-white p-4 md:p-8">
@@ -216,10 +221,7 @@ const Checkout = async ({ params }: { params: { slug: string; bookingId: string 
                                 </div>
                             </CardContent>
                             <CardFooter>
-                                <Button className="w-full bg-amber-500 hover:bg-amber-600 text-black font-bold">
-                                    <CreditCard className="mr-2 h-4 w-4" />
-                                    Proceed to Payment
-                                </Button>
+                                <PaymentButton bookingId={bookingId} />
                             </CardFooter>
                         </Card>
 
@@ -230,6 +232,8 @@ const Checkout = async ({ params }: { params: { slug: string; bookingId: string 
                     </div>
                 </div>
             </div>
+
+
         </div>
     )
 }

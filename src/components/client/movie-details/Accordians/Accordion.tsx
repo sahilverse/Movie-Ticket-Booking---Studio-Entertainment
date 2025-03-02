@@ -138,6 +138,7 @@ const BookingAccordion = ({ movie }: AccordionProps) => {
     const handleBooking = () => {
         startTransition(async () => {
             if (!selectedShow) return
+
             const { success, bookingId, error } = await createBooking(selectedShow.id, selectedSeats, movie.slug)
             if (success) {
 
