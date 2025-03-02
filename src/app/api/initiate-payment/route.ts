@@ -99,6 +99,11 @@ export async function POST(req: Request) {
                     },
                 });
 
+                await prisma.booking.update({
+                    where: { id: bookingId },
+                    data: { paymentId: payment.id },
+                });
+
 
                 return NextResponse.json({
                     amount: amount,

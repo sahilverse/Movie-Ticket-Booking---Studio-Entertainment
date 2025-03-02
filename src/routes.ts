@@ -6,8 +6,10 @@ export const privateRoutes = [
     "/my-bookings",
     "/my-tickets",
     "/booking/:slug",
-
-
+    "/payment/success",
+    "/payment/failure",
+    "/payment/:slug",
+    "/payment",
 ]
 
 

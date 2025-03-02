@@ -6,23 +6,56 @@ const uri = process.env.DATABASE_URL as string
 
 const MAX_RETRIES = 5
 
+export function broadcastEvent(event: any) {
+    // Access the connections from the route.ts file
+    const connections = (global as any).__connections
+    if (connections && connections.size > 0) {
+        const message = `data: ${JSON.stringify(event)}\n\n`
+
+        const controllersToRemove = []
+
+        for (const [connectionId, controller] of connections.entries()) {
+            try {
+                controller.enqueue(message)
+            } catch (error: any) {
+                // If the controller is closed or in an invalid state, mark it for removal
+                if (error.code === "ERR_INVALID_STATE") {
+                    console.log(`Removing closed controller for connection ${connectionId}`)
+                    controllersToRemove.push(connectionId)
+                } else {
+                    console.error(`Error broadcasting to client ${connectionId}:`, error)
+                }
+            }
+        }
+        controllersToRemove.forEach((connectionId) => {
+            connections.delete(connectionId)
+        })
+    }
+}
+
 async function executeTransaction(bookingId: string) {
     let retries = 0
 
     while (retries < MAX_RETRIES) {
         try {
-            await prisma.$transaction(
-                [
-                    prisma.payment.delete({
-                        where: { bookingId },
-                    }),
-                    prisma.showSeat.updateMany({
-                        where: { bookingId },
-                        data: { status: "AVAILABLE", bookingId: null },
-                    }),
-                ]
-            )
+            await prisma.$transaction([
+                prisma.payment.delete({
+                    where: { bookingId },
+                }),
+                prisma.showSeat.updateMany({
+                    where: { bookingId },
+                    data: { status: "AVAILABLE", bookingId: null },
+                }),
+            ])
             console.log(`✅ Released seats from booking ${bookingId}`)
+
+            // Broadcast the event to all connected clients
+            broadcastEvent({
+                type: "booking_deleted",
+                bookingId,
+                timestamp: new Date().toISOString(),
+            })
+
             return true
         } catch (error) {
             if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -33,7 +66,7 @@ async function executeTransaction(bookingId: string) {
                     continue
                 }
             }
-            throw error
+            throw error;
         }
     }
     throw new Error(`Failed to process booking ${bookingId} after ${MAX_RETRIES} attempts`)
