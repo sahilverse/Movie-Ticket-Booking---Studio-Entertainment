@@ -33,8 +33,7 @@ export async function createBooking(showId: string, seatIds: string[], movieSlug
                 include: { seat: true }
             });
 
-            // TODO: change to 8 minutes
-            const expiresAt = new Date(Date.now() + 60 * 2000); // 8 minutes
+            const expiresAt = new Date(Date.now() + 60 * 8000); // 8 minutes
 
             const totalAmount = showSeats.reduce((sum, showSeat) => sum + showSeat.seat.price, 0)
 
