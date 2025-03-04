@@ -17,41 +17,41 @@ export default async function SuccessPage({
 }: {
     searchParams: { data?: string }
 }) {
-    const user = await currentUser()
+    const user = await currentUser();
     // Default state
     let isVerified = false
-    let paymentData: PaymentResponse | null = null
-    let errorMessage = "Payment verification failed"
-    let bookingId = null
-    let ticketId = null
+    let paymentData: PaymentResponse | null = null;
+    let errorMessage = "Payment verification failed";
+    let bookingId = null;
+    let ticketId = null;
 
     if (!searchParams.data) {
-        console.error("Missing required parameter: data")
-        redirect("/payment/failure?error=invalid_request")
+        console.error("Missing required parameter: data");
+        redirect("/payment/failure?error=invalid_request");
     }
 
     // Generate a nonce for CSRF protection
-    const nonce = uuidv4()
+    const nonce = uuidv4();
 
     // Get client IP for logging
-    const forwardedFor = headers().get("x-forwarded-for")
-    const clientIp = forwardedFor ? forwardedFor.split(",")[0] : "unknown"
+    const forwardedFor = headers().get("x-forwarded-for");
+    const clientIp = forwardedFor ? forwardedFor.split(",")[0] : "unknown";
 
     try {
-        const decodedData: PaymentResponse = JSON.parse(atob(searchParams.data))
+        const decodedData: PaymentResponse = JSON.parse(atob(searchParams.data));
 
-        paymentData = decodedData
+        paymentData = decodedData;
 
         if (decodedData.status !== "COMPLETE") {
-            console.warn(`Payment not complete. Status: ${decodedData.status}`)
-            throw new Error(`Payment not complete. Status: ${decodedData.status}`)
+            console.warn(`Payment not complete. Status: ${decodedData.status}`);
+            throw new Error(`Payment not complete. Status: ${decodedData.status}`);
         }
 
         //  Validate transaction UUID format
-        const transactionUuid = decodedData.transaction_uuid
+        const transactionUuid = decodedData.transaction_uuid;
         if (!transactionUuid || !/^[a-zA-Z0-9-]+$/.test(transactionUuid)) {
-            console.error("Invalid transaction UUID format")
-            throw new Error("Invalid transaction UUID format")
+            console.error("Invalid transaction UUID format");
+            throw new Error("Invalid transaction UUID format");
         }
 
         const result = await prisma.$transaction(async (tx) => {
@@ -67,16 +67,16 @@ export default async function SuccessPage({
             })
 
             if (!payment) {
-                throw new Error("Payment not found")
+                throw new Error("Payment not found");
             }
 
             if (user.id !== payment.booking.userId) {
-                console.log("User ID mismatch, will redirect after transaction")
-                throw new Error("USER_ID_MISMATCH")
+                console.log("User ID mismatch, will redirect after transaction");
+                throw new Error("USER_ID_MISMATCH");
             }
 
             if (payment.status === PaymentStatus.COMPLETED) {
-                console.log(`Payment ${payment.id} already processed`)
+                console.log(`Payment ${payment.id} already processed`);
                 return {
                     payment,
                     existingTicket: await tx.ticket.findFirst({
@@ -87,8 +87,8 @@ export default async function SuccessPage({
 
             const signatureValid = verifyEsewaPayment(decodedData)
             if (!signatureValid) {
-                console.error("Invalid payment signature")
-                throw new Error("Invalid signature")
+                console.error("Invalid payment signature");
+                throw new Error("Invalid signature");
             }
 
             // Update payment status to COMPLETED
