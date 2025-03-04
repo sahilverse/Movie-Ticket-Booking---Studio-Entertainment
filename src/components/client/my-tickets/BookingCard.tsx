@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { PaymentButton } from "@/components/client/checkout/paymentButton"
 import { StatusBadge } from "./StatusBadge"
 import { DetailItem } from "./DetailItem"
-import { BookingWithDetails, ShowSeatWithSeat } from "@/types/types"
+import type { BookingWithDetails, ShowSeatWithSeat } from "@/types/types"
 
 interface BookingCardProps {
     booking: BookingWithDetails
@@ -15,13 +15,13 @@ interface BookingCardProps {
 }
 
 export function BookingCard({ booking, isPast = false, formatSeats }: BookingCardProps) {
-    const bgClass = isPast ? "bg-glass/50" : "bg-glass";
-    const borderClass = isPast ? "border-slightGray/50" : "border-slightGray";
-    const titleClass = isPast ? "text-zinc-300" : "";
-    const dateTextClass = isPast ? "text-zinc-500" : "text-zinc-400";
-    const borderDividerClass = isPast ? "border-slightGray/20" : "border-slightGray/30";
-    const amountLabelClass = isPast ? "text-zinc-500" : "text-zinc-400";
-    const amountValueClass = isPast ? "text-zinc-300" : "text-white";
+    const bgClass = isPast ? "bg-glass/50" : "bg-glass"
+    const borderClass = isPast ? "border-slightGray/50" : "border-slightGray"
+    const titleClass = isPast ? "text-zinc-300" : ""
+    const dateTextClass = isPast ? "text-zinc-500" : "text-zinc-400"
+    const borderDividerClass = isPast ? "border-slightGray/20" : "border-slightGray/30"
+    const amountLabelClass = isPast ? "text-zinc-500" : "text-zinc-400"
+    const amountValueClass = isPast ? "text-zinc-300" : "text-white"
 
     return (
         <AccordionItem
@@ -66,7 +66,7 @@ export function BookingCard({ booking, isPast = false, formatSeats }: BookingCar
                         <DetailItem icon={TicketIcon} label="Seats" value={formatSeats(booking.ShowSeat)} isPast={isPast} />
                     </div>
                 </div>
-                <div className={`flex justify-between items-center border-t ${borderDividerClass} pt-4`}>
+                <div className={`flex justify-between items-center border-t ${borderDividerClass} pt-4 `}>
                     <div className="flex flex-col gap-2">
                         <p className={`${amountLabelClass} text-xs font-roboto tracking-wider uppercase`}>Amount</p>
                         <p className={`${amountValueClass} font-medium font-poppins tracking-wide`}>
@@ -74,21 +74,23 @@ export function BookingCard({ booking, isPast = false, formatSeats }: BookingCar
                         </p>
                     </div>
 
-                    {booking.status === "CONFIRMED" && booking.Ticket.length > 0 && (
-                        <Link href={`/ticket/${booking.id}`}>
-                            {isPast ? (
-                                <Button variant="outline" className="border-zinc-700 text-zinc-300 hover:bg-zinc-800">
-                                    <Eye className="h-4 w-4 mr-2" /> View Ticket
-                                </Button>
-                            ) : (
-                                <Button className="bg-yellowShade hover:bg-yellowShadeHover text-black">
-                                    <Eye className="h-4 w-4 mr-2" /> View Ticket
-                                </Button>
-                            )}
-                        </Link>
-                    )}
+                    <div className="flex justify-end">
+                        {booking.status === "CONFIRMED" && booking.Ticket.length > 0 && (
+                            <Link href={`/ticket/${booking.id}`}>
+                                {isPast ? (
+                                    <Button variant="outline" className="border-zinc-700 text-zinc-300 hover:bg-zinc-800">
+                                        <Eye className="h-4 w-4 mr-2" /> View Ticket
+                                    </Button>
+                                ) : (
+                                    <Button className="bg-yellowShade hover:bg-yellowShadeHover text-black">
+                                        <Eye className="h-4 w-4 mr-2" /> View Ticket
+                                    </Button>
+                                )}
+                            </Link>
+                        )}
 
-                    {booking.status === "PENDING" && !isPast && <PaymentButton bookingId={booking.id} />}
+                        {booking.status === "PENDING" && !isPast && <PaymentButton bookingId={booking.id} />}
+                    </div>
                 </div>
             </AccordionContent>
         </AccordionItem>

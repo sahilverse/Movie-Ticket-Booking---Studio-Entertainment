@@ -11,6 +11,7 @@ import { EsewaResponse } from "@/types/types"
 
 interface PaymentButtonProps {
     bookingId: string
+
 }
 
 export function PaymentButton({ bookingId }: PaymentButtonProps) {
@@ -83,7 +84,7 @@ export function PaymentButton({ bookingId }: PaymentButtonProps) {
     }
 
     return (
-        <div className="w-full space-y-4">
+        <div className={`w-full space-y-4 `}>
             {error && (
                 <Alert variant="destructive" className="bg-red-900/50 border-red-800 text-white">
                     <AlertTitle className="mb-2 flex gap-2 items-center font-poppins tracking-wide"><span><TriangleAlert className="w-5" /></span>Payment Error</AlertTitle>
@@ -92,7 +93,7 @@ export function PaymentButton({ bookingId }: PaymentButtonProps) {
             )}
 
             <Button
-                className="w-full bg-amber-500 hover:bg-amber-600 text-black font-bold"
+                className=" bg-amber-500 hover:bg-amber-600 text-black font-bold"
                 onClick={handlePayment}
                 disabled={isPending}
             >

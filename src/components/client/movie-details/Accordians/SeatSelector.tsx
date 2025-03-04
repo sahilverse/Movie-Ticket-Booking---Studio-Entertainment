@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils"
 import { Armchair } from "lucide-react"
 import type { Seat, SeatStatus } from "@prisma/client"
 import toast from "react-hot-toast"
+import SeatLegend from "./SeatLegend"
 
 
 interface SeatSelectorProps {
@@ -176,48 +177,8 @@ const SeatSelector: React.FC<SeatSelectorProps> = ({ seats, showSeats, onSeatSel
                 </div>
 
                 {/* Fixed position elements */}
-                <div className="sticky left-0 w-full  backdrop-blur-sm">
-                    {/* Legend */}
-                    <div className="flex justify-center gap-6 backdrop-blur-sm p-4 rounded-lg">
-                        <div className="flex items-center gap-2">
-                            <Armchair className="w-5 h-5 text-teal-500" />
-                            <span className="text-sm text-gray-400">Available</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <Armchair className="w-5 h-5 text-red-500" />
-                            <span className="text-sm text-gray-400">Sold Out</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <Armchair className="w-5 h-5 text-yellow-400" />
-                            <span className="text-sm text-gray-400">
-                                Selected {selectedSeats.length > 0 && `(${selectedSeats.length})`}
-                            </span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <Armchair className="w-5 h-5 text-gray-600" />
-                            <span className="text-sm text-gray-400">Unavailable</span>
-                        </div>
-                    </div>
+                <SeatLegend seats={seats} selectedSeats={selectedSeats} totalAmount={totalAmount} />
 
-                    {/* Selected Seats Summary */}
-                    {selectedSeats.length > 0 && (
-                        <div className="text-center mb-6 backdrop-blur-sm p-4 rounded-lg">
-                            <p className="text-sm text-gray-400 mb-2">
-                                Selected Seats:{" "}
-                                <span className="text-yellow-400">
-                                    {selectedSeats
-                                        .map((seatId) => {
-                                            const seat = seats.find((s) => s.id === seatId)
-                                            return seat ? `${seat.row}${seat.col}` : ""
-                                        })
-                                        .join(", ")}{" "}
-                                    ({selectedSeats.length}/10)
-                                </span>
-                            </p>
-                            <p className="text-sm text-gray-400">Total Amount: NPR {totalAmount.toFixed(2)}</p>
-                        </div>
-                    )}
-                </div>
             </div>
         </div>
     )
