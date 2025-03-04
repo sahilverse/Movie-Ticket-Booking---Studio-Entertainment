@@ -36,6 +36,7 @@ export function PaymentButton({ bookingId }: PaymentButtonProps) {
 
                 const paymentData: EsewaResponse = await response.json();
 
+
                 const form = document.createElement("form");
                 form.method = "POST";
                 form.action = "https://rc-epay.esewa.com.np/api/epay/main/v2/form";
@@ -47,8 +48,7 @@ export function PaymentButton({ bookingId }: PaymentButtonProps) {
                     transaction_uuid: paymentData.esewaConfig.transaction_uuid,
                     product_code: paymentData.esewaConfig.product_code,
                     product_service_charge: paymentData.esewaConfig.product_service_charge,
-                    product_delivery_charge:
-                        paymentData.esewaConfig.product_delivery_charge,
+                    product_delivery_charge: paymentData.esewaConfig.product_delivery_charge,
                     success_url: paymentData.esewaConfig.success_url,
                     failure_url: paymentData.esewaConfig.failure_url,
                     signed_field_names: paymentData.esewaConfig.signed_field_names,
@@ -65,7 +65,8 @@ export function PaymentButton({ bookingId }: PaymentButtonProps) {
 
                 document.body.appendChild(form);
                 form.submit();
-                document.body.removeChild(form)
+
+                () => form.remove();
 
 
             } catch (error) {

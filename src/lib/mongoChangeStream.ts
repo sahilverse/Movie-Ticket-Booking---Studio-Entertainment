@@ -2,13 +2,13 @@ import { MongoClient } from "mongodb"
 import { prisma } from "./prisma"
 import { Prisma } from "@prisma/client"
 
-const uri = process.env.DATABASE_URL as string
+const uri = process.env.DATABASE_URL as string;
 
-const MAX_RETRIES = 5
+const MAX_RETRIES = 5;
 
 export function broadcastEvent(event: any) {
     // Access the connections from the route.ts file
-    const connections = (global as any).__connections
+    const connections = (global as any).__connections;
     if (connections && connections.size > 0) {
         const message = `data: ${JSON.stringify(event)}\n\n`
 
@@ -16,25 +16,25 @@ export function broadcastEvent(event: any) {
 
         for (const [connectionId, controller] of connections.entries()) {
             try {
-                controller.enqueue(message)
+                controller.enqueue(message);
             } catch (error: any) {
                 // If the controller is closed or in an invalid state, mark it for removal
                 if (error.code === "ERR_INVALID_STATE") {
-                    console.log(`Removing closed controller for connection ${connectionId}`)
-                    controllersToRemove.push(connectionId)
+                    console.log(`Removing closed controller for connection ${connectionId}`);
+                    controllersToRemove.push(connectionId);
                 } else {
-                    console.error(`Error broadcasting to client ${connectionId}:`, error)
+                    console.error(`Error broadcasting to client ${connectionId}:`, error);
                 }
             }
         }
         controllersToRemove.forEach((connectionId) => {
-            connections.delete(connectionId)
+            connections.delete(connectionId);
         })
     }
 }
 
 async function executeTransaction(bookingId: string) {
-    let retries = 0
+    let retries = 0;
 
     while (retries < MAX_RETRIES) {
         try {
@@ -56,7 +56,7 @@ async function executeTransaction(bookingId: string) {
                 timestamp: new Date().toISOString(),
             })
 
-            return true
+            return true;
         } catch (error) {
             if (error instanceof Prisma.PrismaClientKnownRequestError) {
                 if (error.code === "P2034") {
@@ -73,12 +73,12 @@ async function executeTransaction(bookingId: string) {
 }
 
 async function watchBookingDeletions() {
-    const client = new MongoClient(uri)
-    await client.connect()
-    const db = client.db("StudioEntertainment")
-    const bookingsCollection = db.collection("Booking")
+    const client = new MongoClient(uri);
+    await client.connect();
+    const db = client.db("StudioEntertainment");
+    const bookingsCollection = db.collection("Booking");
 
-    console.log("🔄 Watching for expired booking deletions...")
+    console.log("🔄 Watching for expired booking deletions...");
 
     const changeStream = bookingsCollection.watch([{ $match: { operationType: "delete" } }])
 
@@ -86,9 +86,9 @@ async function watchBookingDeletions() {
         const bookingId = change.documentKey?._id.toString()
 
         try {
-            await executeTransaction(bookingId)
+            await executeTransaction(bookingId);
         } catch (error) {
-            console.error("❌ Error releasing seats:", error)
+            console.error("❌ Error releasing seats:", error);
         }
     })
 

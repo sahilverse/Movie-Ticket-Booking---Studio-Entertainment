@@ -152,7 +152,7 @@ model Booking {
   updatedAt DateTime      @updatedAt
   payment   Payment?
   paymentId String?       @db.ObjectId
-  expiresAt DateTime
+  expiresAt DateTime?
   amount    Float
 
   ShowSeat ShowSeat[]
@@ -179,7 +179,7 @@ model Ticket {
 model Payment {
   id              String        @id @default(auto()) @map("_id") @db.ObjectId
   transactionCode String?
-  transactionUuid String
+  transactionUuid String        @unique
   bookingId       String        @unique @db.ObjectId
   booking         Booking       @relation(fields: [bookingId], references: [id], onDelete: Cascade)
   amount          Float

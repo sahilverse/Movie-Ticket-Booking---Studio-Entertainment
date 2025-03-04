@@ -184,7 +184,7 @@ const Checkout = async ({ params }: { params: { slug: string; bookingId: string 
                             <CardHeader>
                                 <div className="flex items-center justify-between">
                                     <CardTitle>Payment Summary</CardTitle>
-                                    <CountdownTimer expiresAt={booking.expiresAt} />
+                                    <CountdownTimer expiresAt={booking.expiresAt!} />
                                 </div>
                             </CardHeader>
                             <CardContent className="space-y-4">

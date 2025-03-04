@@ -47,8 +47,6 @@ export default async function Profile() {
                     <Security user={user} />
 
                 </Tabs>
-
-
             </div>
         </main>
     )

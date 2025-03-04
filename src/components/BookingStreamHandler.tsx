@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react"
 
 export default function BookingStreamHandler() {
-    const eventSourceRef = useRef<EventSource | null>(null)
+    const eventSourceRef = useRef<EventSource | null>(null);
 
     useEffect(() => {
         if (!eventSourceRef.current) {
@@ -11,26 +11,26 @@ export default function BookingStreamHandler() {
             const eventSource = new EventSource("/api/booking-stream")
 
             eventSource.onmessage = (event) => {
-                const data = JSON.parse(event.data)
-                console.log("Received booking stream event:", data)
+                const data = JSON.parse(event.data);
+                console.log("Received booking stream event:", data);
             }
 
             eventSource.onerror = (error) => {
-                console.error("EventSource failed:", error)
-                eventSource.close()
-                eventSourceRef.current = null
+                console.error("EventSource failed:", error);
+                eventSource.close();
+                eventSourceRef.current = null;
             }
 
-            eventSourceRef.current = eventSource
+            eventSourceRef.current = eventSource;
         }
 
 
         return () => {
 
             if (typeof window !== "undefined" && window.document.visibilityState === "hidden") {
-                console.log("Closing booking stream connection")
-                eventSourceRef.current?.close()
-                eventSourceRef.current = null
+                console.log("Closing booking stream connection");
+                eventSourceRef.current?.close();
+                eventSourceRef.current = null;
             }
         }
     }, [])

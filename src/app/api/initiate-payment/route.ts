@@ -11,7 +11,7 @@ import { prisma } from "@/lib/prisma";
 function validateEnvironmentVariables() {
     const requiredEnvVars = [
         "NEXT_PUBLIC_API_URL",
-        "ESEWA_MERCHANT_CODE",
+        "ESEWA_PRODUCT_CODE",
         "ESEWA_SECRET",
     ];
     for (const envVar of requiredEnvVars) {
@@ -65,7 +65,7 @@ export async function POST(req: Request) {
                     tax_amount: "0",
                     total_amount: amount,
                     transaction_uuid: transactionUuid,
-                    product_code: process.env.ESEWA_MERCHANT_CODE,
+                    product_code: process.env.ESEWA_PRODUCT_CODE!,
                     product_service_charge: "0",
                     product_delivery_charge: "0",
                     success_url: `${baseUrl}/payment/success`,
@@ -74,12 +74,7 @@ export async function POST(req: Request) {
                 };
 
                 const signatureString = `total_amount=${esewaConfig.total_amount},transaction_uuid=${esewaConfig.transaction_uuid},product_code=${esewaConfig.product_code}`;
-                const signature = generateEsewaSignature(
-                    process.env.ESEWA_SECRET!,
-                    signatureString
-                );
-
-                console.log("eSewa config:", { ...esewaConfig, signature });
+                const signature = generateEsewaSignature(signatureString);
 
                 const payment = await prisma.payment.upsert({
                     where: { bookingId },

@@ -35,7 +35,7 @@ export async function GET() {
                     if (!mongoClientPromise) {
                         mongoClientPromise = watchBookingDeletions().then((client) => {
                             ; (global as any).__mongoClient = client
-                            return client
+                            return client;
                         })
                     }
 
@@ -54,18 +54,18 @@ export async function GET() {
                     console.error("Error initializing MongoDB change stream:", error)
 
                     if (isConnectionActive) {
-                        controller.error(error)
+                        controller.error(error);
                     }
 
-                    connections.delete(connectionId)
+                    connections.delete(connectionId);
                 }
             },
             cancel() {
 
-                isConnectionActive = false
+                isConnectionActive = false;
 
 
-                connections.delete(connectionId)
+                connections.delete(connectionId);
 
                 if (connections.size === 0 && (global as any).__mongoClient) {
                     console.log("Closing MongoDB connection as all clients disconnected")
