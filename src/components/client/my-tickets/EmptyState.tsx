@@ -11,7 +11,7 @@ export function EmptyState() {
                 You haven't booked any tickets yet.
             </p>
             <Link href="/">
-                <Button className="bg-yellowShade hover:bg-yellowShadeHover">Browse Movies</Button>
+                <Button className="bg-yellowShade hover:bg-yellowShadeHover text-black font-roboto font-bold tracking-wider">Browse Movies</Button>
             </Link>
         </div>
     )

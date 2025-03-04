@@ -10,6 +10,7 @@ import type { PaymentResponse } from "@/types/types"
 import { v4 as uuidv4 } from "uuid"
 import { headers } from "next/headers"
 import { currentUser } from "@/lib/auth"
+import PreventBackNavigation from "@/components/PreventBackNavigation"
 
 export default async function SuccessPage({
     searchParams,
@@ -140,7 +141,7 @@ export default async function SuccessPage({
             })
 
             if (!booking) {
-                throw new Error("Booking not found")
+                throw new Error("Booking not found");
             }
 
             const newTicket = await tx.ticket.create({
@@ -172,23 +173,22 @@ export default async function SuccessPage({
 
     // Check if error was due to user ID mismatch
     if (errorMessage === "USER_ID_MISMATCH") {
-        console.log("Redirecting due to user ID mismatch")
-        redirect("/")
+        redirect("/");
     }
 
     if (!isVerified) {
-        redirect(`/payment/failure?error=verification_failed&ref=${nonce}`)
+        redirect(`/payment/failure?error=verification_failed&ref=${nonce}`);
     }
 
     return (
-        <div className="min-h-screen bg-black text-white flex items-center justify-center p-4">
+        <div className=" text-white flex items-center justify-center p-4  h-[40rem]">
             <Card className="w-full max-w-md bg-zinc-900 border-zinc-800 text-white">
                 <CardHeader className="text-center">
                     <div className="flex justify-center mb-4">
                         <CheckCircle className="h-16 w-16 text-green-500" />
                     </div>
-                    <CardTitle className="text-2xl">Payment Successful!</CardTitle>
-                    <CardDescription className="text-zinc-400">Your booking has been confirmed.</CardDescription>
+                    <CardTitle className="text-2xl font-roboto tracking-wide">Payment Successful!</CardTitle>
+                    <CardDescription className="text-zinc-400 font-roboto ">Your booking has been confirmed.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                     <div className="bg-zinc-800 p-4 rounded-md space-y-2">
@@ -213,13 +213,14 @@ export default async function SuccessPage({
                     </div>
                 </CardContent>
                 <CardFooter className="flex justify-center">
-                    <Link href={bookingId ? `/tickets/${bookingId}` : "/"}>
+                    <Link href={bookingId ? `/ticket/${bookingId}` : "/"}>
                         <Button className="bg-amber-500 hover:bg-amber-600 text-black font-bold">
                             {bookingId ? "View Ticket" : "Go Home"}
                         </Button>
                     </Link>
                 </CardFooter>
             </Card>
+            <PreventBackNavigation redirectTo="/" />
         </div>
     )
 }

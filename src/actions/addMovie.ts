@@ -1,5 +1,5 @@
 "use server"
-// app/actions/addMovie.js
+
 
 import { prisma } from "@/lib/prisma";
 import { SeatStatus } from "@prisma/client";

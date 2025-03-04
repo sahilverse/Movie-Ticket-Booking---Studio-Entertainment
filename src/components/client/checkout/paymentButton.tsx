@@ -93,7 +93,7 @@ export function PaymentButton({ bookingId }: PaymentButtonProps) {
             )}
 
             <Button
-                className=" bg-amber-500 hover:bg-amber-600 text-black font-bold"
+                className=" bg-amber-500 hover:bg-amber-600 text-black font-bold w-full"
                 onClick={handlePayment}
                 disabled={isPending}
             >

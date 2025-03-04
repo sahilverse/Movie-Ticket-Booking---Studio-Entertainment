@@ -21,15 +21,13 @@ export function verifyEsewaPayment(responseData: PaymentResponse): boolean {
 
         const mappedFields = signedFieldNames.map(field => `${field}=${responseData[field]}`).join(',');
 
-        console.log("Mapped fields:", mappedFields);
-
         // Calculate the expected signature
         const calculatedSignature = generateEsewaSignature(mappedFields);
 
-        console.log("Calculated signature:", calculatedSignature);
 
         // Compare signatures
-        return calculatedSignature === receivedSignature;
+
+        return (calculatedSignature === receivedSignature);
     } catch (error) {
         console.error("Error verifying eSewa payment:", error)
         return false;
