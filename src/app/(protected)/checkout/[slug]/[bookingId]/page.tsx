@@ -12,10 +12,13 @@ import { currentUser } from "@/lib/auth"
 
 
 
+
 const Checkout = async ({ params }: { params: { slug: string; bookingId: string } }) => {
     const user = await currentUser();
     const { slug, bookingId } = params;
     let booking;
+
+
 
     const movie = await prisma.movie.findFirst({
         where: {
