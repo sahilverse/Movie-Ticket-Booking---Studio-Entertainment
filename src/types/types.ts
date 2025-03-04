@@ -1,4 +1,4 @@
-import { Movie, PaymentMethod, Seat, Show } from '@prisma/client';
+import { BookingStatus, Movie, PaymentMethod, Seat, Show, ShowSeat, Ticket } from '@prisma/client';
 import { StaticImageData } from 'next/image';
 
 
@@ -90,5 +90,29 @@ export interface PaymentResponse {
     signature: string;
     [key: string]: any;
 }
+
+
+export interface ShowSeatWithSeat extends ShowSeat {
+    seat: Seat
+}
+
+export interface BookingWithDetails {
+    id: string
+    status: BookingStatus
+    amount: number
+    show: {
+        startTime: Date | string
+        movie: {
+            title: string
+        }
+        screen: {
+            name: string
+        }
+    }
+    ShowSeat: ShowSeatWithSeat[]
+    Ticket: Ticket[]
+}
+
+
 
 

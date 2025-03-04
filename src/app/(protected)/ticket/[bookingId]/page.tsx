@@ -45,7 +45,7 @@ export default async function TicketPage({ params }: { params: { bookingId: stri
     }
 
     return (
-        <div className="min-h-screen  text-white mt-20 px-4 ">
+        <div className="min-h-screen  text-white mt-10 sm:mt-20 px-4 ">
             <div className="max-w-4xl mx-auto">
 
                 <MovieTicket ticket={ticket} />
