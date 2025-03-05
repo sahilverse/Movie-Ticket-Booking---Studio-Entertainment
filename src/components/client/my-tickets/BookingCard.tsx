@@ -78,7 +78,7 @@ export function BookingCard({ booking, isPast = false, formatSeats }: BookingCar
                         {booking.status === "CONFIRMED" && booking.Ticket.length > 0 && (
                             <Link href={`/ticket/${booking.id}`}>
                                 {isPast ? (
-                                    <Button variant="outline" className="border-zinc-700 text-zinc-300 hover:bg-zinc-800">
+                                    <Button className="bg-zinc-700 text-zinc-300 hover:bg-zinc-800">
                                         <Eye className="h-4 w-4 mr-2" /> View Ticket
                                     </Button>
                                 ) : (
