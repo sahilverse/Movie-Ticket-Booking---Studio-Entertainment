@@ -40,13 +40,11 @@ const BookingAccordion = ({ movie }: AccordionProps) => {
     } = state
 
     const today = new Date()
-    const dates = useMemo(() => {
-        return Array.from({ length: 5 }, (_, i) => {
-            const date = new Date(today)
-            date.setDate(date.getDate() + i)
-            return date
-        })
-    }, [today])
+    const dates = Array.from({ length: 5 }, (_, i) => {
+        const date = new Date(today)
+        date.setDate(date.getDate() + i)
+        return date
+    })
 
     // Effect to handle accordion state changes
     useEffect(() => {

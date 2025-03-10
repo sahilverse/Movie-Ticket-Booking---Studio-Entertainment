@@ -23,7 +23,7 @@ export default async function SuccessPage({
     let paymentData: PaymentResponse | null = null;
     let errorMessage = "Payment verification failed";
     let bookingId = null;
-    let ticketId = null;
+
 
     if (!searchParams.data) {
         console.error("Missing required parameter: data");
@@ -155,14 +155,13 @@ export default async function SuccessPage({
         })
 
         bookingId = result.payment.bookingId;
-        ticketId = result.existingTicket?.id || result.newTicket?.id;
         isVerified = true;
 
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error("Payment verification error:", error)
         console.error(`Client IP: ${clientIp}, Data: ${searchParams.data?.substring(0, 20)}...`)
 
-        if (error.message === "USER_ID_MISMATCH") {
+        if (error instanceof Error && error.message === "USER_ID_MISMATCH") {
             errorMessage = "USER_ID_MISMATCH"
             isVerified = false;
         } else {

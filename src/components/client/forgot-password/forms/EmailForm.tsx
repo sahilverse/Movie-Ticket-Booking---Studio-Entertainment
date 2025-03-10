@@ -40,7 +40,7 @@ const EmailForm = forwardRef(({ onSubmit, isPending, userEmail }: EmailFormProps
         <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
             <div className="space-y-2">
                 {userEmail ? (
-                    <p className="text-gray-300 mb-4 text-center tracking-wide leading-[27px]">We'll send an OTP to your email: {userEmail}</p>
+                    <p className="text-gray-300 mb-4 text-center tracking-wide leading-[27px]">We&apos;ll send an OTP to your email: {userEmail}</p>
                 ) : (
                     <>
                         <Label htmlFor="email" className="text-sm font-medium text-gray-300">

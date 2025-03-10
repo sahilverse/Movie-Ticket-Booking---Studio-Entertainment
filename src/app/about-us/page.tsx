@@ -1,3 +1,4 @@
+
 import Image from "next/image"
 import { Mail, MapPin, Phone, Film, Popcorn, Clapperboard, Sofa, Clock, Star, Users } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -98,7 +99,7 @@ export default function About() {
                             </p>
                             <p>
                                 Our journey began with a simple vision: to combine cutting-edge technology with exceptional comfort and
-                                service. Today, we're proud to be Kathmandu's premier destination for film enthusiasts and casual
+                                service. Today, we&apos;re proud to be Kathmandu&apos;s premier destination for film enthusiasts and casual
                                 moviegoers alike.
                             </p>
                             <p>

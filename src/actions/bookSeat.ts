@@ -7,6 +7,7 @@ import { currentUser } from "@/lib/auth";
 
 
 
+
 export async function createBooking(showId: string, seatIds: string[], movieSlug: string): Promise<{ success: boolean, bookingId?: string, error?: string }> {
     const user: User = await currentUser();
 
@@ -59,13 +60,14 @@ export async function createBooking(showId: string, seatIds: string[], movieSlug
         revalidatePath(`/movie-details/${movieSlug}`);
         return { success: true, bookingId: result.newBooking.id }
 
-    } catch (error: any) {
 
-        if (error.message.includes("Already Booked")) {
+    } catch (error: unknown) {
+
+        if (error instanceof Error && error.message.includes("Already Booked")) {
             return { success: false, error: error.message }
         }
 
-        if (error.code === "P2034") {
+        if (error instanceof Error && (error as any).code === "P2034") {
             return { success: false, error: "Transaction timeout. Please try again." }
         }
 

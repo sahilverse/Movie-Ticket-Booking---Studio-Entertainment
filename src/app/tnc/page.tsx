@@ -13,7 +13,7 @@ export default function TermsAndConditions() {
                 <li>Children above 5 years of age will require a separate ticket.</li>
                 <li>The 3D glasses will be available at the cinema for 3D films and must be returned before you exit the premises.</li>
                 <li>In case of loss or damage of 3D Glasses, customers are chargeable as per Studio Entertainment policies.</li>
-                <li>Children below the age of 18 years cannot be admitted for movies certified 'A'. Customers need to carry a proof of age for movies certified 'A'.</li>
+                <li>Children below the age of 18 years cannot be admitted for movies certified &apos;A&apos;. Customers need to carry a proof of age for movies certified &apos;A&apos;.</li>
                 <li>Outside food and beverages are not allowed inside the cinema premise.</li>
                 <li>Entry is allowed only for valid ticket holders.</li>
                 <li>Management is not responsible for the theft or loss of personal belongings.</li>

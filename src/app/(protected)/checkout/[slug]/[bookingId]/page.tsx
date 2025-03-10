@@ -47,7 +47,7 @@ const Checkout = async ({ params }: { params: { slug: string; bookingId: string 
                 user: true,
             },
         })
-    } catch (error) {
+    } catch (error: unknown) {
         return notFound();
     }
 

@@ -67,7 +67,7 @@ export function PaymentButton({ bookingId }: PaymentButtonProps) {
                 document.body.appendChild(form);
                 form.submit();
 
-                () => form.remove();
+                form.remove();
 
 
             } catch (error) {

@@ -18,7 +18,7 @@ export async function GET() {
 
     let isConnectionActive = true
 
-    // Set up Server-Sent Events
+    //  Server-Sent Events
     const response = new NextResponse(
         new ReadableStream({
             async start(controller) {

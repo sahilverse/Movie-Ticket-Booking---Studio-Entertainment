@@ -85,7 +85,7 @@ export const updatePassword = async (data: z.infer<typeof passwordSchema>) => {
         });
         revalidatePath("/profile");
         return { success: true };
-    } catch (error) {
+    } catch (error: unknown) {
         return { error: "An error occurred! Please try again" }
     }
 
@@ -141,7 +141,7 @@ export const sendPasswordResetVerificationCode = async (data: z.infer<typeof ema
     try {
 
         await sendEmail({ to: email, subject, html });
-    } catch (error) {
+    } catch (error: unknown) {
 
         return {
             success: false, error: "Failed to send an Email, Please try Again later"
