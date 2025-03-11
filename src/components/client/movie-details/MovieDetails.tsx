@@ -15,7 +15,7 @@ import { ClipLoader } from 'react-spinners';
 import { IoPlayOutline } from 'react-icons/io5';
 
 import TrailerPopup from '@/components/popups/trailer/TrailerPopup';
-import BookingAccordion from './accordians/Accordion';
+import BookingAccordion from './Accordians/Accordion';
 
 const MovieDetails = ({ movie }: { movie: MovieWithShowsAndSeats }) => {
     const [showTrailer, setShowTrailer] = useState(false);
