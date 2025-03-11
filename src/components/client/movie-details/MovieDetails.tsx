@@ -11,10 +11,11 @@ import { Button } from '@/components/ui/button';
 import { MovieWithShowsAndSeats } from '@/types/types';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { ClipLoader } from 'react-spinners';
-import BookingAccordion from './Accordians/Accordion';
+
 import { IoPlayOutline } from 'react-icons/io5';
 
 import TrailerPopup from '@/components/popups/trailer/TrailerPopup';
+import BookingAccordion from './accordians/Accordion';
 
 const MovieDetails = ({ movie }: { movie: MovieWithShowsAndSeats }) => {
     const [showTrailer, setShowTrailer] = useState(false);
