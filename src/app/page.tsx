@@ -2,7 +2,7 @@ import React from 'react'
 
 import { MovieCardType, SliderType } from '@/types/types'
 import { prisma } from '@/lib/prisma'
-import Slider from '@/components/slider/Slider'
+import Slider from '@/components/Slider/Slider'
 import NowShowing from '@/components/now-showing/NowShowing'
 import ComingSoon from '@/components/coming-soon/ComingSoon'
 
