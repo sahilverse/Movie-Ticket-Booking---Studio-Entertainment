@@ -27,7 +27,7 @@ This project is a Movie Ticket Booking system that allows users to browse movies
 ## Usage
 1. Start the development server:
     ```bash
-    npm start
+    npm run dev
     ```
 2. Open your browser and go to `http://localhost:3000`
 
