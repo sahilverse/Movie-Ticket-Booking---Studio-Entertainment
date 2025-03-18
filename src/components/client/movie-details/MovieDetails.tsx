@@ -72,7 +72,6 @@ const MovieDetails = ({ movie }: { movie: MovieWithShowsAndSeats }) => {
                                 priority
                             />
 
-                            <div className='flex items-center justify-center'><p className='text-red-600'>This is it</p></div>
 
                         </div>
                         <div className="flex-1 md:pt-5">
