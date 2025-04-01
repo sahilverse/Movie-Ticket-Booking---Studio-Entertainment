@@ -21,7 +21,7 @@ export function SessionExpiredDialog({ isOpen, onClose }: SessionExpiredDialogPr
 
     const handleBackToHome = () => {
 
-        router.push("/")
+        router.replace("/")
     }
 
     return (

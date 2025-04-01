@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { Timer } from "lucide-react"
 import { SessionExpiredDialog } from "./expiryDialog"
+import { useRouter } from "next/navigation"
 
 
 interface CountdownTimerProps {
@@ -16,6 +17,7 @@ export function CountdownTimer({ expiresAt, onExpire }: CountdownTimerProps) {
         seconds: number
     } | null>(null)
     const [showExpiredDialog, setShowExpiredDialog] = useState(false)
+    const router = useRouter()
 
     useEffect(() => {
         const calculateTimeLeft = () => {
@@ -46,7 +48,7 @@ export function CountdownTimer({ expiresAt, onExpire }: CountdownTimerProps) {
     }, [expiresAt, onExpire])
 
     const handleCloseDialog = () => {
-        window.location.href = "/"
+        router.replace("/");
         setShowExpiredDialog(false)
     }
 
